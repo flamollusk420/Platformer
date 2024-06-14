@@ -6,4 +6,6 @@ design ideas:
 mechanic ideas:
 -finding collectibles in levels gives you style points
 -ultrakill-style end-of-level ranking
--touchingwall raycast for walking enemies
+
+random stuff to do:
+-fix mixing on first final boss theme
