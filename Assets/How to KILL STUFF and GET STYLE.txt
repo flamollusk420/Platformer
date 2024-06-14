@@ -1,0 +1,98 @@
+How to KILL STUFF and GET STYLE so you can LOOK COOL
+I didn't want to put all of this in the tutorial because this game is meant to be enjoyable, so it's in this text file instead. This isn't required reading or anything, if you don't care about knowing what makes the style meter go up or the exact amount of damage all of the player's attacks do, close this and play the game (have fun!). If you're interested in knowing exactly how the game's combat and style systems work, read this.
+
+
+THINGS THAT MAKE YOU LOSE STYLE:
+-style decreases by 2 on a 1.25-second timer. when it reaches 0, you lose a style point. if you're not moving, you lose 4 instead. this timer can be reset by gaining or losing style and you will only lose 1 point of style if you are in the air from a dash-jump, dashing, up-dashing, down-dashing, melee attacking, or exploding. when you land after a dash-jump there is also a very short period of time where you won't lose any style from this so that you can do another one. this exists to incentivize dash-jumping because it makes you go boing really fast and I like it. BASICALLY: go fast, get style, and barf your soul at people and you'll be fine.
+-when an enemy/enemy bullet hits you, the enemy/bullet's contact damage will be multiplied by 2 and subtracted from your style
+-when you heal, you lose 3 points of style because healing uses up SP that could be used for exploding like a normal person
+-when you fall into a pit or any other damaging area, you lose a point of style if you get knocked back by it. the amount of damage it deals is also subtracted from your style.
+-dying takes away 75 style points, which is the same as 3 ranks
+
+
+THINGS THAT MAKE YOU GAIN STYLE:
+-exploding = +2 style
+-parrying a bullet with a melee attack and it changing direction = +2 style
+-parrying a bullet with a melee attack and it not changing direction = +1 style
+-parrying a bullet while the player is in the air from a dash-jump = +1 style
+-parrying a bullet that's too big to destroy = +1 style
+-destroying a bullet with one of your own bullets = +2 style
+-doing it while in the air from a dash-jump = +1 style
+-destroying a bullet with a melee attack (this will happen if a destructible bullet can't be parried) = +1 style
+-destroying a bullet with an explosion = +1 style
+-hitting an enemy with a melee attack = +3 style
+-doing it while sliding down a wall = +2 style
+-hitting an enemy with a dash, up-dash, or down-dash = +1 style
+-hitting an enemy with a player bullet = +1 style
+-hitting a moving enemy with a player bullet = +2 style
+-hitting an enemy with its own bullet = +2 style
+-hitting an enemy with a parried bullet = +(times the bullet was parried, squared) style
+-hitting an enemy with a fire wave = +1 style
+-hitting an enemy with an explosion = +1 style
+-hitting an enemy in any way while it's being knocked back = +3 style
+-hitting an enemy with a bullet while it's being knocked back = +2 style
+-hitting an enemy with a melee attack while it's being knocked back = +3 style
+-hitting an enemy with a parried bullet while it's being knocked back = +6 style
+-an enemy falls into a damaging area and survives = +2 style
+-an enemy falls into a damagine area and dies = +4 style
+-a small enemy dies in any way = +1 style
+-a medium enemy dies in any way = +2 style
+-a large enemy dies in any way = +3 style
+-killing an enemy within 5 seconds from its spawn = +1 style
+-killing an enemy within 3 seconds from its spawn = +1 style
+-killing an enemy within 1 seconds from its spawn = +2 style
+-killing an enemy with a melee attack = +1 style
+-killing an enemy with an up-dash, down-dash, or fire wave = +3 style
+-killing an enemy with a player bullet = +1 style
+-killing an enemy with a parried bullet = +2 style
+-killing an enemy in the air in any way = +2 style
+-killing an enemy in the air with an up-dash = +3 style
+-killing an enemy in the air with a melee attack = +2 style
+-one-shotting an enemy with a melee attack = +2 style
+-one-shotting an enemy with a dash, up-dash, or down-dash = +1 style
+-one-shotting an enemy with a player bullet = +1 style
+-one-shotting an enemy with a parried bullet = +2 style
+-one-shotting an enemy with a fire wave = +2 style
+-shooting out fire waves and hitting an enemy with each of them (can be done multiple times with one set of waves) = +3 style
+-shooting out fire waves and killing an enemy with each of them (can be done multiple times with one set of waves) = +5 style
+-STYLE BONUSES STACK! if you fulfill multiple of these conditions, you will gain style for ALL OF THEM.
+
+
+THE STYLE BONUS RECIEVED WHEN MULTIPLE ENEMIES ARE KILLED IN QUICK SUCCESSION:
+-this is complex enough to be its own section
+-it's also not that important and you probably don't need to read it
+-when an enemy dies, you have half a second to kill another one (or for another one to die on its own) and get this bonus
+-each enemy killed within the half-second adds 1 to your combo
+-keep in mind that all of these bonuses STACK. you can get all of them if you kill enough enemies.
+-there's parentheses here, use PEMDAS or  s u f f e r .
+-if your combo is greater than 2, 2 times (your combo - 2) will be added to your style meter
+-if your combo is greater than 5, 3 times (your combo - 5) will be added to your style meter
+-if your combo is greater than 10, 4 times (your combo - 10) will be added to your style meter
+-if your combo is greater than 1, your combo multiplied by 1.5 and rounded up to the nearest whole number will be added to your style meter
+-please don't actually do this math in your head while playing the game
+-the only thing you need to take away from this is that killing multiple enemies in half a second = profit
+
+
+ATTACK DAMAGE:
+-dashes/up-dashes/down-dashes = 1 point of damage
+-bullets = 1.5 points of damage
+-fire waves = 1 point of damage
+-melee attacks = 2.5 points of damage
+-explosions = 4 points of damage
+-parried enemy bullets = bullet damage multiplied by 1.5 and then multiplied by how many times they have been parried (eg. 1 damage bullet parried twice = 3 damage bullet)
+
+
+GAINING SP:
+-hitting an enemy with a dash/up-dash/down-dash = +1 SP
+-hitting an enemy with a melee attack = +2 SP
+-doing it while sliding down a wall = +1 SP
+-hitting an enemy with a bullet = +1 SP
+-doing it while in the air from a dash-jump = +1 SP
+-hitting an enemy with a fire wave = +1 SP
+-shooting out fire waves and hitting an enemy with each of them = +3 SP
+-one-shotting an enemy in any way = +1 SP
+-parrying a bullet = +1 SP
+-destroying a bullet with your own bullet = +1 SP
+-hitting an enemy with a parried bullet = +1 SP
+-killing an enemy with a parried bullet = +2 SP
+-gaining a style rank = +1 SP

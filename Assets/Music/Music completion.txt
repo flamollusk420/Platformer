@@ -1,0 +1,40 @@
+Music completion
+
+Title screen - done
+Shop
+Map 1 - done
+Map 2 - done
+Intro stage - done
+Abandoned mine - done
+Power plant - done
+Arctic base - done
+Desert ruins - done
+Volcanic site - done
+Airship
+Sewer - done
+Castle - done
+Junkyard - done
+Reverse Tower 1 - done
+Reverse Tower 2 - done
+Reverse Tower 3 - done
+Reverse Tower 4 - done
+Reverse Tower 5 - done
+Underworld 1
+Underworld 2
+Underworld 3 - done
+Primordial ocean - no music
+Normal mid-boss - done
+Normal boss - done
+Challenge boss - done
+Reverse Tower mid-boss
+Reverse Tower boss - done
+Underworld mid-boss
+Underworld boss
+Final boss 1 - done
+Final boss 2 - done
+Secret boss 1 - done
+Secret boss 2
+Protagonist theme - done
+Credits/ending - done
+Secret MS paint level - done
+

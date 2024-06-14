@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Level
+  - Enemies
+  - PlayerGroundCheck
+  - UpDashUI
+  - NormalDashUI
+  - SPBarUI
+  - HealthBarUI
+  - StyleBarUI
+  - Border
+  - PlayerBullet
+  - EnemyBullet
+  - JumpUI
+  - Room
+  - CMcam
+  - CMcam2
+  - PlayerMeleeCollider
+  - PlayerDashCollider
+  - SoundManager
+  - MusicManager
+  - PlayerSecondaryCollider
+  - CurrentRankUI
+  - PlayerFireWave
+  - PlayerFireWaveGroundCheck
+  - PlayerFireWave2
+  - EquippedPrimaryUI
+  - SoundManagerSound
+  - PauseUI
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Player
+  - Water
+  - UI
+  - Ground
+  - Enemy
+  - PlayerFireWave
+  - Border
+  - NotSolidForEnemies
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Backgrounds
+    uniqueID: 1658019223
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Bullets
+    uniqueID: 1106808893
+    locked: 0
+  - name: Characters
+    uniqueID: 3943796367
+    locked: 0
+  - name: Bullets2
+    uniqueID: 3421885325
+    locked: 0
+  - name: Explosions
+    uniqueID: 3892837537
+    locked: 0
+  - name: Player
+    uniqueID: 3367236869
+    locked: 0
+  - name: UI
+    uniqueID: 1885476213
+    locked: 0
+  - name: PauseUI
+    uniqueID: 4287642695
+    locked: 0
