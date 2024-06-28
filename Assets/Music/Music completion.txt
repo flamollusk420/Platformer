@@ -8,32 +8,32 @@ Intro stage - done
 Abandoned mine - done
 Power plant - done
 Arctic base - done
-Desert ruins - done
-Volcanic site - done
+Desert - done
+Volcano - done
 Airship
 Sewer - done
 Castle - done
 Junkyard - done
-Reverse Tower 1 - done
-Reverse Tower 2 - done
-Reverse Tower 3 - done
-Reverse Tower 4 - done
-Reverse Tower 5 - done
-Underworld 1
-Underworld 2
+Underworld 1 - done
+Underworld 2 - done
 Underworld 3 - done
+Underworld 4 - done
+Underworld 5 - done
+Underworld depths 1
+Underworld depths 2
+Underworld depths 3 - done
 Primordial ocean - no music
 Normal mid-boss - done
 Normal boss - done
 Challenge boss - done
-Reverse Tower mid-boss
-Reverse Tower boss - done
 Underworld mid-boss
-Underworld boss
-Final boss 1 - done?
-Final boss 2 - done
-Secret boss 1 - done
-Secret boss 2
+Underworld boss - done
+Underworld depths mid-boss
+Underworld depths boss
+Final boss phase 1 - done?
+Final boss phase 2 - done
+Secret boss phase 1 - done
+Secret boss phase 2
 Protagonist theme - done
 Credits/ending - done
 Secret MS paint level - done
