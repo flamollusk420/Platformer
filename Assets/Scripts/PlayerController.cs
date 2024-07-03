@@ -854,16 +854,15 @@ public class PlayerController : MonoBehaviour {
         anim.SetInteger("dirY", Mathf.RoundToInt(dirY));
         if(!(touchingGround && isWalking) && (!touchingWall || ((touchingWall && touchingGround)))) {
             anim.SetFloat("ShootBlend", 0);
+            anim.SetFloat("MeleeBlend", 0);
         }
         if(touchingGround && isWalking && !touchingWall) {
             anim.SetFloat("ShootBlend", 0.5f);
+            anim.SetFloat("MeleeBlend", 0.5f);
         }
         if(touchingWall && !touchingGround) {
             anim.SetFloat("MeleeBlend", 1);
             anim.SetFloat("ShootBlend", 1);
-        }
-        if(!touchingWall || (touchingWall && touchingGround)) {
-            anim.SetFloat("MeleeBlend", 0);
         }
     }
 
