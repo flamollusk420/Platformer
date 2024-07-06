@@ -547,7 +547,7 @@ MonoBehaviour:
   jumpTimerSet: 0
   jumpTimer: 0
   enableTimerSet: 0.35
-  doNotMoveWhileJumpingCheckTimerSet: 0.2
+  doNotMoveWhileJumpingCheckTimerSet: 1
   faceDirectionInversionMultiplier: 1
   jumpSetupTimerSet: 0
   deadZoneRange: 1
@@ -2851,7 +2851,7 @@ MonoBehaviour:
   jumpTimerSet: 0.5
   jumpTimer: 0
   enableTimerSet: 0.35
-  doNotMoveWhileJumpingCheckTimerSet: 0.2
+  doNotMoveWhileJumpingCheckTimerSet: 1
   faceDirectionInversionMultiplier: 1
   jumpSetupTimerSet: 0
   deadZoneRange: 1
@@ -6323,7 +6323,7 @@ MonoBehaviour:
   wallCheckLength: 0
   wallCheckOffsetY: 0
   movementSpeed: 10
-  jumpWalkSpeedMultiplier: 0.2
+  jumpWalkSpeedMultiplier: 1
   jumpHeight: 30
   jumpMoveDistance: 0
   range: 10
@@ -6331,7 +6331,7 @@ MonoBehaviour:
   jumpTimerSet: 0
   jumpTimer: 0
   enableTimerSet: 0.35
-  doNotMoveWhileJumpingCheckTimerSet: 0.2
+  doNotMoveWhileJumpingCheckTimerSet: 1
   faceDirectionInversionMultiplier: 1
   jumpSetupTimerSet: 0.35
   deadZoneRange: 1
@@ -7180,7 +7180,7 @@ MonoBehaviour:
   jumpTimerSet: 0.5
   jumpTimer: 0
   enableTimerSet: 0.35
-  doNotMoveWhileJumpingCheckTimerSet: 0.2
+  doNotMoveWhileJumpingCheckTimerSet: 1
   faceDirectionInversionMultiplier: 1
   jumpSetupTimerSet: 0
   deadZoneRange: 1
@@ -13412,7 +13412,7 @@ MonoBehaviour:
   jumpTimerSet: 0
   jumpTimer: 0
   enableTimerSet: 0.35
-  doNotMoveWhileJumpingCheckTimerSet: 0.2
+  doNotMoveWhileJumpingCheckTimerSet: 1
   faceDirectionInversionMultiplier: 1
   jumpSetupTimerSet: 0
   deadZoneRange: 1

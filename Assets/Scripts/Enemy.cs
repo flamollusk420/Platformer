@@ -321,13 +321,13 @@ public class Enemy : MonoBehaviour {
             }
             if(getStunnedInsteadOfBeingKnockedBack) {
                 if(!initialLockX && !initialLockY) {
-                    rb.constraints = RigidbodyConstraints2D.None;
+                    rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                 }
                 if(!initialLockX && initialLockY) {
-                    rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+                    rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
                 }
                 if(initialLockX && !initialLockY) {
-                    rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+                    rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
                 }
                 if(initialLockX && initialLockY) {
                     rb.constraints = RigidbodyConstraints2D.FreezeAll;
@@ -352,16 +352,16 @@ public class Enemy : MonoBehaviour {
             }
             if(getStunnedInsteadOfBeingKnockedBack) {
                 if(!freezeXonStun && !freezeYonStun) {
-                    rb.constraints = RigidbodyConstraints2D.None;
+                    rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                 }
                 if(!freezeXonStun && freezeYonStun) {
-                    rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+                    rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
                 }
                 if(freezeXonStun && !freezeYonStun) {
-                    rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+                    rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
                 }
                 if(freezeXonStun && freezeYonStun) {
-                    rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                    rb.constraints = RigidbodyConstraints2D.FreezeAll | RigidbodyConstraints2D.FreezeRotation;
                 }
             }
             knockbackTimer = knockbackTimerSet;

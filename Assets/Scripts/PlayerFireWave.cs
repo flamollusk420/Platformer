@@ -80,7 +80,6 @@ public class PlayerFireWave : MonoBehaviour {
             anim.SetBool("touchingGround", false);
             anim.SetBool("attackTransitionComplete", false);
             anim.SetBool("attackComplete", false);
-            Debug.Log("byebye!!!!!!");
             gameObject.SetActive(false);
         }
     }
