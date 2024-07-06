@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
     private SoundManager soundManager;
-    //private MusicManager musicManager;
+    private MusicManager musicManager;
     private SpriteRenderer sr;
     private Animator anim;
     private Transform playerTR;
@@ -43,11 +43,15 @@ public class Enemy : MonoBehaviour {
     public float defaultGravity = 4;
     public float startingX = 0;
     public float startingY = 0;
-    public bool setAnimJumpBoolOnDeathJump = false;
+    public bool setAnimJumpBoolOnDeathJump;
     public bool hasHitEffect = true;
     public bool onlySpawnIfDisabled = false;
     public bool hasCustomDeathSound = false;
     public bool canBeKnockedBack = true;
+    //canBeKnockedBack still has to be true for stunning to work, I'm so good at naming variables
+    //also doesn't apply to damage areas knocking enemies back
+    public bool getStunnedInsteadOfBeingKnockedBack;
+    //beingKnockedBack is true when stunned
     public bool beingKnockedBack;
     [HideInInspector]
     public bool canTakeDamage = true;
@@ -61,6 +65,10 @@ public class Enemy : MonoBehaviour {
     private bool hitByRightWave;
     private float fastKillTimer;
     private bool startCompleted;
+    public bool freezeXonStun = true;
+    public bool freezeYonStun;
+    private bool initialLockX;
+    private bool initialLockY;
 
     void Start() {
         sr = GetComponent<SpriteRenderer>();
@@ -68,6 +76,7 @@ public class Enemy : MonoBehaviour {
         playerTR = GameObject.FindWithTag("Player").GetComponent<Transform>();
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         soundManager = GameObject.FindWithTag("SoundManager").GetComponent<SoundManager>();
+        musicManager = GameObject.FindWithTag("MusicManager").GetComponent<MusicManager>();
         if(!dontKillEnemy) {
             gameObject.SetActive(false);
         }
@@ -76,6 +85,12 @@ public class Enemy : MonoBehaviour {
         }
         invincibleSet = invincible;
         defaultGravity = rb.gravityScale;
+        if(rb.constraints == RigidbodyConstraints2D.FreezePositionX) {
+            initialLockX = true;
+        }
+        if(rb.constraints == RigidbodyConstraints2D.FreezePositionY) {
+            initialLockY = true;
+        }
         startCompleted = true;
     }
 
@@ -301,7 +316,23 @@ public class Enemy : MonoBehaviour {
             }
         }
         if(knockbackTimer <= 0) {
-            beingKnockedBack = false;
+            if(beingKnockedBack) {
+                beingKnockedBack = false;
+            }
+            if(getStunnedInsteadOfBeingKnockedBack) {
+                if(!initialLockX && !initialLockY) {
+                    rb.constraints = RigidbodyConstraints2D.None;
+                }
+                if(!initialLockX && initialLockY) {
+                    rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+                }
+                if(initialLockX && !initialLockY) {
+                    rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+                }
+                if(initialLockX && initialLockY) {
+                    rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                }
+            }
         }
         if(invincibilityTimer <= 0 && invincible && invincibilityTimerSet != 0) {
             invincible = false;
@@ -310,12 +341,28 @@ public class Enemy : MonoBehaviour {
 
     public void KnockBack(bool customKnockBack, float knockbackDirX, float customKnockBackX, float customKnockBackY) {
         if(health > 0) {
-            beingKnockedBack = true;
-            if(!customKnockBack) {
-                rb.velocity = new Vector2(knockbackStrengthX * knockbackDirX, knockbackStrengthY);
+            if(!getStunnedInsteadOfBeingKnockedBack) {
+                beingKnockedBack = true;
+                if(!customKnockBack) {
+                    rb.velocity = new Vector2(knockbackStrengthX * knockbackDirX, knockbackStrengthY);
+                }
+                if(customKnockBack) {
+                    rb.velocity = new Vector2(customKnockBackX * knockbackDirX, customKnockBackY);
+                }
             }
-            if(customKnockBack) {
-                rb.velocity = new Vector2(customKnockBackX * knockbackDirX, customKnockBackY);
+            if(getStunnedInsteadOfBeingKnockedBack) {
+                if(!freezeXonStun && !freezeYonStun) {
+                    rb.constraints = RigidbodyConstraints2D.None;
+                }
+                if(!freezeXonStun && freezeYonStun) {
+                    rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+                }
+                if(freezeXonStun && !freezeYonStun) {
+                    rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+                }
+                if(freezeXonStun && freezeYonStun) {
+                    rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                }
             }
             knockbackTimer = knockbackTimerSet;
         }

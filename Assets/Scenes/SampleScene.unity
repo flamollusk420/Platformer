@@ -423,7 +423,7 @@ Transform:
   m_Children:
   - {fileID: 193477962}
   m_Father: {fileID: 619976120}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &48755090
 CapsuleCollider2D:
@@ -502,6 +502,7 @@ MonoBehaviour:
   onlySpawnIfDisabled: 0
   hasCustomDeathSound: 0
   canBeKnockedBack: 1
+  getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 0
   canTakeDamage: 1
   knockbackStrengthX: 15
@@ -509,6 +510,8 @@ MonoBehaviour:
   dontKillEnemy: 0
   dontResetColor: 0
   immuneToDamageAreas: 0
+  freezeXonStun: 1
+  freezeYonStun: 0
 --- !u!114 &48755093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -581,7 +584,6 @@ MonoBehaviour:
   stopOnLand: 0
   stopWhenNotWithinRange: 0
   canSlideFromKnockback: 0
-  canSlideFromKnockbackCheck: 0
   needsToBeVisibleToMove: 1
   disableNeedingVisibilityAfterMoving: 1
   onlyMoveWhileJumping: 0
@@ -1960,12 +1962,12 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1693030269}
+  - {fileID: 1931553499}
   - {fileID: 48755089}
   - {fileID: 1404706893}
   - {fileID: 1292988122}
   - {fileID: 753549877}
   - {fileID: 1482330960}
-  - {fileID: 1931553499}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2742,7 +2744,7 @@ Transform:
   m_Children:
   - {fileID: 657149785}
   m_Father: {fileID: 619976120}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &753549878
 CapsuleCollider2D:
@@ -2804,6 +2806,7 @@ MonoBehaviour:
   onlySpawnIfDisabled: 0
   hasCustomDeathSound: 0
   canBeKnockedBack: 1
+  getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 0
   canTakeDamage: 1
   knockbackStrengthX: 15
@@ -2811,6 +2814,8 @@ MonoBehaviour:
   dontKillEnemy: 0
   dontResetColor: 0
   immuneToDamageAreas: 0
+  freezeXonStun: 1
+  freezeYonStun: 1
 --- !u!114 &753549880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2883,7 +2888,6 @@ MonoBehaviour:
   stopOnLand: 0
   stopWhenNotWithinRange: 0
   canSlideFromKnockback: 0
-  canSlideFromKnockbackCheck: 0
   needsToBeVisibleToMove: 1
   disableNeedingVisibilityAfterMoving: 1
   onlyMoveWhileJumping: 0
@@ -5596,7 +5600,7 @@ Transform:
   - {fileID: 1412481549}
   - {fileID: 1082420158}
   m_Father: {fileID: 619976120}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1292988123
 MonoBehaviour:
@@ -5701,6 +5705,7 @@ MonoBehaviour:
   onlySpawnIfDisabled: 0
   hasCustomDeathSound: 0
   canBeKnockedBack: 0
+  getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 0
   canTakeDamage: 1
   knockbackStrengthX: 15
@@ -5708,6 +5713,8 @@ MonoBehaviour:
   dontKillEnemy: 0
   dontResetColor: 0
   immuneToDamageAreas: 0
+  freezeXonStun: 1
+  freezeYonStun: 0
 --- !u!95 &1292988126
 Animator:
   serializedVersion: 4
@@ -6114,7 +6121,7 @@ Transform:
   m_Children:
   - {fileID: 953898270}
   m_Father: {fileID: 619976120}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1404706894
 Animator:
@@ -6180,6 +6187,7 @@ MonoBehaviour:
   onlySpawnIfDisabled: 0
   hasCustomDeathSound: 0
   canBeKnockedBack: 1
+  getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 0
   canTakeDamage: 1
   knockbackStrengthX: 15
@@ -6187,6 +6195,8 @@ MonoBehaviour:
   dontKillEnemy: 0
   dontResetColor: 0
   immuneToDamageAreas: 0
+  freezeXonStun: 1
+  freezeYonStun: 0
 --- !u!61 &1404706897
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6358,7 +6368,6 @@ MonoBehaviour:
   stopOnLand: 0
   stopWhenNotWithinRange: 0
   canSlideFromKnockback: 1
-  canSlideFromKnockbackCheck: 0
   needsToBeVisibleToMove: 1
   disableNeedingVisibilityAfterMoving: 1
   onlyMoveWhileJumping: 0
@@ -7061,7 +7070,7 @@ Transform:
   - {fileID: 825545587}
   - {fileID: 1540515887}
   m_Father: {fileID: 619976120}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1482330961
 MonoBehaviour:
@@ -7126,6 +7135,7 @@ MonoBehaviour:
   onlySpawnIfDisabled: 0
   hasCustomDeathSound: 0
   canBeKnockedBack: 0
+  getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 0
   canTakeDamage: 1
   knockbackStrengthX: 15
@@ -7133,6 +7143,8 @@ MonoBehaviour:
   dontKillEnemy: 1
   dontResetColor: 0
   immuneToDamageAreas: 0
+  freezeXonStun: 1
+  freezeYonStun: 0
 --- !u!114 &1482330963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7205,7 +7217,6 @@ MonoBehaviour:
   stopOnLand: 0
   stopWhenNotWithinRange: 0
   canSlideFromKnockback: 0
-  canSlideFromKnockbackCheck: 0
   needsToBeVisibleToMove: 1
   disableNeedingVisibilityAfterMoving: 1
   onlyMoveWhileJumping: 0
@@ -7662,6 +7673,7 @@ MonoBehaviour:
   onlySpawnIfDisabled: 0
   hasCustomDeathSound: 0
   canBeKnockedBack: 0
+  getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 0
   canTakeDamage: 1
   knockbackStrengthX: 15
@@ -7669,6 +7681,8 @@ MonoBehaviour:
   dontKillEnemy: 1
   dontResetColor: 0
   immuneToDamageAreas: 0
+  freezeXonStun: 1
+  freezeYonStun: 0
 --- !u!1 &1636002616
 GameObject:
   m_ObjectHideFlags: 0
@@ -8112,6 +8126,7 @@ MonoBehaviour:
   onlySpawnIfDisabled: 0
   hasCustomDeathSound: 0
   canBeKnockedBack: 0
+  getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 1
   canTakeDamage: 1
   knockbackStrengthX: 15
@@ -8119,6 +8134,8 @@ MonoBehaviour:
   dontKillEnemy: 1
   dontResetColor: 0
   immuneToDamageAreas: 0
+  freezeXonStun: 1
+  freezeYonStun: 0
 --- !u!61 &1693030271
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13268,7 +13285,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 619976120}
-  m_RootOrder: 6
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &1931553500
 CircleCollider2D:
@@ -13350,6 +13367,7 @@ MonoBehaviour:
   onlySpawnIfDisabled: 0
   hasCustomDeathSound: 0
   canBeKnockedBack: 1
+  getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 0
   canTakeDamage: 1
   knockbackStrengthX: 15
@@ -13357,6 +13375,8 @@ MonoBehaviour:
   dontKillEnemy: 1
   dontResetColor: 0
   immuneToDamageAreas: 0
+  freezeXonStun: 1
+  freezeYonStun: 0
 --- !u!114 &1931553504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13429,7 +13449,6 @@ MonoBehaviour:
   stopOnLand: 0
   stopWhenNotWithinRange: 0
   canSlideFromKnockback: 0
-  canSlideFromKnockbackCheck: 0
   needsToBeVisibleToMove: 1
   disableNeedingVisibilityAfterMoving: 1
   onlyMoveWhileJumping: 0

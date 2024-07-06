@@ -21,37 +21,40 @@ public class PlayerMeleeCollider : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.CompareTag("Enemies") && collision.GetComponent<Enemy>() != null && canDoDamage && !player.recoiling) {
-            if(player.sp < player.maxSP && collision.gameObject.GetComponent<Enemy>().canTakeDamage) {
+            Enemy enemyScript = collision.GetComponent<Enemy>();
+            if(player.sp < player.maxSP && enemyScript.canTakeDamage) {
                 player.sp += 2;
-                if(collision.gameObject.GetComponent<Enemy>().beingKnockedBack) {
+                if(enemyScript.beingKnockedBack) {
                     player.sp += 3;
                 }
             }
-            if(collision.gameObject.GetComponent<Enemy>().canTakeDamage) {
+            if(enemyScript.canTakeDamage) {
                 player.style += 3;
                 player.ResetStyleDeductionTimer();
                 if(player.touchingWall && player.GetComponent<Rigidbody2D>().velocity.y < 0) {
                     player.style += 2;
                     player.sp += 1;
                 }
-                if(collision.gameObject.GetComponent<Enemy>().health - damageDealt <= 0) {
+                if(enemyScript.health - damageDealt <= 0) {
                     player.style += 1;
-                    if(collision.gameObject.GetComponent<Enemy>().health == collision.gameObject.GetComponent<Enemy>().maxHealth) {
+                    if(enemyScript.health == enemyScript.maxHealth) {
                         player.style += 2;
                     }
                 }
-                if(collision.gameObject.GetComponent<Enemy>().health - (damageDealt + 1) <= 0 && (collision.gameObject.GetComponent<Rigidbody2D>().velocity.y < -0.2f || collision.gameObject.GetComponent<Rigidbody2D>().velocity.y > 0.2f)) {
+                if(enemyScript.health - (damageDealt + 1) <= 0 && (collision.gameObject.GetComponent<Rigidbody2D>().velocity.y < -0.2f || collision.gameObject.GetComponent<Rigidbody2D>().velocity.y > 0.2f)) {
                     player.style += 2;
-                    if(collision.gameObject.GetComponent<Enemy>().health == collision.gameObject.GetComponent<Enemy>().maxHealth) {
+                    if(enemyScript.health == enemyScript.maxHealth) {
                         player.style += 2;
                         player.sp += 1;
                     }
                 }
             }
-            collision.gameObject.GetComponent<Enemy>().Hit(damageDealt);
+            enemyScript.Hit(damageDealt);
             soundManager.PlayClip(soundManager.PlayerMeleeHit, transform, 1f);
-            if(collision.gameObject.GetComponent<Enemy>().canBeKnockedBack) {
-                collision.gameObject.GetComponent<Enemy>().KnockBack(false, dirX, 0, 0);
+            if(enemyScript.canBeKnockedBack) {
+                if(!(enemyScript.getStunnedInsteadOfBeingKnockedBack && enemyScript.knockbackTimer > 0)) {
+                    enemyScript.KnockBack(false, dirX, 0, 0);
+                }
             }
         }
         if(collision.CompareTag("EnemyBullet") && collision.GetComponent<EnemyBullet>() != null && canDoDamage && !collision.GetComponent<EnemyBullet>().fadingOut && !collision.GetComponent<EnemyBullet>().stopped) {

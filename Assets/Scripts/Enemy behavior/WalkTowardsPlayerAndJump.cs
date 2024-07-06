@@ -77,7 +77,7 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
     public bool stopWhenNotWithinRange = false;
     private bool stopWhenNotWithinRangeCheck = false;
     public bool canSlideFromKnockback = true;
-    public bool canSlideFromKnockbackCheck = false;
+    private bool canSlideFromKnockbackCheck = false;
     public bool needsToBeVisibleToMove = true;
     public bool disableNeedingVisibilityAfterMoving = true;
     private bool initialNeedsToBeVisibleToMove = true;
