@@ -136,6 +136,9 @@ public class Enemy : MonoBehaviour {
                     if(player.jumpsLeft == 0) {
                         player.jumpsLeft = 1;
                     }
+                    if(player.jumpsLeft == 1) {
+                        player.jumpsLeft = 2;
+                    }
                     player.dashesLeft = 2;
                     player.canUpDash = true;
                     player.sp += 2;
@@ -240,7 +243,7 @@ public class Enemy : MonoBehaviour {
                     player.ResetStyleDeductionTimer();
                     if(health <= 0) {
                         player.style += 3;
-                        if(health == maxHealth) {
+                        if(maxHealth - 1 <= 0) {
                             player.style += 2;
                         }
                     }
@@ -251,12 +254,16 @@ public class Enemy : MonoBehaviour {
                     if(health <= 0) {
                         player.rightFireWaveHasKilledEnemy = true;
                     }
+                    if(maxHealth - 1 <= 0) {
+                        player.rightFireWaveHasOneShottedEnemy = true;
+                    }
                 }
                 if(enemyCollider.gameObject.name == "FireWave2GroundCheck" && !hitByLeftWave) {
                     hitByLeftWave = true;
                     player.leftFireWaveHasHitEnemy = true;
                     if(health <= 0) {
                         player.leftFireWaveHasKilledEnemy = true;
+                        player.leftFireWaveHasOneShottedEnemy = true;
                     }
                 }
             }

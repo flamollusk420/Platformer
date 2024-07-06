@@ -55,6 +55,7 @@ THINGS THAT MAKE YOU GAIN STYLE:
 -one-shotting an enemy with a fire wave = +2 style
 -shooting out fire waves and hitting an enemy with each of them (can be done multiple times with one set of waves) = +3 style
 -shooting out fire waves and killing an enemy with each of them (can be done multiple times with one set of waves) = +5 style
+-shooting out fire waves and one-shotting an enemy with each of them (can be done multiple times with one set of waves) = +5 style
 -STYLE BONUSES STACK! if you fulfill multiple of these conditions, you will gain style for ALL OF THEM.
 
 
@@ -64,7 +65,7 @@ THE STYLE BONUS RECIEVED WHEN MULTIPLE ENEMIES ARE KILLED IN QUICK SUCCESSION:
 -when an enemy dies, you have half a second to kill another one (or for another one to die on its own) and get this bonus
 -each enemy killed within the half-second adds 1 to your combo
 -keep in mind that all of these bonuses STACK. you can get all of them if you kill enough enemies.
--there's parentheses here, use PEMDAS or  s u f f e r .
+-there's parentheses here, use PEMDAS and stuff
 -if your combo is greater than 2, 2 times (your combo - 2) will be added to your style meter
 -if your combo is greater than 5, 3 times (your combo - 5) will be added to your style meter
 -if your combo is greater than 10, 4 times (your combo - 10) will be added to your style meter

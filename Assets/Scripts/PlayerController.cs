@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-    //components
     private SoundManager soundManager;
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -26,7 +25,7 @@ public class PlayerController : MonoBehaviour {
     private Pause pauseUI;
     public PlayerMeleeCollider playerMeleeCollider;
     public PlayerDashCollider playerDashCollider;
-    //properties
+
     public float movementSpeed;
     public float dashSpeed;
     public float dashLength;
@@ -35,7 +34,6 @@ public class PlayerController : MonoBehaviour {
     public float downDashSpeed;
     public float jumpStrength;
     public float wallJumpKickback;
-    public float wallJumpLength;
     public int health;
     public int maxHealth;
     public float sp;
@@ -47,7 +45,7 @@ public class PlayerController : MonoBehaviour {
     public int dashesLeft = 2;
     public float fireWaveOffsetX = 4.5f;
     public float fireWaveOffsetY = 0.06f;
-    //state bools
+
     public bool respawned;
     public bool recoiling;
     public bool facingRight = true;
@@ -55,12 +53,18 @@ public class PlayerController : MonoBehaviour {
     public bool touchingWall;
     public bool isJumping;
     public bool startedJumpWhileTouchingWall;
+    //wallJumping is only true for the amount of time specified in wallJumpTimerSet
+    //it's used to stop the player from walking into the wall by freezing movement while it's active
+    //once it's turned off, any movement direction the player was holding will work again
     public bool wallJumping;
     public bool isFalling;
     public bool isWalking;
     public bool isDashing;
+    //isDashing2 is used for disabling wall sliding while dashing off a wall and gets turned off a split second later
+    //it's also used to prevent wall sliding while exploding and being knocked back
     public bool isDashing2;
     public bool isDashJumping;
+    //isDashJumping2 is true when the player is using momentum from a dash jump after the dash jump animation
     public bool isDashJumping2;
     public bool isExitingDash;
     public bool isDamaging;
@@ -77,7 +81,7 @@ public class PlayerController : MonoBehaviour {
     public bool isShootingFireWave;
     public bool hasFlipped;
     public bool primaryAttackIsMelee;
-    //movement stuff
+
     private float velocityBeforeMove;
     public float dirX;
     public float dirY;
@@ -101,6 +105,8 @@ public class PlayerController : MonoBehaviour {
     private float styleDeductionCancelTimer;
     private float dashJumpTimer;
     private float wallJumpTimer;
+    //has to be really low so the wall jump feels good to use to climb up walls as well as jump off them
+    public float wallJumpTimerSet = 0.075f;
     private float explosionTimer;
     public float explosionTimerSet;
     private float groundedJumpNextToWallTimer;
@@ -110,12 +116,14 @@ public class PlayerController : MonoBehaviour {
     private float fireWaveShootTimerSet = 0.15f;
     public bool rightFireWaveHasHitEnemy = false;
     public bool rightFireWaveHasKilledEnemy = false;
+    public bool rightFireWaveHasOneShottedEnemy = false;
     public bool leftFireWaveHasHitEnemy = false;
     public bool leftFireWaveHasKilledEnemy = false;
+    public bool leftFireWaveHasOneShottedEnemy = false;
     private bool hasPlayedFireWaveDestroyedSound = true;
     private bool canStopOnTouchWall = true;
     public string currentRoomName;
-    //damage stuff
+
     public float recoilTimer;
     private float effectTimer;
     public float effectCooldown = 0.15f;
@@ -127,7 +135,7 @@ public class PlayerController : MonoBehaviour {
     public float knockbackTimer;
     public float knockbackTimerSet;
     public bool timeScaleIsZero;
-    //bullet/melee stuff
+
     public bool canShoot;
     public int equippedBulletType = 1;
     public float bulletSpeed = 3.5f;
@@ -194,6 +202,7 @@ public class PlayerController : MonoBehaviour {
         if(isDownDashing && !isExploding && !beingKnockedBack && !isShootingFireWave) {
             rb.velocity = new Vector2(0, downDashSpeed);
         }
+        //if the player moves in the opposite direction of a dash jump, isDashJumping2 turns off
         if(dirX != dashJumpFacingDirX && dirX != 0) {
             isDashJumping2 = false;
         }
@@ -255,6 +264,10 @@ public class PlayerController : MonoBehaviour {
             groundedJumpNextToWallTimer = 0;
         }
         if((touchingGround || touchingWall) && !isDownDashing && !isUpDashing && !isExitingUpDash && !(isJumping && !isDashJumping && !isFalling && startedJumpWhileTouchingWall)) {
+            //jumpsLeft is set to 1 instead of 2 even though there's a double jump
+            //this is because after a jump is started and jumpsLeft is subtracted by 1 the player's ground detection hitbox still detects the ground
+            //and CheckState() is run again, meaning jumpsleft is set to 1 again after the jump starts
+            //if it was set to 2 there would be a triple jump
             jumpsLeft = 1;
             dashesLeft = 2;
             canDownDash = true;
@@ -283,7 +296,7 @@ public class PlayerController : MonoBehaviour {
             canStopOnTouchWall = true;
             wallFacingDirX = facingDirX;
         }
-        //this is to stop the player from sliding around
+        //this stops the player from sliding around like a hockey puck after landing from a dash jump
         if(dirX == 0 && touchingGround && !touchingWall && !isJumping && !isDamaging && !isDamaging && !isUpDashing && !isDownDashing && !isDashJumping && isDashJumping2) {
             rb.velocity = new Vector2(0, rb.velocity.y);
         }
@@ -301,7 +314,6 @@ public class PlayerController : MonoBehaviour {
         }
         if(isDashJumping2 && (isDamaging || touchingWall || (touchingGround && !isDashJumping))) {
             styleDeductionCancelTimer = 0.25f;
-            isDashJumping2 = false;
         }
         if(isDamaging || isDashJumping || isExitingDownDash || isExitingUpDash) {
             if(playerDashCollider.canDoDamage == false && playerDashCollider.canDoDamage2 == false) {
@@ -322,6 +334,13 @@ public class PlayerController : MonoBehaviour {
             leftFireWaveHasKilledEnemy = false;
             rightFireWaveHasKilledEnemy = false;
             style += 5;
+            if(leftFireWaveHasOneShottedEnemy && rightFireWaveHasOneShottedEnemy) {
+                style += 5;
+                soundManager.PlayClip(soundManager.DoubleFireWaveOneShot, transform, 1);
+            }
+            else {
+                soundManager.PlayClip(soundManager.DoubleFireWaveKill, transform, 1);
+            }
         }
         if(!fireWave1.activeInHierarchy && !fireWave2.activeInHierarchy) {
             if(!hasPlayedFireWaveDestroyedSound) {
@@ -346,15 +365,11 @@ public class PlayerController : MonoBehaviour {
         }
         if(isDashing2 && isDamaging) {
             touchingWall = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.65f), transform.right * facingDirX, 0, ground);
-            if(isDashing && jumpsLeft < 2) {
-                if(!beingKnockedBack) {
-                    jumpsLeft = 1;
-                }
-            }
         }
     }
 
     private void UpdateTimers() {
+        //there are a lot of timers
         dashTimer -= Time.deltaTime;
         wallJumpDashTimer -= Time.deltaTime;
         dashJumpTimer -= Time.deltaTime;
@@ -412,7 +427,7 @@ public class PlayerController : MonoBehaviour {
         if(exitDownDashTimer <= 0) {
             isExitingDownDash = false;
         }
-        if(wallJumpTimer <= 0) {
+        if(wallJumpTimer <= 0 && wallJumping) {
             wallJumping = false;
         }
         if(meleeTimer <= 0 && isMeleeAttacking) {
@@ -439,6 +454,7 @@ public class PlayerController : MonoBehaviour {
         if(styleDeductionTimer <= 0) {
             styleDeductionTimer = styleDeductionTimerSet;
             style -= 1;
+            //only takes away a second style point if the player isn't using an attack, a movement ability, or moving with momentum from a dash jump
             if(styleDeductionCancelTimer <= 0 && !isDamaging && !isDashing && !isMeleeAttacking && !isDashJumping2 && !isExploding && !isUpDashing && !isDownDashing) {
                 style -= 1;
                 if(rb.velocity.x > -0.2f && rb.velocity.x < 0.2f && rb.velocity.y > -0.2f && rb.velocity.y < 0.2f) {
@@ -469,6 +485,7 @@ public class PlayerController : MonoBehaviour {
         normalDash.position = dashesLeft;
         upDash.toggle = canUpDash;
         equippedPrimaryUI.toggle = primaryAttackIsMelee;
+        //because of the weird way the jumpsLeft variable works in this game, the jump indicator's position has to be set manually instead of just setting it jumpsLeft
         if(!(touchingGround || touchingWall)) {
             jumps.position = jumpsLeft;
         }
@@ -610,7 +627,7 @@ public class PlayerController : MonoBehaviour {
             }
             if(touchingWall && !beingKnockedBack && !touchingGround) {
                 startedJumpWhileTouchingWall = false;
-                wallJumpTimer = wallJumpLength;
+                wallJumpTimer = wallJumpTimerSet;
                 rb.gravityScale = 4;
                 rb.velocity = new Vector2(wallJumpKickback * wallFacingDirX, jumpStrength);
                 velocityBeforeMove = rb.velocity.x - (movementSpeed * dirX);
@@ -693,8 +710,10 @@ public class PlayerController : MonoBehaviour {
                 soundManager.PlayClip(soundManager.PlayerFireWave, transform, 1);
                 leftFireWaveHasHitEnemy = false;
                 leftFireWaveHasKilledEnemy = false;
+                leftFireWaveHasOneShottedEnemy = false;
                 rightFireWaveHasHitEnemy = false;
                 rightFireWaveHasKilledEnemy = false;
+                rightFireWaveHasOneShottedEnemy = false;
             }
         }
     }
@@ -851,15 +870,17 @@ public class PlayerController : MonoBehaviour {
         anim.SetBool("isShootingFireWave", isShootingFireWave);
         anim.SetBool("touchingWall", touchingWall);
         anim.SetBool("touchingGround", touchingGround);
-        anim.SetInteger("dirY", Mathf.RoundToInt(dirY));
+        //idle shooting/melee animation
         if(!(touchingGround && isWalking) && (!touchingWall || ((touchingWall && touchingGround)))) {
             anim.SetFloat("ShootBlend", 0);
             anim.SetFloat("MeleeBlend", 0);
         }
+        //walking shooting/melee animation
         if(touchingGround && isWalking && !touchingWall) {
             anim.SetFloat("ShootBlend", 0.5f);
             anim.SetFloat("MeleeBlend", 0.5f);
         }
+        //wall sliding shooting/melee animation
         if(touchingWall && !touchingGround) {
             anim.SetFloat("MeleeBlend", 1);
             anim.SetFloat("ShootBlend", 1);
@@ -867,6 +888,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDrawGizmos() {
+        //draws visual indicators in the editor for the raycast that checks if a wall is being touched and the box that checks if the ground is being touched
         //Gizmos.DrawWireCube(GameObject.FindWithTag("PlayerGroundCheck").GetComponent<Transform>().position, new Vector3(1.04f, 0.25f, 0.25f));
         //Gizmos.DrawLine(new Vector2(transform.position.x, transform.position.y + 0.6f), new Vector2(transform.position.x + 1.1f, transform.position.y + 0.6f));
     }

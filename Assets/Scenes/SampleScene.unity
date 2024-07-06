@@ -3995,6 +3995,8 @@ MonoBehaviour:
   PlayerExplosion: {fileID: 8300000, guid: 212542cd70f557046ba79a6e11837637, type: 3}
   PlayerFireWave: {fileID: 8300000, guid: 74d5cd5194873b246a6d77e979299014, type: 3}
   BothFireWavesDestroyed: {fileID: 8300000, guid: 9971f628bd7826e46a507f06325bab42, type: 3}
+  DoubleFireWaveKill: {fileID: 8300000, guid: ace15e701bb9aea4aa8a87381db56445, type: 3}
+  DoubleFireWaveOneShot: {fileID: 8300000, guid: 9adea3c348fe8bd418417b6231fb2e84, type: 3}
   PlayerHeal: {fileID: 8300000, guid: 5fa3286ca7cdc5f43ad0b1b2795704aa, type: 3}
   PlayerDeath: {fileID: 8300000, guid: 7b35c12965221db4d9a7d55185f3cfc3, type: 3}
   EnemyDeath1: {fileID: 8300000, guid: 18042dfddcc98584b90763f767642953, type: 3}
@@ -14151,7 +14153,6 @@ MonoBehaviour:
   downDashSpeed: -35
   jumpStrength: 19
   wallJumpKickback: 10
-  wallJumpLength: 0.075
   health: 10
   maxHealth: 10
   sp: 25
@@ -14209,12 +14210,15 @@ MonoBehaviour:
   wallJumpDashTimerSet: 0.1
   styleDeductionTimer: 0
   styleDeductionTimerSet: 1.25
+  wallJumpTimerSet: 0.075
   explosionTimerSet: 0.5
   downDashAttackCooldown: 0.35
   rightFireWaveHasHitEnemy: 0
   rightFireWaveHasKilledEnemy: 0
+  rightFireWaveHasOneShottedEnemy: 0
   leftFireWaveHasHitEnemy: 0
   leftFireWaveHasKilledEnemy: 0
+  leftFireWaveHasOneShottedEnemy: 0
   currentRoomName: 
   recoilTimer: 0
   effectCooldown: 0.15
