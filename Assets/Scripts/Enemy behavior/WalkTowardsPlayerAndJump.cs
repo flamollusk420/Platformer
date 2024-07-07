@@ -126,9 +126,6 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        if(playerTransform.GetComponent<PlayerController>().isShooting == true) {
-            Debug.Log("fuck!!!");
-        }
         DetectGround();
         enableTimer -= Time.deltaTime;
         if((initialNonDamageTimerHasToBeZero && enemyScript.initialNonDamageTimer <= 0) || !initialNonDamageTimerHasToBeZero) {
@@ -150,7 +147,6 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
             }
             if(jumpsOnPlayerShoot) {
                 if(playerTransform.GetComponent<PlayerController>().isShooting == true) {
-                    Debug.Log("shit");
                     JumpSetup();
                 }
             }

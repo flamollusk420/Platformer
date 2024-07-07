@@ -389,7 +389,6 @@ public class Enemy : MonoBehaviour {
                     if(playerTR.position.y > transform.position.y) {
                         airKnockbackDirY = -1;
                         player.style += 3;
-                        Debug.Log("yeehaw");
                     }
                     if(playerTR.position.y <= transform.position.y) {
                         airKnockbackDirY = 1;
