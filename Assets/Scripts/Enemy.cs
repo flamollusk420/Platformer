@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour {
     public GameObject objectToModify;
     public GameObject hostEnemy;
     public AudioClip customDeathSound;
+    private LayerMask ground;
 
     public float customDeathSoundVolume = 1;
     public float effectTimer;
@@ -69,6 +70,18 @@ public class Enemy : MonoBehaviour {
     public bool freezeYonStun;
     private bool initialLockX;
     private bool initialLockY;
+    public bool usePositionDependentAirKnockback = true;
+    public bool useZeroGravityPositionDependentAirKnockback;
+    public float airKnockbackMultiplierY = 1;
+    public float airKnockbackMultiplierX = 1;
+    public bool touchingGround;
+    public bool touchingWall;
+    public float groundCheckLength = 0.1f;
+    public float groundCheckOffsetX;
+    public float wallCheckDirectionMultiplier = 1;
+    private float wallCheckDirectionMultiplierSet;
+    public float wallCheckLength;
+    public float wallCheckOffsetY;
 
     void Start() {
         sr = GetComponent<SpriteRenderer>();
@@ -77,6 +90,7 @@ public class Enemy : MonoBehaviour {
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         soundManager = GameObject.FindWithTag("SoundManager").GetComponent<SoundManager>();
         musicManager = GameObject.FindWithTag("MusicManager").GetComponent<MusicManager>();
+        ground = LayerMask.GetMask("Ground");
         if(!dontKillEnemy) {
             gameObject.SetActive(false);
         }
@@ -91,6 +105,7 @@ public class Enemy : MonoBehaviour {
         if(rb.constraints == RigidbodyConstraints2D.FreezePositionY) {
             initialLockY = true;
         }
+        wallCheckDirectionMultiplierSet = wallCheckDirectionMultiplier;
         startCompleted = true;
     }
 
@@ -113,6 +128,7 @@ public class Enemy : MonoBehaviour {
         fastKillTimer = 5;
         if(startCompleted) {
             invincible = invincibleSet;
+            wallCheckDirectionMultiplier = wallCheckDirectionMultiplierSet;
         }
         if(invincibilityTimerSet != 0) {
             invincible = true;
@@ -123,6 +139,7 @@ public class Enemy : MonoBehaviour {
     void FixedUpdate() {
         HealthCheck();
         UpdateEffect();
+        DetectGround();
         if(player.respawned) {
             gameObject.SetActive(false);
         }
@@ -227,6 +244,18 @@ public class Enemy : MonoBehaviour {
         rb.velocity = new Vector2(0, deathJumpStrength);
     }
 
+    private void DetectGround() {
+        if(startCompleted) {
+            touchingGround = Physics2D.Raycast(new Vector2(transform.position.x + groundCheckOffsetX, transform.position.y), transform.up * -1, groundCheckLength, ground);
+            touchingWall = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + wallCheckOffsetY + (sr.bounds.size.x / 2)), transform.right * wallCheckDirectionMultiplier, wallCheckLength, ground);
+        }
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.DrawLine(new Vector2(transform.position.x + groundCheckOffsetX, transform.position.y), new Vector2(transform.position.x + groundCheckOffsetX, transform.position.y - groundCheckLength));
+        Gizmos.DrawLine(new Vector2(transform.position.x, transform.position.y + wallCheckOffsetY + (GetComponent<SpriteRenderer>().bounds.size.x / 2)), new Vector2(transform.position.x + (wallCheckLength * wallCheckDirectionMultiplier), transform.position.y + wallCheckOffsetY + (GetComponent<SpriteRenderer>().bounds.size.x / 2)));
+    }
+
     void OnTriggerStay2D(Collider2D enemyCollider) {
         if((enemyCollider.CompareTag("PlayerSecondaryCollider"))  && !player.recoiling && !player.isExploding && initialNonDamageTimer <= 0 && gameObject.GetComponent<Enemy>().enabled == true) {
             if(damageDealt > 0 && !player.isDamaging && !player.isDashJumping && player.exitDashTimer <= 0 && player.exitDownDashTimer <= 0 && player.exitDownDashTimer <= 0 ) {
@@ -318,6 +347,9 @@ public class Enemy : MonoBehaviour {
         if(knockbackTimer <= 0) {
             if(beingKnockedBack) {
                 beingKnockedBack = false;
+                if(useZeroGravityPositionDependentAirKnockback && usePositionDependentAirKnockback) {
+                    rb.gravityScale = defaultGravity;
+                }
             }
             if(getStunnedInsteadOfBeingKnockedBack) {
                 if(!initialLockX && !initialLockY) {
@@ -342,12 +374,36 @@ public class Enemy : MonoBehaviour {
     public void KnockBack(bool customKnockBack, float knockbackDirX, float customKnockBackX, float customKnockBackY) {
         if(health > 0) {
             if(!getStunnedInsteadOfBeingKnockedBack) {
-                beingKnockedBack = true;
-                if(!customKnockBack) {
-                    rb.velocity = new Vector2(knockbackStrengthX * knockbackDirX, knockbackStrengthY);
+                if(!usePositionDependentAirKnockback || (usePositionDependentAirKnockback && touchingGround)) {
+                    beingKnockedBack = true;
+                    if(!customKnockBack) {
+                        rb.velocity = new Vector2(knockbackStrengthX * knockbackDirX, knockbackStrengthY);
+                    }
+                    if(customKnockBack) {
+                        rb.velocity = new Vector2(customKnockBackX * knockbackDirX, customKnockBackY);
+                    }
                 }
-                if(customKnockBack) {
-                    rb.velocity = new Vector2(customKnockBackX * knockbackDirX, customKnockBackY);
+                if(usePositionDependentAirKnockback && !touchingGround) {
+                    beingKnockedBack = true;
+                    float airKnockbackDirY = 0;
+                    if(playerTR.position.y > transform.position.y) {
+                        airKnockbackDirY = -1;
+                        player.style += 3;
+                        Debug.Log("yeehaw");
+                    }
+                    if(playerTR.position.y <= transform.position.y) {
+                        airKnockbackDirY = 1;
+                    }
+                    if(useZeroGravityPositionDependentAirKnockback) {
+                        airKnockbackDirY = 0;
+                        rb.gravityScale = 0;
+                    }
+                    if(!customKnockBack) {
+                        rb.velocity = new Vector2((knockbackStrengthX * airKnockbackMultiplierX) * knockbackDirX, (knockbackStrengthY * airKnockbackMultiplierY) * airKnockbackDirY);
+                    }
+                    if(customKnockBack) {
+                        rb.velocity = new Vector2((customKnockBackX * airKnockbackMultiplierX) * knockbackDirX, (customKnockBackY * airKnockbackMultiplierY) * airKnockbackDirY);
+                    }
                 }
             }
             if(getStunnedInsteadOfBeingKnockedBack) {

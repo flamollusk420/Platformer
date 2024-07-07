@@ -159,7 +159,7 @@ public class PlayerBullet : MonoBehaviour {
                     }
                 }
                 if(collision.GetComponent<Enemy>().beingKnockedBack) {
-                    player.style += 2;
+                    player.style += 4;
                 }
                 player.style += 1;
                 player.ResetStyleDeductionTimer();

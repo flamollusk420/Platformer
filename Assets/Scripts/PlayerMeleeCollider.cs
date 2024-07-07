@@ -25,7 +25,7 @@ public class PlayerMeleeCollider : MonoBehaviour {
             if(player.sp < player.maxSP && enemyScript.canTakeDamage) {
                 player.sp += 2;
                 if(enemyScript.beingKnockedBack) {
-                    player.sp += 3;
+                    player.style += 8;
                 }
             }
             if(enemyScript.canTakeDamage) {

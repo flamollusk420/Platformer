@@ -63,6 +63,11 @@ public class PlayerController : MonoBehaviour {
     //isDashing2 is used for disabling wall sliding while dashing off a wall and gets turned off a split second later
     //it's also used to prevent wall sliding while exploding and being knocked back
     public bool isDashing2;
+    //isDashing2Indicator is used for enemies that need to detect if the player just started a dash
+    [HideInInspector]
+    public bool isDashing2Indicator;
+    private float isDashing2IndicatorTimer;
+    private float isDashing2IndicatorTimerSet = 0.1f;
     public bool isDashJumping;
     //isDashJumping2 is true when the player is using momentum from a dash jump after the dash jump animation
     public bool isDashJumping2;
@@ -390,10 +395,11 @@ public class PlayerController : MonoBehaviour {
         knockbackTimer -= Time.deltaTime;
         fireWaveShootTimer -= Time.deltaTime;
         groundedJumpNextToWallTimer -= Time.deltaTime;
+        isDashing2IndicatorTimer -= Time.deltaTime;
         if(bulletTimer <= 0) {
             canShoot = true;
         }
-        if(bulletAnimationTimer <= 0) {
+        if(bulletAnimationTimer <= 0 && isShooting) {
             isShooting = false;
         }
         if(dashTimer <= 0) {
@@ -415,7 +421,7 @@ public class PlayerController : MonoBehaviour {
                 isExitingUpDash = true;
             }
         }
-        if(dashJumpTimer <= 0) {
+        if(dashJumpTimer <= 0 && isDashJumping) {
             isDashJumping = false;
         }
         if(exitDashTimer <= 0) {
@@ -437,7 +443,7 @@ public class PlayerController : MonoBehaviour {
         if(meleeAnimationTimer <= 0 && anim.GetBool("isMeleeAttacking") == true) {
             anim.SetBool("isMeleeAttacking", false);
         }
-        if(wallJumpDashTimer <= 0) {
+        if(wallJumpDashTimer <= 0 && isDashing2) {
             isDashing2 = false;
         }
         if(knockbackTimer <= 0) {
@@ -477,6 +483,9 @@ public class PlayerController : MonoBehaviour {
                 }
             }
         }
+        if(isDashing2IndicatorTimer <= 0) {
+            isDashing2Indicator = false;
+        }
     }
 
     private void UpdateUI() {
@@ -485,7 +494,7 @@ public class PlayerController : MonoBehaviour {
         normalDash.position = dashesLeft;
         upDash.toggle = canUpDash;
         equippedPrimaryUI.toggle = primaryAttackIsMelee;
-        //because of the weird way the jumpsLeft variable works in this game, the jump indicator's position has to be set manually instead of just setting it jumpsLeft
+        //because of the weird way the jumpsLeft variable works in this game, the jump indicator's position has to be set manually instead of just being set to jumpsLeft
         if(!(touchingGround || touchingWall)) {
             jumps.position = jumpsLeft;
         }
@@ -645,6 +654,8 @@ public class PlayerController : MonoBehaviour {
             if(touchingWall) {
                 isDashing2 = true;
             }
+            isDashing2IndicatorTimer = isDashing2IndicatorTimerSet;
+            isDashing2Indicator = true;
             dashFacingDirX = wallFacingDirX;
             touchingWall = false;
             dashTimer = dashLength;
@@ -881,7 +892,7 @@ public class PlayerController : MonoBehaviour {
             anim.SetFloat("MeleeBlend", 0.5f);
         }
         //wall sliding shooting/melee animation
-        if(touchingWall && !touchingGround) {
+        if(touchingWall && !touchingGround && (!isJumping && startedJumpWhileTouchingWall)) {
             anim.SetFloat("MeleeBlend", 1);
             anim.SetFloat("ShootBlend", 1);
         }

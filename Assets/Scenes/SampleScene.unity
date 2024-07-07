@@ -512,6 +512,17 @@ MonoBehaviour:
   immuneToDamageAreas: 0
   freezeXonStun: 1
   freezeYonStun: 0
+  usePositionDependentAirKnockback: 1
+  useZeroGravityPositionDependentAirKnockback: 0
+  airKnockbackMultiplierY: 1
+  airKnockbackMultiplierX: 1
+  touchingGround: 0
+  touchingWall: 0
+  groundCheckLength: 0.1
+  groundCheckOffsetX: 0
+  wallCheckDirectionMultiplier: 1
+  wallCheckLength: 0
+  wallCheckOffsetY: 0
 --- !u!114 &48755093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,11 +544,6 @@ MonoBehaviour:
   followPlayerWhileWalking: 1
   bounceOfWallsIfNotFollowingPlayer: 1
   dirXifNotFollowingPlayer: 1
-  groundCheckLength: 0.1
-  groundCheckOffsetX: 0
-  wallCheckDirectionMultiplier: 1
-  wallCheckLength: 0
-  wallCheckOffsetY: 0
   movementSpeed: 10
   jumpWalkSpeedMultiplier: 1
   jumpHeight: 0
@@ -562,6 +568,7 @@ MonoBehaviour:
   attackWhileWalking: 0
   attackTimerSet: 0
   resetJumpTimerOnLand: 0
+  resetJumpTimerWhileBeingKnockedBack: 0
   needsToBeWithinRange: 0
   needsToBeWithinRangeForJump: 0
   canChangeDirection: 1
@@ -2816,6 +2823,17 @@ MonoBehaviour:
   immuneToDamageAreas: 0
   freezeXonStun: 1
   freezeYonStun: 1
+  usePositionDependentAirKnockback: 1
+  useZeroGravityPositionDependentAirKnockback: 0
+  airKnockbackMultiplierY: 1
+  airKnockbackMultiplierX: 1
+  touchingGround: 0
+  touchingWall: 0
+  groundCheckLength: 0.1
+  groundCheckOffsetX: 0
+  wallCheckDirectionMultiplier: 1
+  wallCheckLength: 0
+  wallCheckOffsetY: 0
 --- !u!114 &753549880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2837,11 +2855,6 @@ MonoBehaviour:
   followPlayerWhileWalking: 1
   bounceOfWallsIfNotFollowingPlayer: 1
   dirXifNotFollowingPlayer: 1
-  groundCheckLength: 0.1
-  groundCheckOffsetX: 0
-  wallCheckDirectionMultiplier: 1
-  wallCheckLength: 0
-  wallCheckOffsetY: 0
   movementSpeed: 0
   jumpWalkSpeedMultiplier: 1
   jumpHeight: 30
@@ -2866,6 +2879,7 @@ MonoBehaviour:
   attackWhileWalking: 0
   attackTimerSet: 0
   resetJumpTimerOnLand: 1
+  resetJumpTimerWhileBeingKnockedBack: 0
   needsToBeWithinRange: 1
   needsToBeWithinRangeForJump: 1
   canChangeDirection: 0
@@ -5715,6 +5729,17 @@ MonoBehaviour:
   immuneToDamageAreas: 0
   freezeXonStun: 1
   freezeYonStun: 0
+  usePositionDependentAirKnockback: 1
+  useZeroGravityPositionDependentAirKnockback: 0
+  airKnockbackMultiplierY: 1
+  airKnockbackMultiplierX: 1
+  touchingGround: 0
+  touchingWall: 0
+  groundCheckLength: 0.1
+  groundCheckOffsetX: 0
+  wallCheckDirectionMultiplier: 1
+  wallCheckLength: 0
+  wallCheckOffsetY: 0
 --- !u!95 &1292988126
 Animator:
   serializedVersion: 4
@@ -6106,7 +6131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1404706893
 Transform:
   m_ObjectHideFlags: 0
@@ -6197,6 +6222,17 @@ MonoBehaviour:
   immuneToDamageAreas: 0
   freezeXonStun: 1
   freezeYonStun: 0
+  usePositionDependentAirKnockback: 1
+  useZeroGravityPositionDependentAirKnockback: 0
+  airKnockbackMultiplierY: 1
+  airKnockbackMultiplierX: 1
+  touchingGround: 0
+  touchingWall: 0
+  groundCheckLength: 0.1
+  groundCheckOffsetX: 0
+  wallCheckDirectionMultiplier: 1
+  wallCheckLength: 0
+  wallCheckOffsetY: 0
 --- !u!61 &1404706897
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6317,11 +6353,6 @@ MonoBehaviour:
   followPlayerWhileWalking: 1
   bounceOfWallsIfNotFollowingPlayer: 1
   dirXifNotFollowingPlayer: 1
-  groundCheckLength: 0.1
-  groundCheckOffsetX: 0
-  wallCheckDirectionMultiplier: 1
-  wallCheckLength: 0
-  wallCheckOffsetY: 0
   movementSpeed: 10
   jumpWalkSpeedMultiplier: 1
   jumpHeight: 30
@@ -6335,7 +6366,7 @@ MonoBehaviour:
   faceDirectionInversionMultiplier: 1
   jumpSetupTimerSet: 0.35
   deadZoneRange: 1
-  endKnockbackTimerOnHitGround: 0
+  endKnockbackTimerOnHitGround: 1
   doNotWalk: 0
   setAnimatorWalkBool: 1
   setAnimatorJumpBool: 1
@@ -6346,6 +6377,7 @@ MonoBehaviour:
   attackWhileWalking: 0
   attackTimerSet: 0
   resetJumpTimerOnLand: 0
+  resetJumpTimerWhileBeingKnockedBack: 0
   needsToBeWithinRange: 1
   needsToBeWithinRangeForJump: 1
   canChangeDirection: 1
@@ -6364,10 +6396,10 @@ MonoBehaviour:
   jumpsOnStartWalking: 1
   jumpsOnPlayerDash: 1
   jumpsOnPlayerMelee: 1
-  jumpsOnPlayerShoot: 0
+  jumpsOnPlayerShoot: 1
   stopOnLand: 0
   stopWhenNotWithinRange: 0
-  canSlideFromKnockback: 1
+  canSlideFromKnockback: 0
   needsToBeVisibleToMove: 1
   disableNeedingVisibilityAfterMoving: 1
   onlyMoveWhileJumping: 0
@@ -7145,6 +7177,17 @@ MonoBehaviour:
   immuneToDamageAreas: 0
   freezeXonStun: 1
   freezeYonStun: 0
+  usePositionDependentAirKnockback: 1
+  useZeroGravityPositionDependentAirKnockback: 0
+  airKnockbackMultiplierY: 1
+  airKnockbackMultiplierX: 1
+  touchingGround: 0
+  touchingWall: 0
+  groundCheckLength: 0.1
+  groundCheckOffsetX: 1.4
+  wallCheckDirectionMultiplier: 1
+  wallCheckLength: 0
+  wallCheckOffsetY: 0
 --- !u!114 &1482330963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7166,11 +7209,6 @@ MonoBehaviour:
   followPlayerWhileWalking: 1
   bounceOfWallsIfNotFollowingPlayer: 1
   dirXifNotFollowingPlayer: 1
-  groundCheckLength: 0.1
-  groundCheckOffsetX: 0
-  wallCheckDirectionMultiplier: 1
-  wallCheckLength: 0
-  wallCheckOffsetY: 0
   movementSpeed: 0
   jumpWalkSpeedMultiplier: 1
   jumpHeight: 0
@@ -7195,6 +7233,7 @@ MonoBehaviour:
   attackWhileWalking: 1
   attackTimerSet: 1.083
   resetJumpTimerOnLand: 0
+  resetJumpTimerWhileBeingKnockedBack: 0
   needsToBeWithinRange: 1
   needsToBeWithinRangeForJump: 1
   canChangeDirection: 0
@@ -7683,6 +7722,17 @@ MonoBehaviour:
   immuneToDamageAreas: 0
   freezeXonStun: 1
   freezeYonStun: 0
+  usePositionDependentAirKnockback: 0
+  useZeroGravityPositionDependentAirKnockback: 0
+  airKnockbackMultiplierY: 1
+  airKnockbackMultiplierX: 1
+  touchingGround: 0
+  touchingWall: 0
+  groundCheckLength: 0.1
+  groundCheckOffsetX: 1.4
+  wallCheckDirectionMultiplier: 1
+  wallCheckLength: 0
+  wallCheckOffsetY: 0
 --- !u!1 &1636002616
 GameObject:
   m_ObjectHideFlags: 0
@@ -8136,6 +8186,17 @@ MonoBehaviour:
   immuneToDamageAreas: 0
   freezeXonStun: 1
   freezeYonStun: 0
+  usePositionDependentAirKnockback: 1
+  useZeroGravityPositionDependentAirKnockback: 0
+  airKnockbackMultiplierY: 1
+  airKnockbackMultiplierX: 1
+  touchingGround: 0
+  touchingWall: 0
+  groundCheckLength: 0.1
+  groundCheckOffsetX: 0
+  wallCheckDirectionMultiplier: 1
+  wallCheckLength: 0
+  wallCheckOffsetY: 0
 --- !u!61 &1693030271
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13377,6 +13438,17 @@ MonoBehaviour:
   immuneToDamageAreas: 0
   freezeXonStun: 1
   freezeYonStun: 0
+  usePositionDependentAirKnockback: 1
+  useZeroGravityPositionDependentAirKnockback: 0
+  airKnockbackMultiplierY: 1
+  airKnockbackMultiplierX: 1
+  touchingGround: 0
+  touchingWall: 0
+  groundCheckLength: 0.1
+  groundCheckOffsetX: 0
+  wallCheckDirectionMultiplier: -1
+  wallCheckLength: 1.45
+  wallCheckOffsetY: -0.75
 --- !u!114 &1931553504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13398,11 +13470,6 @@ MonoBehaviour:
   followPlayerWhileWalking: 0
   bounceOfWallsIfNotFollowingPlayer: 1
   dirXifNotFollowingPlayer: -1
-  groundCheckLength: 0.1
-  groundCheckOffsetX: 0
-  wallCheckDirectionMultiplier: -1
-  wallCheckLength: 1.75
-  wallCheckOffsetY: -1
   movementSpeed: 10
   jumpWalkSpeedMultiplier: 1
   jumpHeight: 0
@@ -13427,6 +13494,7 @@ MonoBehaviour:
   attackWhileWalking: 0
   attackTimerSet: 0
   resetJumpTimerOnLand: 0
+  resetJumpTimerWhileBeingKnockedBack: 0
   needsToBeWithinRange: 0
   needsToBeWithinRangeForJump: 0
   canChangeDirection: 1
@@ -13467,7 +13535,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03297901, y: 0.13572562}
+  m_Offset: {x: 0.0038204193, y: 0.8779054}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -13478,7 +13546,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.8706646, y: 0.2372365}
+  m_Size: {x: 2.410427, y: 1.7215961}
   m_EdgeRadius: 0
 --- !u!50 &1931553506
 Rigidbody2D:
@@ -14195,6 +14263,7 @@ MonoBehaviour:
   isWalking: 0
   isDashing: 0
   isDashing2: 0
+  isDashing2Indicator: 0
   isDashJumping: 0
   isDashJumping2: 0
   isExitingDash: 0

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WalkTowardsPlayerAndJump : MonoBehaviour {
-    private LayerMask ground;
     private Enemy enemyScript;
     public bool isWalking;
     public bool isJumping;
+    [HideInInspector]
     public bool jumpSetup;
     public bool isFalling;
     public bool touchingGround;
@@ -15,12 +15,6 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
     public bool bounceOfWallsIfNotFollowingPlayer = true;
     public int dirXifNotFollowingPlayer = 1;
     private int dirXifNotFollowingPlayerSet = 1;
-    public float groundCheckLength = 0.1f;
-    public float groundCheckOffsetX;
-    public float wallCheckDirectionMultiplier = 1;
-    private float wallCheckDirectionMultiplierSet;
-    public float wallCheckLength;
-    public float wallCheckOffsetY;
     public float movementSpeed;
     public float jumpWalkSpeedMultiplier = 1;
     public float jumpHeight;
@@ -37,7 +31,7 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
     public float faceDirectionInversionMultiplier = 1;
     public float jumpSetupTimerSet = 0.35f;
     public float deadZoneRange = 1;
-    public bool endKnockbackTimerOnHitGround = false;
+    public bool endKnockbackTimerOnHitGround = true;
     public bool doNotWalk = false;
     public bool setAnimatorWalkBool = true;
     public bool setAnimatorJumpBool = true;
@@ -49,6 +43,7 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
     private float attackTimer;
     public float attackTimerSet;
     public bool resetJumpTimerOnLand;
+    public bool resetJumpTimerWhileBeingKnockedBack;
     public bool needsToBeWithinRange;
     public bool needsToBeWithinRangeForJump;
     public bool canChangeDirection = true;
@@ -59,13 +54,12 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
     public bool initialNonDamageTimerHasToBeZero = true;
     private float wallBounceTimer;
     private float wallBounceTimerSet = 0.2f;
-    //name the blend float "Blend" if not using a custom name
     public bool setBlendFloats;
     public bool setIsWalkingBlendFloat;
     public bool setIsJumpingBlendFloat;
     public bool setIsFallingBlendFloat;
     public bool setIsAttackingBlendFloat;
-    public string customBlendFloatName;
+    public string customBlendFloatName = "Blend";
     public bool jumpsOnTimer;
     public bool jumpsOnStartWalking;
     public bool jumpsOnPlayerDash;
@@ -76,7 +70,7 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
     private bool canJump;
     public bool stopWhenNotWithinRange = false;
     private bool stopWhenNotWithinRangeCheck = false;
-    public bool canSlideFromKnockback = true;
+    public bool canSlideFromKnockback;
     private bool canSlideFromKnockbackCheck = false;
     public bool needsToBeVisibleToMove = true;
     public bool disableNeedingVisibilityAfterMoving = true;
@@ -94,7 +88,6 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
     private Animator anim;
 
     void Start() {
-        ground = LayerMask.GetMask("Ground");
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         enemyScript = GetComponent<Enemy>();
@@ -113,10 +106,6 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
             customBlendFloatName = "Blend";
         }
         dirXifNotFollowingPlayerSet = dirXifNotFollowingPlayer;
-        wallCheckDirectionMultiplierSet = wallCheckDirectionMultiplier;
-        if(wallCheckDirectionMultiplierSet == 0) {
-            wallCheckDirectionMultiplier = dirXifNotFollowingPlayerSet;
-        }
         startCompleted = true;
     }
 
@@ -131,13 +120,15 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
         if(startCompleted) {
             needsToBeVisibleToMove = initialNeedsToBeVisibleToMove;
             dirXifNotFollowingPlayer = dirXifNotFollowingPlayerSet;
-            wallCheckDirectionMultiplier = wallCheckDirectionMultiplierSet;
         }
         stopWhenNotWithinRangeCheck = false;
         canSlideFromKnockbackCheck = false;
     }
 
     void FixedUpdate() {
+        if(playerTransform.GetComponent<PlayerController>().isShooting == true) {
+            Debug.Log("fuck!!!");
+        }
         DetectGround();
         enableTimer -= Time.deltaTime;
         if((initialNonDamageTimerHasToBeZero && enemyScript.initialNonDamageTimer <= 0) || !initialNonDamageTimerHasToBeZero) {
@@ -148,7 +139,7 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
             attackTimer -= Time.deltaTime;
             Walk();
             if(jumpsOnPlayerDash) {
-                if(playerTransform.GetComponent<PlayerController>().isDashing2 == true) {
+                if(playerTransform.GetComponent<PlayerController>().isDashing2Indicator == true) {
                     JumpSetup();
                 }
             }
@@ -159,8 +150,12 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
             }
             if(jumpsOnPlayerShoot) {
                 if(playerTransform.GetComponent<PlayerController>().isShooting == true) {
+                    Debug.Log("shit");
                     JumpSetup();
                 }
+            }
+            if(jumpsOnTimer && resetJumpTimerWhileBeingKnockedBack) {
+                jumpTimer = jumpTimerSet;
             }
             if(jumpTimer <= 0 && jumpsOnTimer) {
                 JumpSetup();
@@ -238,7 +233,7 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
         if(touchingWall && wallBounceTimer <= 0) {
             wallBounceTimer = wallBounceTimerSet;
             dirXifNotFollowingPlayer *= -1;
-            wallCheckDirectionMultiplier *= -1;
+            enemyScript.wallCheckDirectionMultiplier *= -1;
             transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
         }
         if(setBlendFloats && startCompleted) {
@@ -271,14 +266,9 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
 
     private void DetectGround() {
         if(startCompleted) {
-            touchingGround = Physics2D.Raycast(new Vector2(transform.position.x + groundCheckOffsetX, transform.position.y), transform.up * -1, groundCheckLength, ground);
-            touchingWall = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + wallCheckOffsetY + (sr.bounds.size.x / 2)), transform.right * wallCheckDirectionMultiplier, wallCheckLength, ground);
+            touchingGround = enemyScript.touchingGround;
+            touchingWall = enemyScript.touchingWall;
         }
-    }
-
-    private void OnDrawGizmos() {
-        Gizmos.DrawLine(new Vector2(transform.position.x + groundCheckOffsetX, transform.position.y), new Vector2(transform.position.x + groundCheckOffsetX, transform.position.y - groundCheckLength));
-        Gizmos.DrawLine(new Vector2(transform.position.x, transform.position.y + wallCheckOffsetY + (GetComponent<SpriteRenderer>().bounds.size.x / 2)), new Vector2(transform.position.x + (wallCheckLength * wallCheckDirectionMultiplier), transform.position.y + wallCheckOffsetY + (GetComponent<SpriteRenderer>().bounds.size.x / 2)));
     }
 
     private void Walk() {

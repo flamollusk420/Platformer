@@ -30,11 +30,12 @@ THINGS THAT MAKE YOU GAIN STYLE:
 -hitting an enemy with a fire wave = +1 style
 -hitting an enemy with an explosion = +1 style
 -hitting an enemy in any way while it's being knocked back = +3 style
--hitting an enemy with a bullet while it's being knocked back = +2 style
--hitting an enemy with a melee attack while it's being knocked back = +3 style
--hitting an enemy with a parried bullet while it's being knocked back = +6 style
+-hitting an enemy with a bullet while it's being knocked back = +4 style
+-hitting an enemy with a melee attack while it's being knocked back = +6 style
+-hitting an airborne enemy with a melee attack while above it = +3 style
+-hitting an enemy with a parried bullet while it's being knocked back = +7 style
 -an enemy falls into a damaging area and survives = +2 style
--an enemy falls into a damagine area and dies = +4 style
+-an enemy falls into a damaging area and dies = +4 style
 -a small enemy dies in any way = +1 style
 -a medium enemy dies in any way = +2 style
 -a large enemy dies in any way = +3 style

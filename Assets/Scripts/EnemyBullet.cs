@@ -277,7 +277,7 @@ public class EnemyBullet : MonoBehaviour {
                         soundManager.PlayClip(soundManager.ParriedBulletDeath, transform, 1);
                     }
                     if(collision.GetComponent<Enemy>().beingKnockedBack) {
-                        player.style += 6;
+                        player.style += 7;
                     }
                     player.sp += 1;
                     player.style += timesParried * timesParried;
