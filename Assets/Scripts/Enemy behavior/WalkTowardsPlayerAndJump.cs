@@ -69,7 +69,7 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
     //disabling/enabling this doesn't disable/enable jumping, it just says when the enemy can jump
     private bool canJump;
     public bool stopWhenNotWithinRange = false;
-    private bool stopWhenNotWithinRangeCheck = false;
+    //private bool stopWhenNotWithinRangeCheck = false;
     public bool canSlideFromKnockback;
     private bool canSlideFromKnockbackCheck = false;
     public bool needsToBeVisibleToMove = true;
@@ -121,7 +121,7 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
             needsToBeVisibleToMove = initialNeedsToBeVisibleToMove;
             dirXifNotFollowingPlayer = dirXifNotFollowingPlayerSet;
         }
-        stopWhenNotWithinRangeCheck = false;
+        //stopWhenNotWithinRangeCheck = false;
         canSlideFromKnockbackCheck = false;
     }
 
@@ -134,7 +134,6 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
             jumpSetupTimer -= Time.deltaTime;
             doNotMoveWhileJumpingCheckTimer -= Time.deltaTime;
             attackTimer -= Time.deltaTime;
-            Walk();
             if(jumpsOnPlayerDash) {
                 if(playerTransform.GetComponent<PlayerController>().isDashing2Indicator == true) {
                     JumpSetup();
@@ -175,14 +174,14 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
                 if(setAnimatorFallBool && anim != null) {
                     anim.SetBool("isFalling", false);
                 }
-                isJumping = false;
+                if(isJumping) {
+                    isJumping = false;
+                }
                 isFalling = false;
                 jumpWalking = false;
             }
             if(!touchingGround) {
                 canJump = false;
-            }
-            if(!touchingGround) {
                 if(setAnimatorJumpBool && anim != null) {
                     anim.SetBool("isJumping", true);
                 }
@@ -200,6 +199,7 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
                 }
                 isFalling = false;
             }
+            Walk();
         }
         if(enemyScript.beingKnockedBack) {
             canSlideFromKnockbackCheck = false;
@@ -274,22 +274,20 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
         if(!(doNotMoveWhileJumping && isJumping) && !(needsToBeVisibleToMove && !sr.isVisible) && enemyScript.deathJumpTimer <= 0 && !doNotWalk && doNotMoveWhileJumpingCheckTimer <= 0) {
             if((!onlyMoveWhileJumping && !onlyMoveWhileFalling) || (onlyMoveWhileFalling && isFalling) || (onlyMoveWhileJumping && isJumping)) {
                 if(!((playerTransform.position.x - deadZoneRange < transform.position.x) && (playerTransform.position.x + deadZoneRange > transform.position.x))) {
-                    if(followPlayerWhileWalking && playerTransform.position.x < transform.position.x && enemyScript.health > 0 && enemyScript.beingKnockedBack == false && !(cannotChangeDirectionInAir && isJumping)) {
+                    if(followPlayerWhileWalking && enemyScript.health > 0 && enemyScript.beingKnockedBack == false && !(cannotChangeDirectionInAir && isJumping)) {
                         if(Vector3.Distance(playerTransform.position, transform.position) <= range || !needsToBeWithinRange) {
-                            rb.velocity = new Vector2(movementSpeed * -1, rb.velocity.y);
-                            if(facePlayer) {
-                                transform.localScale = new Vector2(1 * faceDirectionInversionMultiplier, 1);
+                            if(playerTransform.position.x < transform.position.x) {
+                                rb.velocity = new Vector2(movementSpeed * -1, rb.velocity.y);
+                                if(facePlayer) {
+                                    transform.localScale = new Vector2(1 * faceDirectionInversionMultiplier, 1);
+                                }
+
                             }
-                            if(isWalking == false && jumpsOnStartWalking) {
-                                JumpSetup();
-                            }
-                        }
-                    }
-                    if(followPlayerWhileWalking && playerTransform.position.x > transform.position.x && enemyScript.health > 0 && enemyScript.beingKnockedBack == false && !(cannotChangeDirectionInAir && isJumping)) {
-                        if(Vector3.Distance(playerTransform.position, transform.position) <= range || !needsToBeWithinRange) {
-                            rb.velocity = new Vector2(movementSpeed, rb.velocity.y);
-                            if(facePlayer) {
-                                transform.localScale = new Vector2(-1 * faceDirectionInversionMultiplier, 1);
+                            if(playerTransform.position.x > transform.position.x) {
+                                rb.velocity = new Vector2(movementSpeed, rb.velocity.y);
+                                if(facePlayer) {
+                                    transform.localScale = new Vector2(-1 * faceDirectionInversionMultiplier, 1);
+                                }
                             }
                             if(isWalking == false && jumpsOnStartWalking) {
                                 JumpSetup();
@@ -298,6 +296,7 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
                     }
                     if(!followPlayerWhileWalking && enemyScript.health > 0 && enemyScript.beingKnockedBack == false && !(cannotChangeDirectionInAir && isJumping)) {
                         if(Vector3.Distance(playerTransform.position, transform.position) <= range || !needsToBeWithinRange) {
+                            Debug.Log("idkhowthishappened");
                             rb.velocity = new Vector2(movementSpeed * dirXifNotFollowingPlayer, rb.velocity.y);
                             if(isWalking == false && jumpsOnStartWalking) {
                                 JumpSetup();
@@ -308,7 +307,7 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
                         needsToBeVisibleToMove = false;
                     }
                 }
-                if(followPlayerWhileWalking && cannotChangeDirectionInAir && isJumping) {
+                if(followPlayerWhileWalking && cannotChangeDirectionInAir && isJumping && !touchingGround && (Vector3.Distance(playerTransform.position, transform.position) <= range || !needsToBeWithinRange)) {
                     if(playerTransform.position.x < transform.position.x && jumpWalkDirectionIfCannotChangeDirectionInAir == 0 && !jumpWalking) {
                         jumpWalkDirectionIfCannotChangeDirectionInAir = -1;
                     }
@@ -336,16 +335,20 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
                 }
                 isWalking = false;
             }
-            if(stopWhenNotWithinRange && !stopWhenNotWithinRangeCheck) {
-                transform.position = new Vector2(0, 0);
-                stopWhenNotWithinRangeCheck = true;
+            if(stopWhenNotWithinRange) {
+                Debug.Log("seiufjhdsg");
+                if(touchingGround) {
+                    rb.velocity = new Vector2(0, 0);
+                    Debug.Log("stopped");
+                }
+                //stopWhenNotWithinRangeCheck = true;
             }
         }
-        if(stopWhenNotWithinRange) {
-            if(Vector3.Distance(playerTransform.position, transform.position) <= range) {
-                stopWhenNotWithinRangeCheck = false;
-            }
-        }
+        //if(stopWhenNotWithinRange) {
+        //    if(Vector3.Distance(playerTransform.position, transform.position) <= range) {
+        //        stopWhenNotWithinRangeCheck = false;
+        //    }
+        //}
     }
 
     public void JumpSetup() {
