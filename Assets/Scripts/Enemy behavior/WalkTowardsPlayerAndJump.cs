@@ -296,7 +296,6 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
                     }
                     if(!followPlayerWhileWalking && enemyScript.health > 0 && enemyScript.beingKnockedBack == false && !(cannotChangeDirectionInAir && isJumping)) {
                         if(Vector3.Distance(playerTransform.position, transform.position) <= range || !needsToBeWithinRange) {
-                            Debug.Log("idkhowthishappened");
                             rb.velocity = new Vector2(movementSpeed * dirXifNotFollowingPlayer, rb.velocity.y);
                             if(isWalking == false && jumpsOnStartWalking) {
                                 JumpSetup();
@@ -336,10 +335,8 @@ public class WalkTowardsPlayerAndJump : MonoBehaviour {
                 isWalking = false;
             }
             if(stopWhenNotWithinRange) {
-                Debug.Log("seiufjhdsg");
                 if(touchingGround) {
                     rb.velocity = new Vector2(0, 0);
-                    Debug.Log("stopped");
                 }
                 //stopWhenNotWithinRangeCheck = true;
             }

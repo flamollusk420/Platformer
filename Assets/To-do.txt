@@ -1,0 +1,2 @@
+-bullets fade out too slowly
+-background moves too fast when walking after a dash jump
