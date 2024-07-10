@@ -319,6 +319,7 @@ public class PlayerController : MonoBehaviour {
         }
         if(isDashJumping2 && (isDamaging || touchingWall || (touchingGround && !isDashJumping))) {
             styleDeductionCancelTimer = 0.25f;
+            isDashJumping2 = false;
         }
         if(isDamaging || isDashJumping || isExitingDownDash || isExitingUpDash) {
             if(playerDashCollider.canDoDamage == false && playerDashCollider.canDoDamage2 == false) {

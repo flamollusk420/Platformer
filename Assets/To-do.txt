@@ -1,3 +1,1 @@
--bullets fade out too slowly
--background moves too fast when walking after a dash jump
 -make it harder to get style by just hitting a static enemy with a melee attack until it dies
