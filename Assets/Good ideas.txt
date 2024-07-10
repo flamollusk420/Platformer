@@ -7,7 +7,7 @@ mechanic ideas:
 -finding collectibles in levels gives you style points
 -ultrakill-style end-of-level ranking
 -s-ranking levels makes the music at the ranking screen cooler with more instruments
--style bonuses for beating a level without dying, beating a level without getting hit, and beating a level without healing
+-style bonuses for beating a level without dying, beating a level without getting hit, beating a level without healing, and killing every enemy in a level
 -same for beating a boss without getting hit and beating a boss without healing
 
 random stuff to do:

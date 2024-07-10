@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour {
     public GameObject hostEnemy;
     public AudioClip customDeathSound;
     private LayerMask ground;
+    private LayerMask enemies;
 
     public float customDeathSoundVolume = 1;
     public float effectTimer;
@@ -44,6 +45,13 @@ public class Enemy : MonoBehaviour {
     public float defaultGravity = 4;
     public float startingX = 0;
     public float startingY = 0;
+    public bool detectCollisionsWithEnemies;
+    private bool touchingOtherEnemies;
+    public Transform enemyCheck;
+    public float enemyCheckSizeX;
+    public float enemyCheckSizeY;
+    public float enemyCheckOffsetX;
+    public float enemyCheckOffsetY;
     public bool setAnimJumpBoolOnDeathJump;
     public bool hasHitEffect = true;
     public bool onlySpawnIfDisabled = false;
@@ -91,6 +99,7 @@ public class Enemy : MonoBehaviour {
         soundManager = GameObject.FindWithTag("SoundManager").GetComponent<SoundManager>();
         musicManager = GameObject.FindWithTag("MusicManager").GetComponent<MusicManager>();
         ground = LayerMask.GetMask("Ground");
+        enemies = LayerMask.GetMask("Enemies");
         if(!dontKillEnemy) {
             gameObject.SetActive(false);
         }
@@ -139,7 +148,10 @@ public class Enemy : MonoBehaviour {
     void FixedUpdate() {
         HealthCheck();
         UpdateEffect();
-        DetectGround();
+        CheckCollisions();
+        if(touchingOtherEnemies) {
+            Debug.Log("boing boing motherfucker");
+        }
         if(player.respawned) {
             gameObject.SetActive(false);
         }
@@ -244,10 +256,13 @@ public class Enemy : MonoBehaviour {
         rb.velocity = new Vector2(0, deathJumpStrength);
     }
 
-    private void DetectGround() {
+    private void CheckCollisions() {
         if(startCompleted) {
             touchingGround = Physics2D.Raycast(new Vector2(transform.position.x + groundCheckOffsetX, transform.position.y), transform.up * -1, groundCheckLength, ground);
             touchingWall = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + wallCheckOffsetY + (sr.bounds.size.x / 2)), transform.right * wallCheckDirectionMultiplier, wallCheckLength, ground);
+            if(detectCollisionsWithEnemies) {
+                touchingOtherEnemies = Physics2D.OverlapBox(new Vector2(enemyCheck.position.x + enemyCheckOffsetX, enemyCheck.position.y + enemyCheckOffsetY), new Vector2(enemyCheckSizeX, enemyCheckSizeY), 0, enemies);
+            }
         }
     }
 

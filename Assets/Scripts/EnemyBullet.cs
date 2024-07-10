@@ -25,6 +25,7 @@ public class EnemyBullet : MonoBehaviour {
     public bool parryable = true;
     public bool hasBeenParried = false;
     public bool fadingOut = false;
+    private float fadeOutSpeed = 0.1f;
     public bool stopped = false;
     public bool piercing = false;
     public bool transitionComplete = false;
@@ -74,7 +75,7 @@ public class EnemyBullet : MonoBehaviour {
             fadeOutTimer -= Time.deltaTime;
             if(fadeOutTimer <= 0) {
                 fadeOutTimer = fadeOutTimerSet;
-                GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, GetComponent<SpriteRenderer>().color.a - 0.1f);
+                GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, GetComponent<SpriteRenderer>().color.a - fadeOutSpeed);
             }
             if(GetComponent<SpriteRenderer>().color.a <= 0) {
                 gameObject.SetActive(false);
@@ -205,13 +206,12 @@ public class EnemyBullet : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collision) {
         if(collision.CompareTag("Border")) {
-            stopped = true;
-            fadingOut = true;
-            fadeOutTimer = fadeOutTimerSet;
+            gameObject.SetActive(false);
         }
         if(collision.CompareTag("Level") && !canTouchLevel) {
             stopped = true;
             fadingOut = true;
+            fadeOutSpeed = 0.3f;
             fadeOutTimer = fadeOutTimerSet;
         }
         if(collision.CompareTag("PlayerSecondaryCollider") && player != null && !stopped) {
@@ -224,6 +224,7 @@ public class EnemyBullet : MonoBehaviour {
                     player.ResetStyleDeductionTimer();
                     stopped = true;
                     fadingOut = true;
+                    fadeOutSpeed = 0.35f;
                     fadeOutTimer = fadeOutTimerSet;
                 }
             }
@@ -233,6 +234,7 @@ public class EnemyBullet : MonoBehaviour {
                 player.style += 1;
                 stopped = true;
                 fadingOut = true;
+                fadeOutSpeed = 0.35f;
                 fadeOutTimer = fadeOutTimerSet;
             }
         }
@@ -240,6 +242,7 @@ public class EnemyBullet : MonoBehaviour {
             if(!collision.GetComponent<PlayerBullet>().fadingOut && !collision.GetComponent<PlayerBullet>().stopped && !fadingOut && !stopped) {
                 stopped = true;
                 fadingOut = true;
+                fadeOutSpeed = 0.1f;
                 fadeOutTimer = fadeOutTimerSet;
                 gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.5f);
                 collision.GetComponent<PlayerBullet>().stopped = true;
@@ -283,6 +286,7 @@ public class EnemyBullet : MonoBehaviour {
                     player.style += timesParried * timesParried;
                     collision.GetComponent<Enemy>().Hit((damageDealt * 1.5f) * timesParried);
                     fadingOut = true;
+                    fadeOutSpeed = 0.35f;
                     stopped = true;
                 }
             }

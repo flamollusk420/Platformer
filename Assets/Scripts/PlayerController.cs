@@ -433,7 +433,7 @@ public class PlayerController : MonoBehaviour {
         if(exitDownDashTimer <= 0) {
             isExitingDownDash = false;
         }
-        if(wallJumpTimer <= 0 && wallJumping) {
+        if(wallJumpTimer <= 0) {
             wallJumping = false;
         }
         if(meleeTimer <= 0 && isMeleeAttacking) {

@@ -14,6 +14,7 @@ public class PlayerBullet : MonoBehaviour {
     public float dirX = 0;
     public float dirY = 0;
     public bool fadingOut = false;
+    private float fadeOutSpeed = 0.1f;
     public bool stopped = false;
     public bool piercing = false;
     public bool transitionComplete = false;
@@ -44,7 +45,7 @@ public class PlayerBullet : MonoBehaviour {
             fadeOutTimer -= Time.deltaTime;
             if(fadeOutTimer <= 0) {
                 fadeOutTimer = fadeOutTimerSet;
-                GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, GetComponent<SpriteRenderer>().color.a - 0.1f);
+                GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, GetComponent<SpriteRenderer>().color.a - fadeOutSpeed);
             }
             if(GetComponent<SpriteRenderer>().color.a <= 0) {
                 gameObject.SetActive(false);
@@ -144,6 +145,7 @@ public class PlayerBullet : MonoBehaviour {
         if(collision.gameObject.CompareTag("Level")) {
             stopped = true;
             fadingOut = true;
+            fadeOutSpeed = 0.3f;
             fadeOutTimer = fadeOutTimerSet;
         }
         if(collision.gameObject.CompareTag("Enemies") && !stopped) {
@@ -173,6 +175,7 @@ public class PlayerBullet : MonoBehaviour {
                 if(!piercing) {
                     stopped = true;
                     fadingOut = true;
+                    fadeOutSpeed = 0.35f;
                     fadeOutTimer = fadeOutTimerSet2;
                 }
                 player.sp += 1;

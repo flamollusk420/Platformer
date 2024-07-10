@@ -8,6 +8,7 @@ public class PlayerMeleeCollider : MonoBehaviour {
     private float damageDealt;
     private float dirX;
     public bool canDoDamage;
+    private bool canDoDamage2;
 
     void Start() {
         soundManager = GameObject.FindWithTag("SoundManager").GetComponent<SoundManager>();
@@ -20,40 +21,42 @@ public class PlayerMeleeCollider : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.gameObject.CompareTag("Enemies") && collision.GetComponent<Enemy>() != null && canDoDamage && !player.recoiling) {
-            Enemy enemyScript = collision.GetComponent<Enemy>();
-            if(player.sp < player.maxSP && enemyScript.canTakeDamage) {
-                player.sp += 2;
-                if(enemyScript.beingKnockedBack) {
-                    player.style += 8;
-                }
-            }
-            if(enemyScript.canTakeDamage) {
-                player.style += 3;
-                player.ResetStyleDeductionTimer();
-                if(player.touchingWall && player.GetComponent<Rigidbody2D>().velocity.y < 0) {
-                    player.style += 2;
-                    player.sp += 1;
-                }
-                if(enemyScript.health - damageDealt <= 0) {
-                    player.style += 1;
-                    if(enemyScript.health == enemyScript.maxHealth) {
-                        player.style += 2;
+        if((collision.gameObject.CompareTag("Enemies")) && ((player.facingDirX == 1 && collision.transform.position.x >= player.transform.position.x) || (player.facingDirX == -1 && collision.transform.position.x <= player.transform.position.x))) {
+            if(collision.GetComponent<Enemy>() != null && canDoDamage && !player.recoiling) {
+                Enemy enemyScript = collision.GetComponent<Enemy>();
+                if(player.sp < player.maxSP && enemyScript.canTakeDamage) {
+                    player.sp += 2;
+                    if(enemyScript.beingKnockedBack) {
+                        player.style += 8;
                     }
                 }
-                if(enemyScript.health - (damageDealt + 1) <= 0 && (collision.gameObject.GetComponent<Rigidbody2D>().velocity.y < -0.2f || collision.gameObject.GetComponent<Rigidbody2D>().velocity.y > 0.2f)) {
-                    player.style += 2;
-                    if(enemyScript.health == enemyScript.maxHealth) {
+                if(enemyScript.canTakeDamage) {
+                    player.style += 3;
+                    player.ResetStyleDeductionTimer();
+                    if(player.touchingWall && player.GetComponent<Rigidbody2D>().velocity.y < 0) {
                         player.style += 2;
                         player.sp += 1;
                     }
+                    if(enemyScript.health - damageDealt <= 0) {
+                        player.style += 1;
+                        if(enemyScript.health == enemyScript.maxHealth) {
+                            player.style += 2;
+                        }
+                    }
+                    if(enemyScript.health - (damageDealt + 1) <= 0 && (collision.gameObject.GetComponent<Rigidbody2D>().velocity.y < -0.2f || collision.gameObject.GetComponent<Rigidbody2D>().velocity.y > 0.2f)) {
+                        player.style += 2;
+                        if(enemyScript.health == enemyScript.maxHealth) {
+                            player.style += 2;
+                            player.sp += 1;
+                        }
+                    }
                 }
-            }
-            enemyScript.Hit(damageDealt);
-            soundManager.PlayClip(soundManager.PlayerMeleeHit, transform, 1f);
-            if(enemyScript.canBeKnockedBack) {
-                if(!(enemyScript.getStunnedInsteadOfBeingKnockedBack && enemyScript.knockbackTimer > 0)) {
-                    enemyScript.KnockBack(false, dirX, 0, 0);
+                enemyScript.Hit(damageDealt);
+                soundManager.PlayClip(soundManager.PlayerMeleeHit, transform, 1f);
+                if(enemyScript.canBeKnockedBack) {
+                    if(!(enemyScript.getStunnedInsteadOfBeingKnockedBack && enemyScript.knockbackTimer > 0)) {
+                        enemyScript.KnockBack(false, dirX, 0, 0);
+                    }
                 }
             }
         }
