@@ -371,6 +371,11 @@ public class PlayerController : MonoBehaviour {
         }
         if(isDashing2 && isDamaging) {
             touchingWall = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.65f), transform.right * facingDirX, 0, ground);
+            if(isDashing && jumpsLeft < 2) {
+                if(!beingKnockedBack) {
+                    jumpsLeft = 1;
+                }
+            }
         }
     }
 
