@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour {
     private Pause pauseUI;
     public PlayerMeleeCollider playerMeleeCollider;
     public PlayerDashCollider playerDashCollider;
+    [HideInInspector]
+    public PhysicsMaterial2D customEnemyCheckColliderMaterial;
 
     public float movementSpeed;
     public float dashSpeed;
@@ -161,6 +163,7 @@ public class PlayerController : MonoBehaviour {
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         groundCheck = GameObject.FindWithTag("PlayerGroundCheck").GetComponent<Transform>();
+        customEnemyCheckColliderMaterial = GetComponent<BoxCollider2D>().sharedMaterial;
         healthBar = GameObject.FindWithTag("HealthBarUI").GetComponent<AdjustableUIBar>();
         spBar = GameObject.FindWithTag("SPBarUI").GetComponent<AdjustableUIBar>();
         styleBar = GameObject.FindWithTag("StyleBarUI").GetComponent<AdjustableUIBar>();
@@ -192,7 +195,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void MovePlayer() {
-        if(isWalking && !wallJumping && !(touchingWall && dirX == wallFacingDirX * -1) && !(touchingWall && isDashing) && !(isDashJumping2 && dirX == dashJumpFacingDirX && Mathf.Abs(rb.velocity.x) > 0.2f) && !isExploding && !beingKnockedBack && !isShootingFireWave) {
+        if(isWalking && !wallJumping && !(touchingWall && dirX == wallFacingDirX * -1) && !(touchingWall && isDashing) && !(isDashJumping2 && dirX == dashJumpFacingDirX && Mathf.Abs(rb.velocity.x) > 0.2f) && !isExploding && !beingKnockedBack && !isShootingFireWave && !isExitingDownDash) {
             rb.velocity = new Vector2(movementSpeed * dirX, rb.velocity.y);
         }
         if(isWalking && wallJumping && !isExploding && !beingKnockedBack && !isShootingFireWave) {
@@ -556,7 +559,7 @@ public class PlayerController : MonoBehaviour {
         if(fullHeal) {
             health = maxHealth;
         }
-        soundManager.PlayClip(soundManager.PlayerHeal, transform, 1);
+        soundManager.PlayClip(soundManager.PlayerHeal, transform, 3.5f);
     }
 
     public void OnHeal() {

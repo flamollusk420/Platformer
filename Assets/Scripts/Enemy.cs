@@ -5,16 +5,17 @@ using UnityEngine;
 public class Enemy : MonoBehaviour {
     private SoundManager soundManager;
     private MusicManager musicManager;
-    private SpriteRenderer sr;
+    [HideInInspector]
+    public SpriteRenderer sr;
     private Animator anim;
     private Transform playerTR;
     private PlayerController player;
-    private Rigidbody2D rb;
+    [HideInInspector]
+    public Rigidbody2D rb;
     public GameObject objectToModify;
     public GameObject hostEnemy;
     public AudioClip customDeathSound;
     private LayerMask ground;
-    private LayerMask enemies;
 
     public float customDeathSoundVolume = 1;
     public float effectTimer;
@@ -45,11 +46,21 @@ public class Enemy : MonoBehaviour {
     public float defaultGravity = 4;
     public float startingX = 0;
     public float startingY = 0;
-    public bool detectCollisionsWithEnemies;
+    public bool detectCollisionsWithEnemies = true;
     private bool touchingOtherEnemies;
-    public Transform enemyCheck;
+    public bool useCustomEnemyCheckCollider = false;
+    public BoxCollider2D customEnemyCheckCollider;
+    public bool cannotBeLaunchedByEnemyOnEnemyCollisions = false;
+    [HideInInspector]
+    public PhysicsMaterial2D customEnemyCheckColliderMaterial;
+    [HideInInspector]
+    public GameObject enemyOnEnemyColliderGameObject;
+    private bool hasEnemyOnEnemyCollider;
     public float enemyCheckSizeX;
     public float enemyCheckSizeY;
+    //displayEnemyCheckSizeX and displayEnemyCheckSizeY just show in the inspector how big sr.bounds.size.x and sr.bounds.size.y are respectively
+    public float displayEnemyCheckSizeX;
+    public float displayEnemyCheckSizeY;
     public float enemyCheckOffsetX;
     public float enemyCheckOffsetY;
     public bool setAnimJumpBoolOnDeathJump;
@@ -64,6 +75,10 @@ public class Enemy : MonoBehaviour {
     public bool beingKnockedBack;
     [HideInInspector]
     public bool canTakeDamage = true;
+    [HideInInspector]
+    public bool canCurrentlyBeKnockedBack = true;
+    private float canBeKnockedBackAgainTimer;
+    private float canBeKnockedBackAgainTimerSet = 0.2f;
     public float knockbackStrengthX = 15;
     public float knockbackStrengthY = 15;
     public bool dontKillEnemy = false;
@@ -99,7 +114,13 @@ public class Enemy : MonoBehaviour {
         soundManager = GameObject.FindWithTag("SoundManager").GetComponent<SoundManager>();
         musicManager = GameObject.FindWithTag("MusicManager").GetComponent<MusicManager>();
         ground = LayerMask.GetMask("Ground");
-        enemies = LayerMask.GetMask("Enemies");
+        if(GetComponent<BoxCollider2D>() != null) {
+            customEnemyCheckCollider = GetComponent<BoxCollider2D>();
+        }
+        if(enemyCheckSizeX == 0 || enemyCheckSizeY == 0) {
+            enemyCheckSizeX = sr.bounds.size.x;
+            enemyCheckSizeY = sr.bounds.size.y;
+        }
         if(!dontKillEnemy) {
             gameObject.SetActive(false);
         }
@@ -115,11 +136,13 @@ public class Enemy : MonoBehaviour {
             initialLockY = true;
         }
         wallCheckDirectionMultiplierSet = wallCheckDirectionMultiplier;
+        customEnemyCheckColliderMaterial = player.customEnemyCheckColliderMaterial;
         startCompleted = true;
     }
 
     void OnEnable() {
         sr = GetComponent<SpriteRenderer>();
+        hasEnemyOnEnemyCollider = false;
         if(health <= 0) {
             health = maxHealth;
         }
@@ -149,15 +172,13 @@ public class Enemy : MonoBehaviour {
         HealthCheck();
         UpdateEffect();
         CheckCollisions();
-        if(touchingOtherEnemies) {
-            Debug.Log("boing boing motherfucker");
-        }
         if(player.respawned) {
             gameObject.SetActive(false);
         }
         initialNonDamageTimer -= Time.deltaTime;
         fastKillTimer -= Time.deltaTime;
         invincibilityTimer -= Time.deltaTime;
+        canBeKnockedBackAgainTimer -= Time.deltaTime;
     }
 
     private void HealthCheck() {
@@ -261,12 +282,31 @@ public class Enemy : MonoBehaviour {
             touchingGround = Physics2D.Raycast(new Vector2(transform.position.x + groundCheckOffsetX, transform.position.y), transform.up * -1, groundCheckLength, ground);
             touchingWall = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + wallCheckOffsetY + (sr.bounds.size.x / 2)), transform.right * wallCheckDirectionMultiplier, wallCheckLength, ground);
             if(detectCollisionsWithEnemies) {
-                touchingOtherEnemies = Physics2D.OverlapBox(new Vector2(enemyCheck.position.x + enemyCheckOffsetX, enemyCheck.position.y + enemyCheckOffsetY), new Vector2(enemyCheckSizeX, enemyCheckSizeY), 0, enemies);
+                if(!hasEnemyOnEnemyCollider && sr.isVisible) {
+                    hasEnemyOnEnemyCollider = true;
+                    enemyOnEnemyColliderGameObject = EnemyOnEnemyColliderObjectPool.instance.GetPooledObject();
+                    enemyOnEnemyColliderGameObject.SetActive(true);
+                    enemyOnEnemyColliderGameObject.transform.position = transform.position;
+                    Enemy enemyToUse = GetComponent<Enemy>();
+                    if(useCustomEnemyCheckCollider) {
+                        enemyOnEnemyColliderGameObject.GetComponent<EnemyOnEnemyCollider>().CreateCollider(enemyCheckOffsetX, enemyCheckOffsetY, enemyCheckSizeX, enemyCheckSizeY, true, customEnemyCheckCollider, gameObject.GetComponent<Enemy>());
+                    }
+                    if(!useCustomEnemyCheckCollider) {
+                        enemyOnEnemyColliderGameObject.GetComponent<EnemyOnEnemyCollider>().CreateCollider(enemyCheckOffsetX, enemyCheckOffsetY, enemyCheckSizeX, enemyCheckSizeY, false, null, gameObject.GetComponent<Enemy>());
+                    }
+                }
+                if(hasEnemyOnEnemyCollider && !sr.isVisible) {
+                    hasEnemyOnEnemyCollider = false;
+                    enemyOnEnemyColliderGameObject.SetActive(false);
+                }
             }
         }
     }
 
     private void OnDrawGizmos() {
+        displayEnemyCheckSizeX = GetComponent<SpriteRenderer>().bounds.size.x;
+        displayEnemyCheckSizeY = GetComponent<SpriteRenderer>().bounds.size.y;
+        Gizmos.DrawWireCube(new Vector2(transform.position.x + enemyCheckOffsetX, transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y / 2 + enemyCheckOffsetY), new Vector3(enemyCheckSizeX, enemyCheckSizeY, 0.25f));
         Gizmos.DrawLine(new Vector2(transform.position.x + groundCheckOffsetX, transform.position.y), new Vector2(transform.position.x + groundCheckOffsetX, transform.position.y - groundCheckLength));
         Gizmos.DrawLine(new Vector2(transform.position.x, transform.position.y + wallCheckOffsetY + (GetComponent<SpriteRenderer>().bounds.size.x / 2)), new Vector2(transform.position.x + (wallCheckLength * wallCheckDirectionMultiplier), transform.position.y + wallCheckOffsetY + (GetComponent<SpriteRenderer>().bounds.size.x / 2)));
     }
@@ -286,10 +326,10 @@ public class Enemy : MonoBehaviour {
                 player.ResetStyleDeductionTimer();
                 Hit(4);
                 if(player.transform.position.x < transform.position.x) {
-                    KnockBack(false, 1, 0, 0);
+                    KnockBack(false, false, null, 1, 0, 0, 1, 1);
                 }
                 if(player.transform.position.x > transform.position.x) {
-                    KnockBack(false, -1, 0, 0);
+                    KnockBack(false, false, null, -1, 0, 0, 1, 1);
                 }
             }
         }
@@ -381,42 +421,58 @@ public class Enemy : MonoBehaviour {
                 }
             }
         }
+        if(canBeKnockedBackAgainTimer <= 0 && !canCurrentlyBeKnockedBack) {
+            canCurrentlyBeKnockedBack = true;
+        }
         if(invincibilityTimer <= 0 && invincible && invincibilityTimerSet != 0) {
             invincible = false;
         }
     }
 
-    public void KnockBack(bool customKnockBack, float knockbackDirX, float customKnockBackX, float customKnockBackY) {
-        if(health > 0) {
+    public void KnockBack(bool customKnockBack, bool enemyOnEnemyKnockback, Transform enemyTransform, float knockbackDirX, float customKnockBackX, float customKnockBackY, float knockBackMultiplierX, float knockBackMultiplierY) {
+        if(health > 0 && canCurrentlyBeKnockedBack) {
+            canBeKnockedBackAgainTimer = canBeKnockedBackAgainTimerSet;
+            canCurrentlyBeKnockedBack = false;
             if(!getStunnedInsteadOfBeingKnockedBack) {
                 if(!usePositionDependentAirKnockback || (usePositionDependentAirKnockback && touchingGround)) {
                     beingKnockedBack = true;
                     if(!customKnockBack) {
-                        rb.velocity = new Vector2(knockbackStrengthX * knockbackDirX, knockbackStrengthY);
+                        rb.velocity = new Vector2(knockbackStrengthX * knockbackDirX * knockBackMultiplierX, knockbackStrengthY * knockBackMultiplierY);
                     }
                     if(customKnockBack) {
-                        rb.velocity = new Vector2(customKnockBackX * knockbackDirX, customKnockBackY);
+                        rb.velocity = new Vector2(customKnockBackX * knockbackDirX * knockBackMultiplierX, customKnockBackY * knockBackMultiplierY);
                     }
                 }
                 if(usePositionDependentAirKnockback && !touchingGround) {
                     beingKnockedBack = true;
                     float airKnockbackDirY = 0;
-                    if(playerTR.position.y > transform.position.y) {
-                        airKnockbackDirY = -1;
-                        player.style += 3;
+                    if(!enemyOnEnemyKnockback) {
+                        if(playerTR.position.y > transform.position.y) {
+                            airKnockbackDirY = -1;
+                            player.style += 3;
+                        }
+                        if(playerTR.position.y <= transform.position.y) {
+                            airKnockbackDirY = 1;
+                        }
                     }
-                    if(playerTR.position.y <= transform.position.y) {
-                        airKnockbackDirY = 1;
+                    if(enemyOnEnemyKnockback) {
+                        if(transform.position.y > enemyTransform.position.y) {
+                            airKnockbackDirY = -1;
+                            player.style += 8;
+                        }
+                        if(transform.position.y <= enemyTransform.position.y) {
+                            airKnockbackDirY = 1;
+                        }
                     }
                     if(useZeroGravityPositionDependentAirKnockback) {
                         airKnockbackDirY = 0;
                         rb.gravityScale = 0;
                     }
                     if(!customKnockBack) {
-                        rb.velocity = new Vector2((knockbackStrengthX * airKnockbackMultiplierX) * knockbackDirX, (knockbackStrengthY * airKnockbackMultiplierY) * airKnockbackDirY);
+                        rb.velocity = new Vector2((knockbackStrengthX * airKnockbackMultiplierX) * knockbackDirX * knockBackMultiplierX, (knockbackStrengthY * airKnockbackMultiplierY) * airKnockbackDirY * knockBackMultiplierY);
                     }
                     if(customKnockBack) {
-                        rb.velocity = new Vector2((customKnockBackX * airKnockbackMultiplierX) * knockbackDirX, (customKnockBackY * airKnockbackMultiplierY) * airKnockbackDirY);
+                        rb.velocity = new Vector2((customKnockBackX * airKnockbackMultiplierX) * knockbackDirX * knockBackMultiplierX, (customKnockBackY * airKnockbackMultiplierY) * airKnockbackDirY * knockBackMultiplierY);
                     }
                 }
             }

@@ -1,1 +1,3 @@
 -make it harder to get style by just hitting a static enemy with a melee attack until it dies
+-fix style ranks (goes from f to c for some reason)
+-0.25, -3

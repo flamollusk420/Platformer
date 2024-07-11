@@ -470,6 +470,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d142b84fb239b7f4999c86e4068bf44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
+  rb: {fileID: 0}
   objectToModify: {fileID: 0}
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
@@ -497,10 +499,16 @@ MonoBehaviour:
   defaultGravity: 4
   startingX: 45
   startingY: -2
-  detectCollisionsWithEnemies: 0
-  enemyCheck: {fileID: 0}
+  detectCollisionsWithEnemies: 1
+  useCustomEnemyCheckCollider: 0
+  customEnemyCheckCollider: {fileID: 0}
+  cannotBeLaunchedByEnemyOnEnemyCollisions: 0
+  customEnemyCheckColliderMaterial: {fileID: 0}
+  enemyOnEnemyColliderGameObject: {fileID: 0}
   enemyCheckSizeX: 0
   enemyCheckSizeY: 0
+  displayEnemyCheckSizeX: 0
+  displayEnemyCheckSizeY: 0
   enemyCheckOffsetX: 0
   enemyCheckOffsetY: 0
   setAnimJumpBoolOnDeathJump: 0
@@ -511,6 +519,7 @@ MonoBehaviour:
   getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 0
   canTakeDamage: 1
+  canCurrentlyBeKnockedBack: 1
   knockbackStrengthX: 15
   knockbackStrengthY: 15
   dontKillEnemy: 0
@@ -786,7 +795,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58282544}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.9499998, y: -0.75, z: -10.068307}
+  m_LocalPosition: {x: 28.3, y: -1.45, z: -10.068307}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1148,6 +1157,7 @@ Transform:
   - {fileID: 1636002617}
   - {fileID: 964154201}
   - {fileID: 1419900432}
+  - {fileID: 305703279}
   m_Father: {fileID: 519420032}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1256,6 +1266,77 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &305703277
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 305703279}
+  - component: {fileID: 305703278}
+  - component: {fileID: 305703280}
+  m_Layer: 0
+  m_Name: EnemyOnEnemyCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!61 &305703278
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305703277}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!4 &305703279
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305703277}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 245076610}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &305703280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305703277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ff1c2e50331d624bb4894bc043f1323, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &331998420
 GameObject:
   m_ObjectHideFlags: 0
@@ -1868,7 +1949,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.7591667, y: -0.5441036, z: -10.068307}
+  m_LocalPosition: {x: 28.3, y: -0.54410386, z: -10.068307}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2742,7 +2823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &753549877
 Transform:
   m_ObjectHideFlags: 0
@@ -2787,6 +2868,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d142b84fb239b7f4999c86e4068bf44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
+  rb: {fileID: 0}
   objectToModify: {fileID: 0}
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
@@ -2814,10 +2897,16 @@ MonoBehaviour:
   defaultGravity: 4
   startingX: 43
   startingY: 0
-  detectCollisionsWithEnemies: 0
-  enemyCheck: {fileID: 0}
+  detectCollisionsWithEnemies: 1
+  useCustomEnemyCheckCollider: 0
+  customEnemyCheckCollider: {fileID: 0}
+  cannotBeLaunchedByEnemyOnEnemyCollisions: 0
+  customEnemyCheckColliderMaterial: {fileID: 0}
+  enemyOnEnemyColliderGameObject: {fileID: 0}
   enemyCheckSizeX: 0
   enemyCheckSizeY: 0
+  displayEnemyCheckSizeX: 3.25
+  displayEnemyCheckSizeY: 4
   enemyCheckOffsetX: 0
   enemyCheckOffsetY: 0
   setAnimJumpBoolOnDeathJump: 0
@@ -2828,9 +2917,10 @@ MonoBehaviour:
   getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 0
   canTakeDamage: 1
+  canCurrentlyBeKnockedBack: 1
   knockbackStrengthX: 15
   knockbackStrengthY: 15
-  dontKillEnemy: 0
+  dontKillEnemy: 1
   dontResetColor: 0
   immuneToDamageAreas: 0
   freezeXonStun: 1
@@ -2912,7 +3002,7 @@ MonoBehaviour:
   jumpsOnPlayerMelee: 0
   jumpsOnPlayerShoot: 0
   stopOnLand: 0
-  stopWhenNotWithinRange: 0
+  stopWhenNotWithinRange: 1
   canSlideFromKnockback: 0
   needsToBeVisibleToMove: 1
   disableNeedingVisibilityAfterMoving: 1
@@ -4650,7 +4740,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.499
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5699,6 +5789,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d142b84fb239b7f4999c86e4068bf44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
+  rb: {fileID: 0}
   objectToModify: {fileID: 0}
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
@@ -5726,10 +5818,16 @@ MonoBehaviour:
   defaultGravity: 4
   startingX: 18
   startingY: -3.5
-  detectCollisionsWithEnemies: 0
-  enemyCheck: {fileID: 0}
+  detectCollisionsWithEnemies: 1
+  useCustomEnemyCheckCollider: 0
+  customEnemyCheckCollider: {fileID: 0}
+  cannotBeLaunchedByEnemyOnEnemyCollisions: 0
+  customEnemyCheckColliderMaterial: {fileID: 0}
+  enemyOnEnemyColliderGameObject: {fileID: 0}
   enemyCheckSizeX: 0
   enemyCheckSizeY: 0
+  displayEnemyCheckSizeX: 0
+  displayEnemyCheckSizeY: 0
   enemyCheckOffsetX: 0
   enemyCheckOffsetY: 0
   setAnimJumpBoolOnDeathJump: 0
@@ -5740,6 +5838,7 @@ MonoBehaviour:
   getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 0
   canTakeDamage: 1
+  canCurrentlyBeKnockedBack: 1
   knockbackStrengthX: 15
   knockbackStrengthY: 15
   dontKillEnemy: 0
@@ -6158,7 +6257,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1404706892}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 45, y: -2, z: 9.892037}
+  m_LocalPosition: {x: 20.11, y: -4.82, z: 9.892037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6198,6 +6297,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d142b84fb239b7f4999c86e4068bf44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
+  rb: {fileID: 0}
   objectToModify: {fileID: 0}
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
@@ -6225,10 +6326,16 @@ MonoBehaviour:
   defaultGravity: 4
   startingX: 45
   startingY: -2
-  detectCollisionsWithEnemies: 0
-  enemyCheck: {fileID: 0}
-  enemyCheckSizeX: 0
-  enemyCheckSizeY: 0
+  detectCollisionsWithEnemies: 1
+  useCustomEnemyCheckCollider: 0
+  customEnemyCheckCollider: {fileID: 1404706897}
+  cannotBeLaunchedByEnemyOnEnemyCollisions: 0
+  customEnemyCheckColliderMaterial: {fileID: 0}
+  enemyOnEnemyColliderGameObject: {fileID: 0}
+  enemyCheckSizeX: 2
+  enemyCheckSizeY: 2
+  displayEnemyCheckSizeX: 2
+  displayEnemyCheckSizeY: 2
   enemyCheckOffsetX: 0
   enemyCheckOffsetY: 0
   setAnimJumpBoolOnDeathJump: 0
@@ -6239,6 +6346,7 @@ MonoBehaviour:
   getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 0
   canTakeDamage: 1
+  canCurrentlyBeKnockedBack: 1
   knockbackStrengthX: 15
   knockbackStrengthY: 15
   dontKillEnemy: 1
@@ -7159,6 +7267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d142b84fb239b7f4999c86e4068bf44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
+  rb: {fileID: 0}
   objectToModify: {fileID: 0}
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
@@ -7186,10 +7296,16 @@ MonoBehaviour:
   defaultGravity: 4
   startingX: 43
   startingY: 0
-  detectCollisionsWithEnemies: 0
-  enemyCheck: {fileID: 0}
+  detectCollisionsWithEnemies: 1
+  useCustomEnemyCheckCollider: 0
+  customEnemyCheckCollider: {fileID: 0}
+  cannotBeLaunchedByEnemyOnEnemyCollisions: 0
+  customEnemyCheckColliderMaterial: {fileID: 0}
+  enemyOnEnemyColliderGameObject: {fileID: 0}
   enemyCheckSizeX: 0
   enemyCheckSizeY: 0
+  displayEnemyCheckSizeX: 0
+  displayEnemyCheckSizeY: 0
   enemyCheckOffsetX: 0
   enemyCheckOffsetY: 0
   setAnimJumpBoolOnDeathJump: 1
@@ -7200,6 +7316,7 @@ MonoBehaviour:
   getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 0
   canTakeDamage: 1
+  canCurrentlyBeKnockedBack: 1
   knockbackStrengthX: 15
   knockbackStrengthY: 15
   dontKillEnemy: 1
@@ -7710,6 +7827,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d142b84fb239b7f4999c86e4068bf44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
+  rb: {fileID: 0}
   objectToModify: {fileID: 0}
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
@@ -7738,9 +7857,15 @@ MonoBehaviour:
   startingX: 0
   startingY: 0
   detectCollisionsWithEnemies: 0
-  enemyCheck: {fileID: 0}
+  useCustomEnemyCheckCollider: 1
+  customEnemyCheckCollider: {fileID: 0}
+  cannotBeLaunchedByEnemyOnEnemyCollisions: 0
+  customEnemyCheckColliderMaterial: {fileID: 0}
+  enemyOnEnemyColliderGameObject: {fileID: 0}
   enemyCheckSizeX: 0
   enemyCheckSizeY: 0
+  displayEnemyCheckSizeX: 0
+  displayEnemyCheckSizeY: 0
   enemyCheckOffsetX: 0
   enemyCheckOffsetY: 0
   setAnimJumpBoolOnDeathJump: 0
@@ -7751,6 +7876,7 @@ MonoBehaviour:
   getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 0
   canTakeDamage: 1
+  canCurrentlyBeKnockedBack: 1
   knockbackStrengthX: 15
   knockbackStrengthY: 15
   dontKillEnemy: 1
@@ -8180,6 +8306,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d142b84fb239b7f4999c86e4068bf44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
+  rb: {fileID: 0}
   objectToModify: {fileID: 0}
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
@@ -8207,10 +8335,16 @@ MonoBehaviour:
   defaultGravity: 4
   startingX: 0
   startingY: 0
-  detectCollisionsWithEnemies: 0
-  enemyCheck: {fileID: 0}
-  enemyCheckSizeX: 0
-  enemyCheckSizeY: 0
+  detectCollisionsWithEnemies: 1
+  useCustomEnemyCheckCollider: 0
+  customEnemyCheckCollider: {fileID: 0}
+  cannotBeLaunchedByEnemyOnEnemyCollisions: 0
+  customEnemyCheckColliderMaterial: {fileID: 0}
+  enemyOnEnemyColliderGameObject: {fileID: 0}
+  enemyCheckSizeX: 1.125
+  enemyCheckSizeY: 1.5
+  displayEnemyCheckSizeX: 1.125
+  displayEnemyCheckSizeY: 1.5
   enemyCheckOffsetX: 0
   enemyCheckOffsetY: 0
   setAnimJumpBoolOnDeathJump: 0
@@ -8221,6 +8355,7 @@ MonoBehaviour:
   getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 1
   canTakeDamage: 1
+  canCurrentlyBeKnockedBack: 1
   knockbackStrengthX: 15
   knockbackStrengthY: 15
   dontKillEnemy: 1
@@ -8621,6 +8756,7 @@ Transform:
   - {fileID: 1909424715}
   - {fileID: 1728552379}
   - {fileID: 1245741540}
+  - {fileID: 2030253552}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13506,6 +13642,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d142b84fb239b7f4999c86e4068bf44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
+  rb: {fileID: 0}
   objectToModify: {fileID: 0}
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
@@ -13533,10 +13671,16 @@ MonoBehaviour:
   defaultGravity: 4
   startingX: 45
   startingY: -2
-  detectCollisionsWithEnemies: 0
-  enemyCheck: {fileID: 0}
-  enemyCheckSizeX: 0
-  enemyCheckSizeY: 0
+  detectCollisionsWithEnemies: 1
+  useCustomEnemyCheckCollider: 0
+  customEnemyCheckCollider: {fileID: 0}
+  cannotBeLaunchedByEnemyOnEnemyCollisions: 0
+  customEnemyCheckColliderMaterial: {fileID: 0}
+  enemyOnEnemyColliderGameObject: {fileID: 0}
+  enemyCheckSizeX: 2.75
+  enemyCheckSizeY: 2.75
+  displayEnemyCheckSizeX: 2.75
+  displayEnemyCheckSizeY: 2.75
   enemyCheckOffsetX: 0
   enemyCheckOffsetY: 0
   setAnimJumpBoolOnDeathJump: 0
@@ -13547,6 +13691,7 @@ MonoBehaviour:
   getStunnedInsteadOfBeingKnockedBack: 0
   beingKnockedBack: 0
   canTakeDamage: 1
+  canCurrentlyBeKnockedBack: 1
   knockbackStrengthX: 15
   knockbackStrengthY: 15
   dontKillEnemy: 1
@@ -13981,6 +14126,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2030253551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2030253552}
+  - component: {fileID: 2030253553}
+  m_Layer: 0
+  m_Name: EnemyOnEnemyColliderObjectPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2030253552
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030253551}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1749925505}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2030253553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030253551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b6bbba8f12182340bbffddd7c7f6e60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 305703277}
 --- !u!1 &2041931767
 GameObject:
   m_ObjectHideFlags: 0
@@ -14267,7 +14457,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2125291157}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.25, y: -3, z: 0}
+  m_LocalPosition: {x: 25.1, y: -3.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14348,6 +14538,7 @@ MonoBehaviour:
     m_Bits: 64
   playerMeleeCollider: {fileID: 0}
   playerDashCollider: {fileID: 0}
+  customEnemyCheckColliderMaterial: {fileID: 0}
   movementSpeed: 10
   dashSpeed: 20
   dashLength: 0.35

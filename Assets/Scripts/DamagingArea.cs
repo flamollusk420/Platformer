@@ -60,24 +60,24 @@ public class DamagingArea : MonoBehaviour {
             if(knockBackEnemies && (enemy.canBeKnockedBack || ignoreKnockbackImmunity)) {
                 if(customEnemyKnockback) {
                     if(transform.position.x > enemy.transform.position.x) {
-                        enemy.KnockBack(true, 1, knockBackX, knockBackY);
+                        enemy.KnockBack(true, false, null, 1, knockBackX, knockBackY, 1, 1);
                     }
                     if(transform.position.x < enemy.transform.position.x) {
-                        enemy.KnockBack(true, -1, knockBackX, knockBackY);
+                        enemy.KnockBack(true, false, null, -1, knockBackX, knockBackY, 1, 1);
                     }
                     if(transform.position.x == enemy.transform.position.x) {
-                        enemy.KnockBack(true, 0, knockBackX, knockBackY);
+                        enemy.KnockBack(true, false, null, 0, knockBackX, knockBackY, 1, 1);
                     }
                 }
                 if(!customEnemyKnockback) {
                     if(transform.position.x > enemy.transform.position.x) {
-                        enemy.KnockBack(false, 1, 0, 0);
+                        enemy.KnockBack(false, false, null, 1, 0, 0, 1, 1);
                     }
                     if(transform.position.x < enemy.transform.position.x) {
-                        enemy.KnockBack(false, -1, 0, 0);
+                        enemy.KnockBack(false, false, null, -1, 0, 0, 1, 1);
                     }
                     if(transform.position.x == enemy.transform.position.x) {
-                        enemy.KnockBack(false, 0, 0, 0);
+                        enemy.KnockBack(false, false, null, 0, 0, 0, 1, 1);
                     }
                 }
             }

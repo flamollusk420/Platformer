@@ -31,7 +31,7 @@ public class PlayerMeleeCollider : MonoBehaviour {
                     }
                 }
                 if(enemyScript.canTakeDamage) {
-                    player.style += 3;
+                    player.style += 2;
                     player.ResetStyleDeductionTimer();
                     if(player.touchingWall && player.GetComponent<Rigidbody2D>().velocity.y < 0) {
                         player.style += 2;
@@ -55,7 +55,7 @@ public class PlayerMeleeCollider : MonoBehaviour {
                 soundManager.PlayClip(soundManager.PlayerMeleeHit, transform, 1f);
                 if(enemyScript.canBeKnockedBack) {
                     if(!(enemyScript.getStunnedInsteadOfBeingKnockedBack && enemyScript.knockbackTimer > 0)) {
-                        enemyScript.KnockBack(false, dirX, 0, 0);
+                        enemyScript.KnockBack(false, false, null, dirX, 0, 0, 1, 1);
                     }
                 }
             }

@@ -20,7 +20,7 @@ THINGS THAT MAKE YOU GAIN STYLE:
 -doing it while in the air from a dash-jump = +1 style
 -destroying a bullet with a melee attack (this will happen if a destructible bullet can't be parried) = +1 style
 -destroying a bullet with an explosion = +1 style
--hitting an enemy with a melee attack = +3 style
+-hitting an enemy with a melee attack = +2 style
 -doing it while sliding down a wall = +2 style
 -hitting an enemy with a dash, up-dash, or down-dash = +1 style
 -hitting an enemy with a player bullet = +1 style
@@ -32,7 +32,8 @@ THINGS THAT MAKE YOU GAIN STYLE:
 -hitting an enemy in any way while it's being knocked back = +3 style
 -hitting an enemy with a bullet while it's being knocked back = +4 style
 -hitting an enemy with a melee attack while it's being knocked back = +6 style
--hitting an airborne enemy with a melee attack while above it = +3 style
+-spiking an enemy (using a melee attack on an enemy while above it will hit it down if it's in the air) = +3 style
+-spiking an enemy with an enemy launched into it = +8 style
 -hitting an enemy with a parried bullet while it's being knocked back = +7 style
 -an enemy falls into a damaging area and survives = +2 style
 -an enemy falls into a damaging area and dies = +4 style
@@ -82,6 +83,7 @@ ATTACK DAMAGE:
 -melee attacks = 2.5 points of damage
 -explosions = 4 points of damage
 -parried enemy bullets = bullet damage multiplied by 1.5 and then multiplied by how many times they have been parried (eg. 1 damage bullet parried twice = 3 damage bullet)
+-enemies launched into other enemies = damage depends on size of enemy being launched (small = 1, medium = 2, large = 3)
 
 
 GAINING SP:
