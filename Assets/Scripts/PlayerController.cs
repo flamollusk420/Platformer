@@ -47,6 +47,9 @@ public class PlayerController : MonoBehaviour {
     public int dashesLeft = 2;
     public float fireWaveOffsetX = 4.5f;
     public float fireWaveOffsetY = 0.06f;
+    [HideInInspector]
+    //used to keep enemies that are being knocked back above other enemies in the sorting layer order
+    public int currentHighestEnemyLayerOrder = 25;
 
     public bool respawned;
     public bool recoiling;

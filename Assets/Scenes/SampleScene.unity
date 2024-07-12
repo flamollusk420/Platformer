@@ -795,7 +795,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58282544}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 28.3, y: -1.45, z: -10.068307}
+  m_LocalPosition: {x: 9, y: 0.53999996, z: -10.068307}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1949,7 +1949,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 28.3, y: -0.54410386, z: -10.068307}
+  m_LocalPosition: {x: 9, y: -0.5441036, z: -10.068307}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2886,8 +2886,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
   knockbackTimerSet: 1.25
-  health: 5
-  maxHealth: 5
+  health: 500
+  maxHealth: 500
   damageDealt: 1
   enemySize: 1
   SFXimportance: 1
@@ -6315,8 +6315,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
   knockbackTimerSet: 1.25
-  health: 3
-  maxHealth: 3
+  health: 500
+  maxHealth: 500
   damageDealt: 1
   enemySize: 1
   SFXimportance: 1
@@ -13660,8 +13660,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
   knockbackTimerSet: 3
-  health: 5
-  maxHealth: 5
+  health: 500
+  maxHealth: 500
   damageDealt: 1
   enemySize: 1
   SFXimportance: 1
@@ -14457,7 +14457,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2125291157}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.1, y: -3.7, z: 0}
+  m_LocalPosition: {x: 5.8, y: -1.71, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

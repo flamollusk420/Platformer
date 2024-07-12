@@ -431,6 +431,8 @@ public class Enemy : MonoBehaviour {
 
     public void KnockBack(bool customKnockBack, bool enemyOnEnemyKnockback, Transform enemyTransform, float knockbackDirX, float customKnockBackX, float customKnockBackY, float knockBackMultiplierX, float knockBackMultiplierY) {
         if(health > 0 && canCurrentlyBeKnockedBack) {
+            player.currentHighestEnemyLayerOrder += 1;
+            sr.sortingOrder = player.currentHighestEnemyLayerOrder;
             canBeKnockedBackAgainTimer = canBeKnockedBackAgainTimerSet;
             canCurrentlyBeKnockedBack = false;
             if(!getStunnedInsteadOfBeingKnockedBack) {
