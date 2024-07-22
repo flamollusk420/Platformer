@@ -1,0 +1,8 @@
+tiles I need to make
+-wood
+-mechanical stuff for airship/power plant
+-clouds
+-junkyard stuff
+-snow/ice, use shovel knight tiles as reference
+-assorted weird stuff for underworld levels
+-ms paint tiles for the ms paint level
