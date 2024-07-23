@@ -815,7 +815,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDashJump1() {
-        Debug.Log("boasioewaf");
         if(!timeScaleIsZero) {
             if(dashesLeft > 0 && touchingGround) {
                 if(!touchingWall && !isExploding && !beingKnockedBack) {
