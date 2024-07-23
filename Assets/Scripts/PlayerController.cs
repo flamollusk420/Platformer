@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour {
     public float maxSP = 25;
     public float style;
     public float styleWithinRank;
+    public int coins;
     [HideInInspector]
     public float respawnX;
     [HideInInspector]
