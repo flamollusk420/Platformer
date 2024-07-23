@@ -80,11 +80,11 @@ TagManager:
   - name: Bullets2
     uniqueID: 3421885325
     locked: 0
-  - name: Explosions
-    uniqueID: 3892837537
-    locked: 0
   - name: Player
     uniqueID: 3367236869
+    locked: 0
+  - name: Explosions
+    uniqueID: 3892837537
     locked: 0
   - name: UI
     uniqueID: 1885476213
