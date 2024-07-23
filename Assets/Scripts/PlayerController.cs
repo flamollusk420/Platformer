@@ -815,9 +815,32 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDashJump1() {
-        if(touchingGround && !timeScaleIsZero) {
-            OnDash1();
-            OnJump();
+        Debug.Log("boasioewaf");
+        if(!timeScaleIsZero) {
+            if(dashesLeft > 0 && touchingGround) {
+                if(!touchingWall && !isExploding && !beingKnockedBack) {
+                    startedJumpWhileTouchingWall = false;
+                    isDashing = false;
+                    if(isDamaging) {
+                        isDamaging = false;
+                    }
+                    isWalking = false;
+                    isMeleeAttacking = false;
+                    anim.SetBool("isMeleeAttacking", false);
+                    isDashJumping = true;
+                    isDashJumping2 = true;
+                    dashJumpFacingDirX = facingDirX;
+                    rb.velocity = new Vector2((dashSpeed * 0.85f) * dashJumpFacingDirX, jumpStrength * 1.25f);
+                    dashJumpTimer = 0.35f;
+                    if(!deathEffectIsHappening) {
+                        rb.gravityScale = 4;
+                    }
+                    soundManager.PlayClip(soundManager.PlayerJump, transform, 2);
+                }
+            }
+            else {
+                OnJump();
+            }
         }
     }
 
