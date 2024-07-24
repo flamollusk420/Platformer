@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour {
     public PlayerDashCollider playerDashCollider;
     [HideInInspector]
     public PhysicsMaterial2D customEnemyCheckColliderMaterial;
+    [HideInInspector]
+    public EnemySpawner currentRoomSpawner;
     private FlexibleAnimation explosion;
 
     public float movementSpeed;
@@ -57,7 +59,7 @@ public class PlayerController : MonoBehaviour {
     //used to keep enemies that are being knocked back above other enemies in the sorting layer order
     public int currentHighestEnemyLayerOrder = 25;
 
-    private bool startCompleted;
+    //private bool startCompleted;
     public bool respawned;
     public bool recoiling;
     public bool facingRight = true;
@@ -196,7 +198,7 @@ public class PlayerController : MonoBehaviour {
         //this will be changed later
         respawnX = transform.position.x;
         respawnY = transform.position.y;
-        startCompleted = true;
+        //startCompleted = true;
     }
 
     void OnEnable() {
@@ -205,10 +207,6 @@ public class PlayerController : MonoBehaviour {
         sp = maxSP;
         health = maxHealth;
         styleDeductionTimer = styleDeductionTimerSet;
-        if(startCompleted) {
-            transform.position = new Vector2(respawnX, respawnY);
-            sr.enabled = true;
-        }
     }
 
     void FixedUpdate() {
@@ -422,7 +420,9 @@ public class PlayerController : MonoBehaviour {
             CreateDeathEffect();
         }
         if(deathEffectComplete) {
-            gameObject.SetActive(false);
+            health = maxHealth;
+            RespawnPlayer();
+            deathEffectComplete = false;
         }
     }
 
@@ -430,9 +430,10 @@ public class PlayerController : MonoBehaviour {
         if(!deathEffectIsHappening) {
             deathEffectPlayerHidingTimer = deathEffectPlayerHidingTimerSet;
             explosion = MediumExplosionObjectPool.instance.GetPooledObject().GetComponent<FlexibleAnimation>();
-            explosion.gameObject.SetActive(true);
+            explosion.GetComponent<SelfDestruct>().timer = explosion.GetComponent<SelfDestruct>().timerSet;
             explosion.currentFrame = 0;
             explosion.transform.position = new Vector2(transform.position.x, transform.position.y + (sr.bounds.size.x / 2));
+            explosion.gameObject.SetActive(true);
             soundManager.PlayClip(soundManager.PlayerDeath, transform, 1);
             style = 0;
             deathEffectIsHappening = true;
@@ -441,6 +442,42 @@ public class PlayerController : MonoBehaviour {
         rb.gravityScale = 0;
         if(explosion.GetComponent<SelfDestruct>().timer <= 0) {
             deathEffectComplete = true;
+        }
+    }
+
+    private void RespawnPlayer() {
+        DespawnObjectsOnPlayerRespawn();
+        Hit(0);
+        transform.position = new Vector2(respawnX, respawnY);
+        sr.enabled = true;
+        deathEffectIsHappening = false;
+        deathEffectComplete = false;
+        rb.gravityScale = 4;
+    }
+
+    private void DespawnObjectsOnPlayerRespawn() {
+        GameObject[] bullets = GameObject.FindGameObjectsWithTag("EnemyBullet");
+        foreach(GameObject bullet in bullets) {
+            bullet.SetActive(false);
+        }
+        GameObject[] enemyBullets = GameObject.FindGameObjectsWithTag("PlayerBullet");
+        foreach(GameObject enemyBullet in enemyBullets) {
+            enemyBullet.SetActive(false);
+        }
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemies");
+        foreach(GameObject enemy in enemies) {
+            enemy.SetActive(false);
+            enemy.GetComponent<Enemy>().health = enemy.GetComponent<Enemy>().maxHealth;
+        }
+        GameObject[] spawners = GameObject.FindGameObjectsWithTag("Room");
+        foreach(GameObject spawner in spawners) {
+            spawner.SetActive(false);
+            if(spawner.GetComponent<EnemySpawner>() != null) {
+                EnemySpawner spawnerScript = spawner.GetComponent<EnemySpawner>();
+                spawnerScript.spawnTimer = spawnerScript.spawnTimerSet;
+                spawnerScript.canSpawnEnemies = true;
+            }
+            spawner.SetActive(true);
         }
     }
 
@@ -644,7 +681,7 @@ public class PlayerController : MonoBehaviour {
         if(!isExploding) {
             recoiling = true;
             health -= damageDealt;
-            if(damageDealt != 0) {
+            if(damageDealt > 0) {
                 soundManager.PlayClip(soundManager.PlayerHit, transform, 1);
             }
             effectTimer = effectCooldown;

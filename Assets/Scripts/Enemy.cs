@@ -10,14 +10,16 @@ public class Enemy : MonoBehaviour {
     private Animator anim;
     private Transform playerTR;
     private PlayerController player;
+    private LayerMask ground;
     [HideInInspector]
     public Rigidbody2D rb;
     public GameObject objectToModify;
     public GameObject hostEnemy;
     public AudioClip customDeathSound;
-    private LayerMask ground;
 
     public float customDeathSoundVolume = 1;
+    [HideInInspector]
+    public bool hasBeenSpawned;
     public float effectTimer;
     public float effectCooldown = 0.15f;
     [HideInInspector]

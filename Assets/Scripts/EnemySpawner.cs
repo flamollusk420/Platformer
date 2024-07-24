@@ -6,7 +6,8 @@ public class EnemySpawner : MonoBehaviour {
     public List<GameObject> enemyList = new List<GameObject>();
     private SpriteRenderer sr;
     private PlayerController player;
-    private bool canSpawnEnemies = true;
+    [HideInInspector]
+    public bool canSpawnEnemies = true;
     public bool canSpawnEnemiesAtStart = true;
     public bool changeColor = true;
     public bool repeatSpawning;
@@ -64,9 +65,10 @@ public class EnemySpawner : MonoBehaviour {
         spawnTimer = spawnTimerSet;
         if((!repeatSpawning || (repeatSpawning && !spawnEveryOtherRepetition)) || (repeatSpawning && spawnEveryOtherRepetition && repetitionToggle)) {
             for(int i = 0; i < enemyList.Count; i++) {
-                if(enemyList[i] != null && !(enemyList[i].GetComponent<Enemy>().onlySpawnIfDisabled == true && enemyList[i].gameObject.activeInHierarchy == false)) {
+                if(enemyList[i] != null && !(enemyList[i].GetComponent<Enemy>().onlySpawnIfDisabled == true && enemyList[i].gameObject.activeInHierarchy == true)) {
                     enemyList[i].gameObject.GetComponent<Enemy>().health = enemyList[i].gameObject.GetComponent<Enemy>().maxHealth;
                     enemyList[i].gameObject.GetComponent<Enemy>().effectTimer = enemyList[i].gameObject.GetComponent<Enemy>().effectCooldown;
+                    enemyList[i].gameObject.GetComponent<Enemy>().hasBeenSpawned = true;
                     enemyList[i].gameObject.SetActive(false);
                     enemyList[i].gameObject.SetActive(true);
                     enemyList[i].transform.position = new Vector2(enemyList[i].GetComponent<Enemy>().startingX, enemyList[i].GetComponent<Enemy>().startingY);

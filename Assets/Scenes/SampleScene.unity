@@ -476,6 +476,7 @@ MonoBehaviour:
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
   customDeathSoundVolume: 1
+  hasBeenSpawned: 0
   effectTimer: 0
   effectCooldown: 0.15
   deathJumpTimer: 0
@@ -778,6 +779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyList: []
+  canSpawnEnemies: 1
   canSpawnEnemiesAtStart: 1
   changeColor: 1
   repeatSpawning: 0
@@ -1142,7 +1144,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f1bfaefbddc78344a9fff2fb8833190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyList: []
+  enemyList:
+  - {fileID: 1693030268}
+  canSpawnEnemies: 1
   canSpawnEnemiesAtStart: 1
   changeColor: 1
   repeatSpawning: 0
@@ -2026,6 +2030,7 @@ MonoBehaviour:
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
   customDeathSoundVolume: 1
+  hasBeenSpawned: 0
   effectTimer: 0
   effectCooldown: 0.15
   deathJumpTimer: 0
@@ -2441,6 +2446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyList: []
+  canSpawnEnemies: 1
   canSpawnEnemiesAtStart: 1
   changeColor: 1
   repeatSpawning: 0
@@ -3555,6 +3561,7 @@ MonoBehaviour:
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
   customDeathSoundVolume: 1
+  hasBeenSpawned: 0
   effectTimer: 0
   effectCooldown: 0.15
   deathJumpTimer: 0
@@ -6177,6 +6184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyList: []
+  canSpawnEnemies: 1
   canSpawnEnemiesAtStart: 1
   changeColor: 1
   repeatSpawning: 0
@@ -6632,6 +6640,7 @@ MonoBehaviour:
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
   customDeathSoundVolume: 1
+  hasBeenSpawned: 0
   effectTimer: 0
   effectCooldown: 0.15
   deathJumpTimer: 0
@@ -7140,6 +7149,7 @@ MonoBehaviour:
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
   customDeathSoundVolume: 1
+  hasBeenSpawned: 0
   effectTimer: 0
   effectCooldown: 0.15
   deathJumpTimer: 0
@@ -8110,6 +8120,7 @@ MonoBehaviour:
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
   customDeathSoundVolume: 1
+  hasBeenSpawned: 0
   effectTimer: 0
   effectCooldown: 0.15
   deathJumpTimer: 0
@@ -8670,6 +8681,7 @@ MonoBehaviour:
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
   customDeathSoundVolume: 1
+  hasBeenSpawned: 0
   effectTimer: 0
   effectCooldown: 0.15
   deathJumpTimer: 0
@@ -9149,6 +9161,7 @@ MonoBehaviour:
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
   customDeathSoundVolume: 1
+  hasBeenSpawned: 0
   effectTimer: 0
   effectCooldown: 0.15
   deathJumpTimer: 0
@@ -9406,6 +9419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyList: []
+  canSpawnEnemies: 1
   canSpawnEnemiesAtStart: 1
   changeColor: 1
   repeatSpawning: 0
@@ -9652,6 +9666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyList: []
+  canSpawnEnemies: 1
   canSpawnEnemiesAtStart: 1
   changeColor: 1
   repeatSpawning: 0
@@ -21917,6 +21932,7 @@ MonoBehaviour:
   hostEnemy: {fileID: 0}
   customDeathSound: {fileID: 0}
   customDeathSoundVolume: 1
+  hasBeenSpawned: 0
   effectTimer: 0
   effectCooldown: 0.15
   deathJumpTimer: 0
@@ -22812,6 +22828,7 @@ MonoBehaviour:
   playerMeleeCollider: {fileID: 0}
   playerDashCollider: {fileID: 0}
   customEnemyCheckColliderMaterial: {fileID: 0}
+  currentRoomSpawner: {fileID: 0}
   movementSpeed: 10
   dashSpeed: 20
   dashLength: 0.35
