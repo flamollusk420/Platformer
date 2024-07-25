@@ -30,7 +30,6 @@ public class ChangeRooms : MonoBehaviour {
     void OnTriggerStay2D(Collider2D collision) {
         if(collision.gameObject.CompareTag("Room")) {
             if(player.currentRoomName != collision.gameObject.name || oneTimeCameraMove) {
-                Debug.Log(collision.gameObject.name);
                 if(oneTimeCameraMove) {
                     oneTimeCameraMove = false;
                 }

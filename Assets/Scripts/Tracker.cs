@@ -5,6 +5,7 @@ using UnityEngine;
 public class Tracker : MonoBehaviour {
     private Transform player;
     private Transform tr;
+    private SpriteRenderer sr;
     private bool moveX = true;
     private bool moveY = true;
     private bool moveXoriginal;
@@ -12,6 +13,9 @@ public class Tracker : MonoBehaviour {
     private bool startCompleted = false;
     public bool stopAtX;
     public bool stopAtY;
+    private bool initialNeedsToBeVisibleToMove;
+    public bool needsToBeVisibleToMove = true;
+    public bool disableNeedingVisibilityAfterMoving = true;
     public float movementSpeed = 300;
     public float dirX = 1;
     public float dirY = 1;
@@ -25,21 +29,26 @@ public class Tracker : MonoBehaviour {
 
     void Start() {
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        sr = GetComponent<SpriteRenderer>();
         tr = GetComponent<Transform>();
         moveXoriginal = moveX;
         moveYoriginal = moveY;
+        initialNeedsToBeVisibleToMove = needsToBeVisibleToMove;
         startCompleted = true;
     }
 
     void FixedUpdate() {
         CheckPosition();
-        Move();
+        if(!(needsToBeVisibleToMove && !sr.isVisible)) {
+            Move();
+        }
     }
 
     private void OnEnable() {
         if(startCompleted) {
             moveX = moveXoriginal;
             moveY = moveYoriginal;
+            needsToBeVisibleToMove = initialNeedsToBeVisibleToMove;
         }
     }
 
@@ -84,6 +93,9 @@ public class Tracker : MonoBehaviour {
         }
         if(!moveY) {
             movementY = 0;
+        }
+        if(disableNeedingVisibilityAfterMoving && needsToBeVisibleToMove) {
+            needsToBeVisibleToMove = false;
         }
         transform.position = new Vector2((movementX * xMultiplier) * 0.016f * temporaryXmultiplier + transform.position.x, (movementY * yMultiplier) * 0.016f * temporaryYmultiplier + transform.position.y);
     }

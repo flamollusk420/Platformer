@@ -7,6 +7,7 @@ public class EnemySpawner : MonoBehaviour {
     private SpriteRenderer sr;
     private PlayerController player;
     [HideInInspector]
+    public bool automaticallyPopulateEnemyList = true;
     public bool canSpawnEnemies = true;
     public bool canSpawnEnemiesAtStart = true;
     public bool changeColor = true;
@@ -23,6 +24,11 @@ public class EnemySpawner : MonoBehaviour {
     void OnEnable() {
         if(!canSpawnEnemiesAtStart) {
             canSpawnEnemies = false;
+        }
+        if(automaticallyPopulateEnemyList) {
+            for(int i = 0; i < transform.childCount; i++) {
+                enemyList.Add(transform.GetChild(i).gameObject);
+            }
         }
         sr = GetComponent<SpriteRenderer>();
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
