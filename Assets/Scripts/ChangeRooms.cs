@@ -48,10 +48,27 @@ public class ChangeRooms : MonoBehaviour {
                 }
                 camToggle = !camToggle;
                 player.currentRoomName = collision.gameObject.name;
+                if(player.respawnRoomName == "") {
+                    player.respawnRoomName = collision.gameObject.name;
+                    player.respawnRoom = collision.gameObject;
+                }
                 if(collision.gameObject.GetComponent<EnemySpawner>() != null) {
                     player.currentRoomSpawner = collision.gameObject.GetComponent<EnemySpawner>();
                 }
             }
+        }
+    }
+
+    public void MoveCameraToCustomRoom(GameObject roomToUse) {
+        if(camToggle == true) {
+            cam.gameObject.SetActive(true);
+            cam2.gameObject.SetActive(false);
+            confiner.m_BoundingShape2D = roomToUse.gameObject.GetComponent<PolygonCollider2D>();
+        }
+        if(camToggle == false) {
+            cam2.gameObject.SetActive(true);
+            cam.gameObject.SetActive(false);
+            confiner2.m_BoundingShape2D = roomToUse.gameObject.GetComponent<PolygonCollider2D>();
         }
     }
 

@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour {
     [HideInInspector]
     public EnemySpawner currentRoomSpawner;
     private FlexibleAnimation explosion;
+    private ChangeRooms roomChanger;
 
     public float movementSpeed;
     public float dashSpeed;
@@ -50,6 +51,10 @@ public class PlayerController : MonoBehaviour {
     public float respawnX;
     [HideInInspector]
     public float respawnY;
+    [HideInInspector]
+    public GameObject respawnRoom;
+    [HideInInspector]
+    public string respawnRoomName;
     public int currentRank;
     public int jumpsLeft = 1;
     public int dashesLeft = 2;
@@ -194,6 +199,7 @@ public class PlayerController : MonoBehaviour {
         pauseUI = GameObject.FindWithTag("PauseUI").GetComponent<Pause>();
         fireWave1 = GameObject.FindWithTag("PlayerFireWave");
         fireWave2 = GameObject.FindWithTag("PlayerFireWave2");
+        roomChanger = GameObject.FindWithTag("PlayerSecondaryCollider").GetComponent<ChangeRooms>();
         controls = new PlayerControls();
         //this will be changed later
         respawnX = transform.position.x;
@@ -437,7 +443,9 @@ public class PlayerController : MonoBehaviour {
             soundManager.PlayClip(soundManager.PlayerDeath, transform, 1);
             style = 0;
             deathEffectIsHappening = true;
+            roomChanger.MoveCameraToCustomRoom(respawnRoom);
         }
+        currentRoomName = respawnRoomName;
         recoiling = true;
         rb.gravityScale = 0;
         if(explosion.GetComponent<SelfDestruct>().timer <= 0) {

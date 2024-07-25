@@ -320,7 +320,6 @@ public class Enemy : MonoBehaviour {
     void OnTriggerStay2D(Collider2D enemyCollider) {
         if((enemyCollider.CompareTag("PlayerSecondaryCollider"))  && !player.recoiling && !player.isExploding && initialNonDamageTimer <= 0 && gameObject.GetComponent<Enemy>().enabled == true) {
             if(damageDealt > 0 && !player.isDamaging && !player.isDashJumping && player.exitDashTimer <= 0 && player.exitDownDashTimer <= 0 && player.exitDownDashTimer <= 0 ) {
-                player.GetComponent<Rigidbody2D>().AddForce(new Vector2(knockbackStrengthX, knockbackStrengthY));
                 player.Hit(damageDealt);
                 player.style -= damageDealt * 2;
                 player.ResetStyleDeductionTimer();

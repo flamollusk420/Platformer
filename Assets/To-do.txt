@@ -3,6 +3,7 @@ important:
 -fix style ranks (goes from f to c for some reason)
 
 eh:
+-multiple backgrounds stacked on top of each other for different elevations in the level
 -make it harder to get style by just hitting a static enemy with a melee attack until it dies
 -fix eyetree damage when done testing death animations
 -make junkyard theme shorter
