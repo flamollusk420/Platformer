@@ -46,7 +46,9 @@ public class Enemy : MonoBehaviour {
     public float explosionOffsetX;
     public float explosionOffsetY;
     public float defaultGravity = 4;
+    [HideInInspector]
     public float startingX = 0;
+    [HideInInspector]
     public float startingY = 0;
     public bool detectCollisionsWithEnemies = true;
     private bool touchingOtherEnemies;
@@ -116,15 +118,14 @@ public class Enemy : MonoBehaviour {
         soundManager = GameObject.FindWithTag("SoundManager").GetComponent<SoundManager>();
         musicManager = GameObject.FindWithTag("MusicManager").GetComponent<MusicManager>();
         ground = LayerMask.GetMask("Ground");
+        startingX = transform.position.x;
+        startingY = transform.position.y;
         if(GetComponent<BoxCollider2D>() != null) {
             customEnemyCheckCollider = GetComponent<BoxCollider2D>();
         }
         if(enemyCheckSizeX == 0 || enemyCheckSizeY == 0) {
             enemyCheckSizeX = sr.bounds.size.x;
             enemyCheckSizeY = sr.bounds.size.y;
-        }
-        if(!dontKillEnemy) {
-            gameObject.SetActive(false);
         }
         if(GetComponent<Animator>() != null) {
             anim = GetComponent<Animator>();
@@ -140,6 +141,9 @@ public class Enemy : MonoBehaviour {
         wallCheckDirectionMultiplierSet = wallCheckDirectionMultiplier;
         customEnemyCheckColliderMaterial = player.customEnemyCheckColliderMaterial;
         startCompleted = true;
+        if(!dontKillEnemy) {
+            gameObject.SetActive(false);
+        }
     }
 
     void OnEnable() {
@@ -316,6 +320,7 @@ public class Enemy : MonoBehaviour {
     void OnTriggerStay2D(Collider2D enemyCollider) {
         if((enemyCollider.CompareTag("PlayerSecondaryCollider"))  && !player.recoiling && !player.isExploding && initialNonDamageTimer <= 0 && gameObject.GetComponent<Enemy>().enabled == true) {
             if(damageDealt > 0 && !player.isDamaging && !player.isDashJumping && player.exitDashTimer <= 0 && player.exitDownDashTimer <= 0 && player.exitDownDashTimer <= 0 ) {
+                player.GetComponent<Rigidbody2D>().AddForce(new Vector2(knockbackStrengthX, knockbackStrengthY));
                 player.Hit(damageDealt);
                 player.style -= damageDealt * 2;
                 player.ResetStyleDeductionTimer();

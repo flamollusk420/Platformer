@@ -1,6 +1,9 @@
--make it harder to get style by just hitting a static enemy with a melee attack until it dies
+important:
+-fix the camera when you touch a bunch of transitions in quick succession
 -fix style ranks (goes from f to c for some reason)
--mega man x4 style dash jumps where you can just hold down the dash button and jump without having to press both
+
+eh:
+-make it harder to get style by just hitting a static enemy with a melee attack until it dies
 -fix eyetree damage when done testing death animations
 -make junkyard theme shorter
--0.25, -3
+-original player position is 0.25, -3

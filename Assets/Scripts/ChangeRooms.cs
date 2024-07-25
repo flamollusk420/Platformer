@@ -48,8 +48,8 @@ public class ChangeRooms : MonoBehaviour {
                 }
                 camToggle = !camToggle;
                 player.currentRoomName = collision.gameObject.name;
-                if(gameObject.GetComponent<EnemySpawner>() != null) {
-                    player.currentRoomSpawner = GetComponent<EnemySpawner>();
+                if(collision.gameObject.GetComponent<EnemySpawner>() != null) {
+                    player.currentRoomSpawner = collision.gameObject.GetComponent<EnemySpawner>();
                 }
             }
         }
