@@ -52,8 +52,6 @@ public class PlayerController : MonoBehaviour {
     [HideInInspector]
     public float respawnY;
     [HideInInspector]
-    public GameObject respawnRoom;
-    [HideInInspector]
     public string respawnRoomName;
     public int currentRank;
     public int jumpsLeft = 1;
@@ -443,7 +441,6 @@ public class PlayerController : MonoBehaviour {
             soundManager.PlayClip(soundManager.PlayerDeath, transform, 1);
             style = 0;
             deathEffectIsHappening = true;
-            roomChanger.MoveCameraToCustomRoom(respawnRoom);
         }
         currentRoomName = respawnRoomName;
         recoiling = true;
@@ -457,6 +454,7 @@ public class PlayerController : MonoBehaviour {
         DespawnObjectsOnPlayerRespawn();
         Hit(0);
         transform.position = new Vector2(respawnX, respawnY);
+        roomChanger.oneTimeCameraMove = true;
         sr.enabled = true;
         deathEffectIsHappening = false;
         deathEffectComplete = false;

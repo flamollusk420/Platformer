@@ -22652,6 +22652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b43a21cd94e4324c96039d2fe5b5f8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oneTimeCameraMove: 0
 --- !u!61 &2079235253
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -22860,6 +22861,8 @@ MonoBehaviour:
   coins: 0
   respawnX: 0
   respawnY: 0
+  respawnRoom: {fileID: 0}
+  respawnRoomName: 
   currentRank: 0
   jumpsLeft: 1
   dashesLeft: 2

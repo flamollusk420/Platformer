@@ -11,6 +11,8 @@ public class ChangeRooms : MonoBehaviour {
     private LockCameraPos camLock;
     private LockCameraPos camLock2;
     private bool camToggle = false;
+    [HideInInspector]
+    public bool oneTimeCameraMove;
     private PlayerController player;
 
     void Start() {
@@ -27,30 +29,25 @@ public class ChangeRooms : MonoBehaviour {
     //swap between cameras when moving between rooms for a smooth transition
     void OnTriggerStay2D(Collider2D collision) {
         if(collision.gameObject.CompareTag("Room")) {
-            if(player.currentRoomName != collision.gameObject.name) {
+            if(player.currentRoomName != collision.gameObject.name || oneTimeCameraMove) {
+                Debug.Log(collision.gameObject.name);
+                if(oneTimeCameraMove) {
+                    oneTimeCameraMove = false;
+                }
                 if(camToggle == true) {
                     cam.gameObject.SetActive(true);
                     cam2.gameObject.SetActive(false);
                     confiner.m_BoundingShape2D = collision.gameObject.GetComponent<PolygonCollider2D>();
-                    //camLock.lockX = collision.gameObject.GetComponent<RoomVars>().lockX;
-                    //camLock.lockY = collision.gameObject.GetComponent<RoomVars>().lockY;
-                    //camLock.m_XPosition = collision.gameObject.GetComponent<RoomVars>().xPos;
-                    //camLock.m_YPosition = collision.gameObject.GetComponent<RoomVars>().yPos;
                 }
                 if(camToggle == false) {
                     cam2.gameObject.SetActive(true);
                     cam.gameObject.SetActive(false);
                     confiner2.m_BoundingShape2D = collision.gameObject.GetComponent<PolygonCollider2D>();
-                    //camLock2.lockX = collision.gameObject.GetComponent<RoomVars>().lockX;
-                    //camLock2.lockY = collision.gameObject.GetComponent<RoomVars>().lockY;
-                    //camLock2.m_XPosition = collision.gameObject.GetComponent<RoomVars>().xPos;
-                    //camLock2.m_YPosition = collision.gameObject.GetComponent<RoomVars>().yPos;
                 }
                 camToggle = !camToggle;
                 player.currentRoomName = collision.gameObject.name;
                 if(player.respawnRoomName == "") {
                     player.respawnRoomName = collision.gameObject.name;
-                    player.respawnRoom = collision.gameObject;
                 }
                 if(collision.gameObject.GetComponent<EnemySpawner>() != null) {
                     player.currentRoomSpawner = collision.gameObject.GetComponent<EnemySpawner>();
@@ -59,6 +56,7 @@ public class ChangeRooms : MonoBehaviour {
         }
     }
 
+    //this function is currently unused
     public void MoveCameraToCustomRoom(GameObject roomToUse) {
         if(camToggle == true) {
             cam.gameObject.SetActive(true);
@@ -70,6 +68,9 @@ public class ChangeRooms : MonoBehaviour {
             cam.gameObject.SetActive(false);
             confiner2.m_BoundingShape2D = roomToUse.gameObject.GetComponent<PolygonCollider2D>();
         }
+        camToggle = !camToggle;
+        if(roomToUse.gameObject.GetComponent<EnemySpawner>() != null) {
+            player.currentRoomSpawner = roomToUse.gameObject.GetComponent<EnemySpawner>();
+        }
     }
-
 }
