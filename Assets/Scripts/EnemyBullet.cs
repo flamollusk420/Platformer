@@ -14,6 +14,7 @@ public class EnemyBullet : MonoBehaviour {
     public int damageDealt;
     public int timesParried;
     public float offsetX = 0.45f;
+    public float enemyScriptOffsetY;
     public float dirX = 0;
     public float dirY = 0;
     private float flatDirX = 0;
@@ -90,15 +91,6 @@ public class EnemyBullet : MonoBehaviour {
         if(speedMultiplierTimer <= 0) {
             transitionCompleteMovementSpeedMultiplier = 1;
         }
-        if(player != null && !transitionComplete) {
-            if(player.touchingWall && player.isFalling && !player.touchingGround) {
-                anim.SetFloat("transitionBlend", 1);
-            }
-            if(!player.touchingWall) {
-                anim.SetFloat("transitionBlend", 0);
-            }
-            transform.position = player.transform.position;
-        }
         if(transitionComplete) {
             if(!stopped) {
                 transform.position = new Vector2(((dirX * 0.0125f) * transitionCompleteMovementSpeedMultiplier) + transform.position.x, transform.position.y);
@@ -116,11 +108,11 @@ public class EnemyBullet : MonoBehaviour {
 
     void LateUpdate() {
         if(shootingEnemy != null && !transitionComplete && staysWithEnemyBeforeBeingShot) {
-            transform.position = shootingEnemy.transform.position;
+            transform.position = new Vector2(transform.position.x + (offsetX * flatDirX), transform.position.y + enemyScriptOffsetY);
         }
     }
 
-    public void Shoot(float dirXset, float dirYset, int damageDealtSet, float movementSpeedSet, bool flipBulletXset, bool flipBulletYset, bool staysWithEnemyBeforeBeingShotSet, bool hasCustomFrameList, bool canTouchLevelSet, List<Sprite> frameListSet, float customTimeBetweenFramesSet, ShootingEnemy shootingEnemyScript, Enemy enemyScriptSet, bool hasCustomBoxColliderShapeSet, BoxCollider2D customBoxColliderShapeSet) {
+    public void Shoot(float dirXset, float dirYset, int damageDealtSet, float movementSpeedSet, bool flipBulletXset, bool flipBulletYset, bool staysWithEnemyBeforeBeingShotSet, bool hasCustomFrameList, bool canTouchLevelSet, List<Sprite> frameListSet, float customTimeBetweenFramesSet, ShootingEnemy shootingEnemyScript, Enemy enemyScriptSet, bool hasCustomBoxColliderShapeSet, BoxCollider2D customBoxColliderShapeSet, float enemyScriptOffsetYSet) {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 1);
         staysWithEnemyBeforeBeingShot = staysWithEnemyBeforeBeingShotSet;
         canTouchLevel = canTouchLevelSet;
@@ -128,6 +120,7 @@ public class EnemyBullet : MonoBehaviour {
         hasBeenParried = false;
         stopped = false;
         timesParried = 0;
+        enemyScriptOffsetY = enemyScriptOffsetYSet;
         shootingEnemy = shootingEnemyScript;
         enemyScript = enemyScriptSet;
         if(hasCustomBoxColliderShapeSet) {
@@ -145,8 +138,9 @@ public class EnemyBullet : MonoBehaviour {
                 flexAnim.numberOfFrames = frameListSet.Count - 1;
                 flexAnim.timeUntilNextFrame = customTimeBetweenFramesSet;
             }
+            GetComponent<SpriteRenderer>().sprite = flexAnim.frameList[0];
         }
-        if(!hasCustomFrameList && GetComponent<FlexibleAnimation>() == null) {
+        if(hasCustomFrameList && GetComponent<FlexibleAnimation>() == null) {
             Debug.Log("No FlexibleAnimation component to assign custom frames to");
         }
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();

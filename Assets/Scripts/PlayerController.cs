@@ -427,6 +427,7 @@ public class PlayerController : MonoBehaviour {
             health = maxHealth;
             RespawnPlayer();
             deathEffectComplete = false;
+            sp = maxSP;
         }
     }
 

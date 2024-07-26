@@ -21,12 +21,10 @@ public class ShootingEnemy : MonoBehaviour {
     private bool canShoot;
     public bool bulletHasCustomBoxColliderShape;
     public BoxCollider2D customBoxColliderShape;
-    //public int equippedBulletType = 1;
     public float dirX = -1;
     public float dirY = 0;
     public float offsetX = 0;
     public float offsetY = 0;
-    public bool customDamageDealt = false;
     public int damageDealt;
     public float movementSpeed;
     public bool bulletStaysWithEnemyBeforeBeingShot = false;
@@ -51,7 +49,7 @@ public class ShootingEnemy : MonoBehaviour {
         }
     }
 
-    void Update() {
+    void FixedUpdate() {
         bulletTimer -= Time.deltaTime;
         bulletTimer2 -= Time.deltaTime;
         animationTimer -= Time.deltaTime;
@@ -75,12 +73,13 @@ public class ShootingEnemy : MonoBehaviour {
     public void Shoot() {
         GameObject bullet = EnemyBulletObjectPool.instance.GetPooledObject();
         if(bullet != null) {
-            bullet.transform.position = new Vector2(transform.position.x + offsetX, transform.position.y + offsetY);
             bullet.SetActive(true);
+            bullet.transform.position = new Vector2(0, -10000);
             if(!bulletHasCustomBoxColliderShape) {
                 customBoxColliderShape = GetComponent<BoxCollider2D>();
             }
-            bullet.GetComponent<EnemyBullet>().Shoot(dirX, dirY, damageDealt, movementSpeed, flipBulletX, flipBulletY, bulletStaysWithEnemyBeforeBeingShot, bulletCanTouchLevel, customBulletFrameList, frameListBullet, customTimeBetweenFrames, GetComponent<ShootingEnemy>(), GetComponent<Enemy>(), bulletHasCustomBoxColliderShape, customBoxColliderShape);
+            bullet.GetComponent<EnemyBullet>().Shoot(dirX, dirY, damageDealt, movementSpeed, flipBulletX, flipBulletY, bulletStaysWithEnemyBeforeBeingShot, customBulletFrameList, bulletCanTouchLevel, frameListBullet, customTimeBetweenFrames, GetComponent<ShootingEnemy>(), GetComponent<Enemy>(), bulletHasCustomBoxColliderShape, customBoxColliderShape, offsetY);
+            bullet.transform.position = new Vector2(transform.position.x + offsetX, transform.position.y + offsetY);
             bulletTimer = bulletCooldown;
             canShoot = false;
             timesShot += 1;
