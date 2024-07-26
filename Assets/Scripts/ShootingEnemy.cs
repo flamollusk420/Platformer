@@ -5,6 +5,7 @@ using UnityEngine;
 public class ShootingEnemy : MonoBehaviour {
     private SoundManager soundManager;
     private Animator anim;
+    private SpriteRenderer sr;
     private float bulletTimer;
     private float bulletTimer2;
     private float animationTimer;
@@ -32,6 +33,10 @@ public class ShootingEnemy : MonoBehaviour {
     public bool flipBulletY = false;
     public bool customBulletFrameList;
     public bool bulletCanTouchLevel = false;
+    public bool onlyShootWhileVisible = true;
+    public bool disableNeedingVisibilityOnShoot;
+    private bool initialOnlyShootWhileVisible;
+    private bool startCompleted;
     public float customTimeBetweenFrames;
     public List<Sprite> frameListBullet = new List<Sprite>();
     public bool hasCustomShootSound;
@@ -47,17 +52,28 @@ public class ShootingEnemy : MonoBehaviour {
         if(!customAnimationTimeBeforeBurst) {
             animationTimeBeforeBurst = animationLength;
         }
+        sr = GetComponent<SpriteRenderer>();
+        initialOnlyShootWhileVisible = onlyShootWhileVisible;
+        startCompleted = true;
+    }
+
+    void OnEnable() {
+        if(startCompleted) {
+            onlyShootWhileVisible = initialOnlyShootWhileVisible;
+        }
     }
 
     void FixedUpdate() {
-        bulletTimer -= Time.deltaTime;
-        bulletTimer2 -= Time.deltaTime;
-        animationTimer -= Time.deltaTime;
+        if(!(onlyShootWhileVisible && !sr.isVisible)) {
+            bulletTimer -= Time.deltaTime;
+            bulletTimer2 -= Time.deltaTime;
+            animationTimer -= Time.deltaTime;
+        }
         if(bulletTimer <= 0) {
             canShoot = true;
         }
         if(GetComponent<Enemy>() == null || (GetComponent<Enemy>().deathJumpTimer <= 0)) {
-            if(canShoot && bulletTimer2 <= 0) {
+            if(canShoot && bulletTimer2 <= 0 && !(onlyShootWhileVisible && !sr.isVisible)) {
                 Shoot();
             }
             if(bulletTimer2 - animationTimeBeforeBurst <= 0 && anim != null && animationTimer <= 0) {
@@ -90,6 +106,9 @@ public class ShootingEnemy : MonoBehaviour {
                 timesShot = 0;
                 bulletTimer2 = timeUntilNextBurst;
             }
+        }
+        if(disableNeedingVisibilityOnShoot) {
+            onlyShootWhileVisible = false;
         }
     }
 }
