@@ -330,7 +330,7 @@ public class Enemy : MonoBehaviour {
                 hasBeenHitByExplosion = true;
                 player.style += 1;
                 player.ResetStyleDeductionTimer();
-                Hit(4);
+                Hit(5);
                 if(player.transform.position.x < transform.position.x) {
                     KnockBack(false, false, null, 1, 0, 0, 1, 1);
                 }

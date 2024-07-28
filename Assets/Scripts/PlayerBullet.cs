@@ -124,7 +124,7 @@ public class PlayerBullet : MonoBehaviour {
         bulletType = equippedBulletType;
         movementSpeed = movementSpeedSet;
         originalMovementSpeed = movementSpeed;
-        damageDealt = 1.5f;
+        damageDealt = 2;
         transitionCompleteMovementSpeedMultiplier = 1.75f;
         speedMultiplierCheck = true;
         if(playerScript.respawned) {
