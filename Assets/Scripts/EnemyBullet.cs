@@ -224,12 +224,13 @@ public class EnemyBullet : MonoBehaviour {
             }
         }
         if(collision.CompareTag("PlayerSecondaryCollider") && player != null && !stopped) {
-            if(!player.recoiling && player.isExploding && gameObject.GetComponent<EnemyBullet>().enabled == true) {
+            if(!player.recoiling && player.isExploding || player.playerDashCollider.canDoDamage && gameObject.GetComponent<EnemyBullet>().enabled == true) {
                 player.style += 1;
                 stopped = true;
                 fadingOut = true;
                 fadeOutSpeed = 0.35f;
                 fadeOutTimer = fadeOutTimerSet;
+                soundManager.PlayClip(soundManager.BulletDestroyedByDash, transform, 1);
             }
         }
         if(collision.CompareTag("PlayerBullet")) {

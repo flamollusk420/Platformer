@@ -38,15 +38,6 @@ public class PlayerDashCollider : MonoBehaviour {
                 player.sp += 1;
                 canDoDamage2 = false;
             }
-            if(collision.gameObject.CompareTag("EnemyBullet") && canDoDamage) {
-                Debug.Log("fucjkashuioesaishitasbfucyusditbuctchithch");
-                collision.GetComponent<EnemyBullet>().canBeDeflected = false;
-                collision.GetComponent<EnemyBullet>().deflectionTimer = 0.5f;
-                collision.GetComponent<EnemyBullet>().stopped = true;
-                collision.GetComponent<EnemyBullet>().fadingOut = true;
-                collision.GetComponent<EnemyBullet>().fadeOutTimer = collision.GetComponent<EnemyBullet>().fadeOutTimerSet;
-                soundManager.PlayClip(soundManager.BulletDestroyedByDash, transform, 1);
-            }
         }
     }
 }
