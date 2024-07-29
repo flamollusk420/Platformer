@@ -625,7 +625,7 @@ public class PlayerController : MonoBehaviour {
             jumps.position = 2;
         }
         if(currentRank != 0) {
-            styleWithinRank = style - 25 * (currentRank - 1);
+            styleWithinRank = style - 25 * (currentRank);
         }
         if(currentRank == 0) {
             styleWithinRank = style;
@@ -635,20 +635,20 @@ public class PlayerController : MonoBehaviour {
             soundManager.PlayClip(soundManager.StyleRankUp, transform, 1);
         }
         currentRankUI.position = currentRank;
-        if((style >= 25 * currentRank && currentRank != 0) || (style >= 25 && currentRank == 0)) {
+        if((style >= 25 * (currentRank + 1) && currentRank > 1) || (style >= 25 && currentRank == 0) || (style >= 50 && currentRank == 1)) {
             if(currentRank < 7) {
                 currentRank += 1;
                 sp += 2;
             }
         }
-        if(style < 25 * (currentRank - 1)) {
+        if(style < 25 * (currentRank)) {
             currentRank -= 1;
         }
         if(style < 0) {
             style = 0;
         }
-        if(style > 175) {
-            style = 175;
+        if(style > 200) {
+            style = 200;
         }
         //actually 8 because it starts at 0
         if(currentRank > 7) {
