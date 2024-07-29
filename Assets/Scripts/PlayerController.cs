@@ -361,20 +361,19 @@ public class PlayerController : MonoBehaviour {
             styleDeductionCancelTimer = 0.25f;
             isDashJumping2 = false;
         }
-        if(isDamaging || isDashJumping || isExitingDownDash || isExitingUpDash) {
+        if(isDamaging || isDashJumping || isExitingDownDash || isExitingUpDash || isExitingDash) {
             if(playerDashCollider.canDoDamage == false && playerDashCollider.canDoDamage2 == false) {
                 playerDashCollider.canDoDamage2 = true;
             }
             playerDashCollider.canDoDamage = true;
         }
-        if(!isDamaging && !isDashJumping && !isExitingDownDash && !isExitingUpDash) {
+        if(!isDamaging && !isDashJumping && !isExitingDownDash && !isExitingUpDash && !isExitingDash) {
             playerDashCollider.canDoDamage = false;
         }
         if(leftFireWaveHasHitEnemy && rightFireWaveHasHitEnemy) {
             leftFireWaveHasHitEnemy = false;
             rightFireWaveHasHitEnemy = false;
             style += 3;
-            sp += 3;
         }
         if(leftFireWaveHasKilledEnemy && rightFireWaveHasKilledEnemy) {
             leftFireWaveHasKilledEnemy = false;
@@ -569,6 +568,8 @@ public class PlayerController : MonoBehaviour {
         }
         if(explosionTimer <= 0 && isExploding) {
             isExploding = false;
+            sr.sortingLayerName = "Player";
+            sr.sortingOrder = 1;
             if(!deathEffectIsHappening) {
                 rb.gravityScale = 4;
             }
@@ -613,6 +614,9 @@ public class PlayerController : MonoBehaviour {
 
     private void UpdateUI() {
         healthBar.position = health;
+        if(sp > maxSP) {
+            sp = maxSP;
+        }
         spBar.position = sp;
         normalDash.position = dashesLeft;
         upDash.toggle = canUpDash;
@@ -920,6 +924,8 @@ public class PlayerController : MonoBehaviour {
             style += 2;
             canUpDash = true;
             canDownDash = true;
+            sr.sortingLayerName = "Explosions";
+            sr.sortingOrder = 20;
             soundManager.PlayClip(soundManager.PlayerExplosion, transform, 1);
         }
     }

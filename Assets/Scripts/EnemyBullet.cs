@@ -267,7 +267,6 @@ public class EnemyBullet : MonoBehaviour {
                     }
                     if(collision.GetComponent<Enemy>().health - ((damageDealt * 1.5f) * timesParried) <= 0) {
                         player.style += 2;
-                        player.sp += 2;
                         if(canOneShot) {
                             player.style += 2;
                         }

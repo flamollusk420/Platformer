@@ -169,7 +169,6 @@ public class PlayerBullet : MonoBehaviour {
                     player.style += 1;
                     if(enemyIsAtFullHealth) {
                         player.style += 1;
-                        player.sp += 1;
                     }
                 }
                 if(!piercing) {
@@ -179,9 +178,6 @@ public class PlayerBullet : MonoBehaviour {
                     fadeOutTimer = fadeOutTimerSet2;
                 }
                 player.sp += 1;
-                if(player.isDashing2) {
-                    player.sp += 1;
-                }
             }
         }
     }

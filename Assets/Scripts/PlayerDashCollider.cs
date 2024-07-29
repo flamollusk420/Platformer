@@ -20,7 +20,7 @@ public class PlayerDashCollider : MonoBehaviour {
             if(collision.gameObject.CompareTag("Enemies") && collision.GetComponent<Enemy>().health == collision.GetComponent<Enemy>().maxHealth) {
                 canOneShot = true;
             }
-            if(collision.gameObject.CompareTag("Enemies") && canDoDamage && canDoDamage2 && !player.recoiling && collision.GetComponent<Enemy>().canTakeDamage) {
+            if(collision.gameObject.CompareTag("Enemies") && canDoDamage && !player.recoiling && collision.GetComponent<Enemy>().canTakeDamage) {
                 collision.gameObject.GetComponent<Enemy>().Hit(1);
                 if(collision.GetComponent<Enemy>().health <= 0) {
                     if(player.isUpDashing) {
@@ -32,16 +32,13 @@ public class PlayerDashCollider : MonoBehaviour {
                     if(canOneShot) {
                         canOneShot = false;
                         player.style += 1;
-                        player.sp += 1;
                     }
                 }
                 player.style += 1;
-                if(player.sp < player.maxSP) {
-                    player.sp += 1;
-                }
+                player.sp += 1;
                 canDoDamage2 = false;
             }
-            if(collision.gameObject.CompareTag("EnemyBullet") && canDoDamage && canDoDamage2) {
+            if(collision.gameObject.CompareTag("EnemyBullet") && canDoDamage) {
                 Debug.Log("fucjkashuioesaishitasbfucyusditbuctchithch");
                 collision.GetComponent<EnemyBullet>().canBeDeflected = false;
                 collision.GetComponent<EnemyBullet>().deflectionTimer = 0.5f;

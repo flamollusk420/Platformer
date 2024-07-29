@@ -11,4 +11,4 @@ mechanic ideas:
 -same for beating a boss without getting hit and beating a boss without healing
 
 random stuff to do:
--fix mixing on first final boss theme
+-fix mixing on first final boss theme (or make a new one)

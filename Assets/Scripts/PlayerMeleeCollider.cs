@@ -24,7 +24,7 @@ public class PlayerMeleeCollider : MonoBehaviour {
         if((collision.gameObject.CompareTag("Enemies")) && ((player.facingDirX == 1 && collision.transform.position.x >= player.transform.position.x) || (player.facingDirX == -1 && collision.transform.position.x <= player.transform.position.x))) {
             if(collision.GetComponent<Enemy>() != null && canDoDamage && !player.recoiling) {
                 Enemy enemyScript = collision.GetComponent<Enemy>();
-                if(player.sp < player.maxSP && enemyScript.canTakeDamage) {
+                if(enemyScript.canTakeDamage) {
                     player.sp += 2;
                     if(enemyScript.beingKnockedBack) {
                         player.style += 8;
@@ -35,19 +35,11 @@ public class PlayerMeleeCollider : MonoBehaviour {
                     player.ResetStyleDeductionTimer();
                     if(player.touchingWall && player.GetComponent<Rigidbody2D>().velocity.y < 0) {
                         player.style += 2;
-                        player.sp += 1;
                     }
                     if(enemyScript.health - damageDealt <= 0) {
                         player.style += 1;
                         if(enemyScript.health == enemyScript.maxHealth) {
                             player.style += 2;
-                        }
-                    }
-                    if(enemyScript.health - (damageDealt + 1) <= 0 && (collision.gameObject.GetComponent<Rigidbody2D>().velocity.y < -0.2f || collision.gameObject.GetComponent<Rigidbody2D>().velocity.y > 0.2f)) {
-                        player.style += 2;
-                        if(enemyScript.health == enemyScript.maxHealth) {
-                            player.style += 2;
-                            player.sp += 1;
                         }
                     }
                 }

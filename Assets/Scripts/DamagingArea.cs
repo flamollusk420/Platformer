@@ -26,6 +26,9 @@ public class DamagingArea : MonoBehaviour {
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         if(GetComponent<SpriteRenderer>() != null) {
             sr = GetComponent<SpriteRenderer>();
+            if(resetColor) {
+                sr.color = new Color(255, 255, 255, 0);
+            }
         }
     }
 

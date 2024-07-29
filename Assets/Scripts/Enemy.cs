@@ -212,7 +212,7 @@ public class Enemy : MonoBehaviour {
                     }
                     player.dashesLeft = 2;
                     player.canUpDash = true;
-                    player.sp += 2;
+                    player.style += 2;
                 }
                 if(fastKillTimer > 0) {
                     player.style += 1;
@@ -344,7 +344,7 @@ public class Enemy : MonoBehaviour {
                 if((enemyCollider.gameObject.name == "FireWave1GroundCheck" && !hitByRightWave) || (enemyCollider.gameObject.name == "FireWave2GroundCheck" && !hitByLeftWave)) {
                     Hit(1);
                     player.style += 1;
-                    player.sp += 1;
+                    player.sp += 2;
                     player.ResetStyleDeductionTimer();
                     if(health <= 0) {
                         player.style += 3;
