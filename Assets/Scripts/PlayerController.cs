@@ -726,7 +726,7 @@ public class PlayerController : MonoBehaviour {
             sr.color = new Color(0.45f, 0.45f, 0.45f, 0.75f);
             recoilTimer = 0.5f;
         }
-        if((recoilTimer <= 0 || isDamaging || isShooting || isMeleeAttacking) && sr.color == new Color(0.45f, 0.45f, 0.45f, 0.75f)) {
+        if((recoilTimer <= 0 && !isMeleeAttacking && !isDamaging && !isShooting) && sr.color == new Color(0.45f, 0.45f, 0.45f, 0.75f)) {
             sr.color = new Color(1, 1, 1, 1);
             recoiling = false;
             if(recoilTimer > 0) {
@@ -809,6 +809,11 @@ public class PlayerController : MonoBehaviour {
             playerDashCollider.canDoDamage = false;
             anim.SetBool("isMeleeAttacking", false);
             soundManager.PlayClip(soundManager.Dash, transform, 1f);
+            sr.color = new Color(1, 1, 1, 1);
+            recoiling = false;
+            if(recoilTimer > 0) {
+                recoilTimer = 0;
+            }
         }
     }
 
@@ -824,6 +829,10 @@ public class PlayerController : MonoBehaviour {
             playerDashCollider.canDoDamage = false;
             anim.SetBool("isMeleeAttacking", false);
             soundManager.PlayClip(soundManager.Dash, transform, 1f);
+            recoiling = false;
+            if(recoilTimer > 0) {
+                recoilTimer = 0;
+            }
         }
     }
 
@@ -839,6 +848,10 @@ public class PlayerController : MonoBehaviour {
             playerDashCollider.canDoDamage = false;
             anim.SetBool("isMeleeAttacking", false);
             soundManager.PlayClip(soundManager.Dash, transform, 1f);
+            recoiling = false;
+            if(recoilTimer > 0) {
+                recoilTimer = 0;
+            }
         }
         if(!isDashing && !isUpDashing & sp > 0 && touchingGround && !isDownDashing && !isMeleeAttacking && !isExploding && !beingKnockedBack && !timeScaleIsZero) {
             if(!fireWave1.activeInHierarchy && !fireWave2.activeInHierarchy) {
@@ -861,6 +874,10 @@ public class PlayerController : MonoBehaviour {
                 rightFireWaveHasHitEnemy = false;
                 rightFireWaveHasKilledEnemy = false;
                 rightFireWaveHasOneShottedEnemy = false;
+                recoiling = false;
+                if(recoilTimer > 0) {
+                    recoilTimer = 0;
+                }
             }
         }
     }
@@ -953,6 +970,10 @@ public class PlayerController : MonoBehaviour {
                 isExitingUpDash = false;
                 isExitingDownDash = false;
                 soundManager.PlayClip(soundManager.PlayerShoot, transform, 1);
+                recoiling = false;
+                if(recoilTimer > 0) {
+                    recoilTimer = 0;
+                }
             }
         }
     }
