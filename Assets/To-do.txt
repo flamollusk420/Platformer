@@ -1,6 +1,5 @@
 important:
 -fix the camera when you touch a bunch of transitions in quick succession
--allow destroying bullets with a dash
 
 eh:
 -multiple backgrounds stacked on top of each other for different elevations in the level

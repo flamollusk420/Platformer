@@ -726,9 +726,12 @@ public class PlayerController : MonoBehaviour {
             sr.color = new Color(0.45f, 0.45f, 0.45f, 0.75f);
             recoilTimer = 0.5f;
         }
-        if(recoilTimer <= 0 && sr.color == new Color(0.45f, 0.45f, 0.45f, 0.75f)) {
+        if((recoilTimer <= 0 || isDamaging || isShooting || isMeleeAttacking) && sr.color == new Color(0.45f, 0.45f, 0.45f, 0.75f)) {
             sr.color = new Color(1, 1, 1, 1);
             recoiling = false;
+            if(recoilTimer > 0) {
+                recoilTimer = 0;
+            }
         }
     }
 
