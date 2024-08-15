@@ -1,5 +1,6 @@
 important:
 -fix the camera when you touch a bunch of transitions in quick succession
+-fix sliding after jumping off wall
 
 eh:
 -multiple backgrounds stacked on top of each other for different elevations in the level

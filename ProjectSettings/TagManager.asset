@@ -31,6 +31,8 @@ TagManager:
   - EquippedPrimaryUI
   - SoundManagerSound
   - PauseUI
+  - CMcam3
+  - CMcam4
   layers:
   - Default
   - TransparentFX

@@ -28,7 +28,7 @@ public class Background : MonoBehaviour {
         if(stretchY) {
             sr.size = new Vector2(sr.size.x, sr.size.y * stretchTimesY);
         }
-        spriteWidthInUnits = sr.sprite.texture.width / sr.sprite.pixelsPerUnit;
+        spriteWidthInUnits = sr.sprite.bounds.size.x;
         currentPlayerX = cameraTransform.position.x;
         currentPlayerY = cameraTransform.position.y;
     }

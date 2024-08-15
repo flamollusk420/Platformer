@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     private SoundManager soundManager;
-    private Rigidbody2D rb;
-    private SpriteRenderer sr;
+    [HideInInspector]
+    public Rigidbody2D rb;
+    [HideInInspector]
+    public SpriteRenderer sr;
     private Animator anim;
     private PlayerControls controls;
     public GameObject fireWave1;
@@ -62,7 +64,8 @@ public class PlayerController : MonoBehaviour {
     //used to keep enemies that are being knocked back above other enemies in the sorting layer order
     public int currentHighestEnemyLayerOrder = 25;
 
-    //private bool startCompleted;
+    [HideInInspector]
+    public bool startCompleted;
     public bool respawned;
     public bool recoiling;
     public bool facingRight = true;
@@ -202,7 +205,7 @@ public class PlayerController : MonoBehaviour {
         //this will be changed later
         respawnX = transform.position.x;
         respawnY = transform.position.y;
-        //startCompleted = true;
+        startCompleted = true;
     }
 
     void OnEnable() {
