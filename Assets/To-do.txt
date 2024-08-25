@@ -1,5 +1,4 @@
 important:
--fix the camera when you touch a bunch of transitions in quick succession
 -fix sliding after jumping off wall
 
 eh:

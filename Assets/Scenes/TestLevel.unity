@@ -251,8 +251,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
   knockbackTimerSet: 1.25
-  health: 2.5
-  maxHealth: 2.5
+  health: 2
+  maxHealth: 2
   damageDealt: 1
   enemySize: 1
   SFXimportance: 1
@@ -1462,8 +1462,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
   knockbackTimerSet: 1.25
-  health: 2.5
-  maxHealth: 2.5
+  health: 2
+  maxHealth: 2
   damageDealt: 1
   enemySize: 1
   SFXimportance: 1
@@ -9416,8 +9416,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
   knockbackTimerSet: 1.25
-  health: 2.5
-  maxHealth: 2.5
+  health: 2
+  maxHealth: 2
   damageDealt: 1
   enemySize: 1
   SFXimportance: 1
@@ -38093,8 +38093,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
   knockbackTimerSet: 1.25
-  health: 2.5
-  maxHealth: 2.5
+  health: 2
+  maxHealth: 2
   damageDealt: 1
   enemySize: 1
   SFXimportance: 1
@@ -39842,8 +39842,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
   knockbackTimerSet: 1.25
-  health: 2.5
-  maxHealth: 2.5
+  health: 2
+  maxHealth: 2
   damageDealt: 1
   enemySize: 1
   SFXimportance: 1

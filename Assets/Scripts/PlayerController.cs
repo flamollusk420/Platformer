@@ -345,7 +345,7 @@ public class PlayerController : MonoBehaviour {
             wallFacingDirX = facingDirX;
         }
         //this stops the player from sliding around like a hockey puck after landing from a dash jump
-        if(dirX == 0 && touchingGround && !touchingWall && !isJumping && !isDamaging && !isDamaging && !isUpDashing && !isDownDashing && !isDashJumping && isDashJumping2) {
+        if(dirX == 0 && touchingGround && !isJumping && !isDamaging && !isDashJumping) {
             rb.velocity = new Vector2(0, rb.velocity.y);
         }
         if(!touchingWall && rb.gravityScale == 0.5f && !isExploding && !beingKnockedBack && !deathEffectIsHappening) {
