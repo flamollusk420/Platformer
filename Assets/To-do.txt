@@ -2,8 +2,8 @@ important:
 -fix sliding after jumping off wall
 
 eh:
--multiple backgrounds stacked on top of each other for different elevations in the level
 -make it harder to get style by just hitting a static enemy with a melee attack until it dies
+-aka make the normal dash do almost no damage so that cheesing bosses with it is very boring and is more of an accessibility tool than a way to play the game
 -fix eyetree damage when done testing death animations
 -make junkyard theme shorter
 -original player position is 0.25, -3

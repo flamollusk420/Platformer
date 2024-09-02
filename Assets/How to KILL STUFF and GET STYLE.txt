@@ -77,7 +77,8 @@ THE STYLE BONUS RECIEVED WHEN MULTIPLE ENEMIES ARE KILLED IN QUICK SUCCESSION:
 
 
 ATTACK DAMAGE:
--dashes/up-dashes/down-dashes = 1 point of damage
+-dashes = 0.5 points of damage
+-up-dashes/down-dashes = 1 point of damage
 -bullets = 2 points of damage
 -fire waves = 1 point of damage
 -melee attacks = 2.5 points of damage
@@ -85,6 +86,9 @@ ATTACK DAMAGE:
 -parried enemy bullets = bullet damage multiplied by 1.5 and then multiplied by how many times they have been parried (eg. 1 damage bullet parried twice = 3 damage bullet)
 -enemies launched into other enemies = damage depends on size of enemy being launched (small = 1, medium = 2, large = 3)
 
+SP COSTS:
+-exploding = 25 SP (the whole bar)
+-healing = 15 SP
 
 GAINING SP:
 -hitting an enemy with a dash/up-dash/down-dash = +1 SP

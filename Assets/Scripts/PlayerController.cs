@@ -685,7 +685,7 @@ public class PlayerController : MonoBehaviour {
 
     public void OnHeal() {
         if(health < maxHealth && sp >= 7 && !timeScaleIsZero) {
-           sp -= 7;
+           sp -= 12;
            style -= 3;
            Heal(1, false);
         }
@@ -916,7 +916,7 @@ public class PlayerController : MonoBehaviour {
 
     private void OnSPattack() {
         if(sp >= 7 && !isExploding && !timeScaleIsZero) {
-            sp -= 7;
+            sp -= 25;
             explosionTimer = explosionTimerSet;
             isExploding = true;
             recoiling = false;
