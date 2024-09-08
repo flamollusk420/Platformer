@@ -21,9 +21,9 @@ public class PlayerDashCollider : MonoBehaviour {
                 canOneShot = true;
             }
             if(collision.gameObject.CompareTag("Enemies") && canDoDamage && !player.recoiling && collision.GetComponent<Enemy>().canTakeDamage) {
-                collision.gameObject.GetComponent<Enemy>().Hit(0.5f);
+                collision.gameObject.GetComponent<Enemy>().Hit(0.75f);
                 if(player.isDashJumping) {
-                    collision.gameObject.GetComponent<Enemy>().Hit(0.25f);
+                    collision.gameObject.GetComponent<Enemy>().Hit(0.5f);
                 }
                 if(collision.GetComponent<Enemy>().health <= 0) {
                     if(player.isUpDashing) {
