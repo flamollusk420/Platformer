@@ -22,6 +22,9 @@ public class PlayerDashCollider : MonoBehaviour {
             }
             if(collision.gameObject.CompareTag("Enemies") && canDoDamage && !player.recoiling && collision.GetComponent<Enemy>().canTakeDamage) {
                 collision.gameObject.GetComponent<Enemy>().Hit(0.5f);
+                if(player.isDashJumping) {
+                    collision.gameObject.GetComponent<Enemy>().Hit(0.25f);
+                }
                 if(collision.GetComponent<Enemy>().health <= 0) {
                     if(player.isUpDashing) {
                         player.style += 3;

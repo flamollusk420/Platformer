@@ -14,6 +14,7 @@ public class ChangeRooms : MonoBehaviour {
     private CinemachineVirtualCamera cam4;
     private LockCameraPos camLock;
     private LockCameraPos camLock2;
+    private BarrierContainer barriers;
     //private bool camToggle = false;
     private float cameraNumber = 1;
     [HideInInspector]
@@ -34,6 +35,7 @@ public class ChangeRooms : MonoBehaviour {
         confiner3 = GameObject.FindWithTag("CMcam3").GetComponent<CinemachineConfiner>();
         confiner4 = GameObject.FindWithTag("CMcam4").GetComponent<CinemachineConfiner>();
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        barriers = GameObject.FindWithTag("BarrierContainer").GetComponent<BarrierContainer>();
         cam2.gameObject.SetActive(false);
         cam3.gameObject.SetActive(false);
         cam4.gameObject.SetActive(false);
@@ -90,6 +92,12 @@ public class ChangeRooms : MonoBehaviour {
                 }
                 if(collisionObject.GetComponent<EnemySpawner>() != null) {
                     player.currentRoomSpawner = collisionObject.GetComponent<EnemySpawner>();
+                }
+                if(collisionObject.GetComponent<RoomVars>() != null) {
+                    if(collisionObject.GetComponent<RoomVars>().lockPlayerInRoom) {
+                        RoomVars varsForLockingRoom = collisionObject.GetComponent<RoomVars>();
+                        barriers.LockPlayerInRoom(collisionObject, varsForLockingRoom.needsBarrierL, varsForLockingRoom.needsBarrierR, varsForLockingRoom.needsBarrierU, varsForLockingRoom.needsBarrierD, varsForLockingRoom.showBarrierL, varsForLockingRoom.showBarrierR, varsForLockingRoom.showBarrierU, varsForLockingRoom.showBarrierD);
+                    }
                 }
             }
         }

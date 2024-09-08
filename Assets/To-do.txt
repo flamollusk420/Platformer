@@ -1,5 +1,5 @@
 eh:
 -make it harder to get style by just hitting a static enemy with a melee attack until it dies
--fix eyetree damage when done testing death animations
--make junkyard theme shorter
--original player position is 0.25, -3
+-make junkyard theme get to the point faster
+-fix mixing on abandoned mine theme
+-fix enemy spawner in room 6 when done coding barriers

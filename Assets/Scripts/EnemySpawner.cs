@@ -6,6 +6,7 @@ public class EnemySpawner : MonoBehaviour {
     public List<GameObject> enemyList = new List<GameObject>();
     private SpriteRenderer sr;
     private PlayerController player;
+    private BarrierContainer barriers;
     [HideInInspector]
     public bool automaticallyPopulateEnemyList = true;
     public bool canSpawnEnemies = true;
@@ -20,8 +21,17 @@ public class EnemySpawner : MonoBehaviour {
     public bool onlySpawnIfPlayerIsInRoom = true;
     public bool isRoom = true;
     public bool timerHasRunOut;
+    [HideInInspector]
+    public bool checkIfEnemiesAreDead;
+    private bool hasSpawnedEnemies;
+    private int deadEnemies;
 
     void OnEnable() {
+        sr = GetComponent<SpriteRenderer>();
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        barriers = GameObject.FindWithTag("BarrierContainer").GetComponent<BarrierContainer>();
+        deadEnemies = 0;
+        hasSpawnedEnemies = false;
         if(!canSpawnEnemiesAtStart) {
             canSpawnEnemies = false;
         }
@@ -30,12 +40,10 @@ public class EnemySpawner : MonoBehaviour {
                 enemyList.Add(transform.GetChild(i).gameObject);
             }
         }
-        sr = GetComponent<SpriteRenderer>();
-        player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         if(changeColor) {
             sr.color = new Color(255, 255, 255, 0);
         }
-    }        
+    }
     
     private void UpdateTimer() {
         spawnTimer -= Time.deltaTime;
@@ -75,9 +83,24 @@ public class EnemySpawner : MonoBehaviour {
                     enemyList[i].gameObject.GetComponent<Enemy>().health = enemyList[i].gameObject.GetComponent<Enemy>().maxHealth;
                     enemyList[i].gameObject.GetComponent<Enemy>().effectTimer = enemyList[i].gameObject.GetComponent<Enemy>().effectCooldown;
                     enemyList[i].gameObject.GetComponent<Enemy>().hasBeenSpawned = true;
+                    enemyList[i].gameObject.GetComponent<Enemy>().spawner = GetComponent<EnemySpawner>();
                     enemyList[i].gameObject.SetActive(false);
                     enemyList[i].gameObject.SetActive(true);
                     enemyList[i].transform.position = new Vector2(enemyList[i].GetComponent<Enemy>().startingX, enemyList[i].GetComponent<Enemy>().startingY);
+                    hasSpawnedEnemies = true;
+                }
+            }
+        }
+    }
+
+    public void CheckDeaths() {
+        if(checkIfEnemiesAreDead && hasSpawnedEnemies) {
+            for(int i = 0; i < enemyList.Count; i++) {
+                if(!enemyList[i].gameObject.activeInHierarchy) {
+                    deadEnemies += 1;
+                }
+                if(deadEnemies >= enemyList.Count) {
+                    barriers.RemoveBarriers();
                 }
             }
         }

@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour {
     public EnemySpawner currentRoomSpawner;
     private FlexibleAnimation explosion;
     private ChangeRooms roomChanger;
+    private BarrierContainer barriers;
 
     public float movementSpeed;
     public float dashSpeed;
@@ -201,6 +202,7 @@ public class PlayerController : MonoBehaviour {
         fireWave1 = GameObject.FindWithTag("PlayerFireWave");
         fireWave2 = GameObject.FindWithTag("PlayerFireWave2");
         roomChanger = GameObject.FindWithTag("PlayerSecondaryCollider").GetComponent<ChangeRooms>();
+        barriers = GameObject.FindWithTag("BarrierContainer").GetComponent<BarrierContainer>();
         controls = new PlayerControls();
         //this will be changed later
         respawnX = transform.position.x;
@@ -457,6 +459,7 @@ public class PlayerController : MonoBehaviour {
         DespawnObjectsOnPlayerRespawn();
         Hit(0);
         transform.position = new Vector2(respawnX, respawnY);
+        barriers.RemoveBarriers();
         roomChanger.oneTimeCameraMove = true;
         sr.enabled = true;
         deathEffectIsHappening = false;

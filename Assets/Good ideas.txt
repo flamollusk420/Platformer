@@ -9,6 +9,3 @@ mechanic ideas:
 -s-ranking levels makes the music at the ranking screen cooler with more instruments
 -style bonuses for beating a level without dying, beating a level without getting hit, beating a level without healing, and killing every enemy in a level
 -same for beating a boss without getting hit and beating a boss without healing
-
-random stuff to do:
--fix mixing on first final boss theme (or make a new one)

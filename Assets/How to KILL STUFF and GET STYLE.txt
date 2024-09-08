@@ -77,7 +77,8 @@ THE STYLE BONUS RECIEVED WHEN MULTIPLE ENEMIES ARE KILLED IN QUICK SUCCESSION:
 
 
 ATTACK DAMAGE:
--dashes = 0.5 points of damage
+-dashes = 0.75 points of damage
+-dash-jumps = 1 point of damage
 -up-dashes/down-dashes = 1 point of damage
 -bullets = 2 points of damage
 -fire waves = 1 point of damage

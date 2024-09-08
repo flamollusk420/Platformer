@@ -33,6 +33,7 @@ TagManager:
   - PauseUI
   - CMcam3
   - CMcam4
+  - BarrierContainer
   layers:
   - Default
   - TransparentFX

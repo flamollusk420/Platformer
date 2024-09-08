@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour {
     public GameObject objectToModify;
     public GameObject hostEnemy;
     public AudioClip customDeathSound;
+    [HideInInspector]
+    public EnemySpawner spawner;
 
     public float customDeathSoundVolume = 1;
     [HideInInspector]
@@ -277,6 +279,9 @@ public class Enemy : MonoBehaviour {
             }
             player.multikillCombo += 1;
             player.canGainMultikillStyle = true;
+            if(spawner != null) {
+                spawner.CheckDeaths();
+            }
         }
         sr.color = new Color(0, 0, 0, 0.6f);
         rb.gravityScale = 0;

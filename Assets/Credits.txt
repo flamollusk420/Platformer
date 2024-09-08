@@ -11,6 +11,6 @@ NES Cyrillic by xbost: https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?i
 ChiKareGo2 by Giles Booth: https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=3780
 
 CODE:
-Camera lock script by Gregoryl: https://forum.unity.com/threads/follow-only-along-a-certain-axis.544511/#post-3591751
+Camera lock script by Gregoryl: https://discussions.unity.com/t/follow-only-along-a-certain-axis/710963
 Sound manager tutorial by Sasquatch B Studios: https://www.youtube.com/watch?v=DU7cgVsU2rM
 Parallax background tutorial by CyberPotato: https://www.youtube.com/watch?v=zrr6xCBPT_Y
