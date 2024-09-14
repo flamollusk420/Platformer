@@ -28,7 +28,7 @@ public class BarrierContainer : MonoBehaviour {
     void FixedUpdate() {
         if(barrierL.gameObject.activeInHierarchy || removingBarriers) {
             timerL -= Time.deltaTime;
-            if(timerL <= 0) {
+            if(timerL <= 0 && barrierImageL.gameObject.activeInHierarchy) {
                 barrierImageL.GetComponent<Animator>().SetBool("entering", false);
                 if(removingBarriers) {
                     barrierImageL.gameObject.SetActive(false);
@@ -38,7 +38,7 @@ public class BarrierContainer : MonoBehaviour {
         }
         if(barrierR.gameObject.activeInHierarchy || removingBarriers) {
             timerR -= Time.deltaTime;
-            if(timerR <= 0) {
+            if(timerR <= 0 && barrierImageR.gameObject.activeInHierarchy) {
                 barrierImageR.GetComponent<Animator>().SetBool("entering", false);
                 if(removingBarriers) {
                     barrierImageR.gameObject.SetActive(false);
@@ -48,7 +48,7 @@ public class BarrierContainer : MonoBehaviour {
         }
         if(barrierU.gameObject.activeInHierarchy || removingBarriers) {
             timerU -= Time.deltaTime;
-            if(timerU <= 0) {
+            if(timerU <= 0 && barrierImageU.gameObject.activeInHierarchy) {
                 barrierImageU.GetComponent<Animator>().SetBool("entering", false);
                 if(removingBarriers) {
                     barrierImageU.gameObject.SetActive(false);
@@ -58,7 +58,7 @@ public class BarrierContainer : MonoBehaviour {
         }
         if(barrierD.gameObject.activeInHierarchy || removingBarriers) {
             timerD -= Time.deltaTime;
-            if(timerD <= 0) {
+            if(timerD <= 0 && barrierImageD.gameObject.activeInHierarchy) {
                 barrierImageD.GetComponent<Animator>().SetBool("entering", false);
                 if(removingBarriers) {
                     barrierImageD.gameObject.SetActive(false);
@@ -79,6 +79,8 @@ public class BarrierContainer : MonoBehaviour {
             barrierL.position = new Vector2(roomCollider.bounds.center.x - roomCollider.bounds.size.x / 2, roomCollider.bounds.center.y);
             barrierL.localScale = new Vector3(barrierL.localScale.x, roomCollider.bounds.size.y * 1.25f, barrierL.localScale.z);
             if(showBarrierL) {
+                barrierImageL.gameObject.SetActive(true);
+                barrierImageL.parent.gameObject.SetActive(true);
                 Transform barrierImageLparent = barrierImageL.parent;
                 barrierImageLparent.gameObject.SetActive(true);
                 barrierImageLparent.transform.position = new Vector2(cam.ViewportToWorldPoint(new Vector3(0,1,0)).x, barrierImageLparent.transform.position.y);
@@ -88,11 +90,11 @@ public class BarrierContainer : MonoBehaviour {
         if(needsBarrierR) {
             timerR = 0.15f;
             barrierR.gameObject.SetActive(true);
-            barrierImageR.gameObject.SetActive(true);
-            barrierImageR.parent.gameObject.SetActive(true);
             barrierR.position = new Vector2(roomCollider.bounds.center.x + roomCollider.bounds.size.x / 2, roomCollider.bounds.center.y);
             barrierR.localScale = new Vector3(barrierR.localScale.x, roomCollider.bounds.size.y * 1.25f, barrierR.localScale.z);
             if(showBarrierR) {
+                barrierImageR.gameObject.SetActive(true);
+                barrierImageR.parent.gameObject.SetActive(true);
                 Transform barrierImageRparent = barrierImageR.parent;
                 barrierImageRparent.gameObject.SetActive(true);
                 barrierImageRparent.transform.position = new Vector2(cam.ViewportToWorldPoint(new Vector3(1,1,0)).x, barrierImageRparent.transform.position.y);
@@ -102,11 +104,11 @@ public class BarrierContainer : MonoBehaviour {
         if(needsBarrierU) {
             timerU = 0.15f;
             barrierU.gameObject.SetActive(true);
-            barrierImageU.gameObject.SetActive(true);
-            barrierImageU.parent.gameObject.SetActive(true);
             barrierU.position = new Vector2(roomCollider.bounds.center.x, roomCollider.bounds.center.y + roomCollider.bounds.size.x / 2);
             barrierU.localScale = new Vector3(roomCollider.bounds.size.x * 1.25f, barrierU.localScale.y, barrierU.localScale.z);
             if(showBarrierU) {
+                barrierImageU.gameObject.SetActive(true);
+                barrierImageU.parent.gameObject.SetActive(true);
                 Transform barrierImageUparent = barrierImageU.parent;
                 barrierImageUparent.gameObject.SetActive(true);
                 barrierImageUparent.transform.position = new Vector2(barrierImageUparent.transform.position.x, cam.ViewportToWorldPoint(new Vector3(0,1,0)).y);
@@ -116,11 +118,11 @@ public class BarrierContainer : MonoBehaviour {
         if(needsBarrierD) {
             timerD = 0.15f;
             barrierD.gameObject.SetActive(true);
-            barrierImageD.gameObject.SetActive(true);
-            barrierImageD.parent.gameObject.SetActive(true);
             barrierD.position = new Vector2(roomCollider.bounds.center.x, roomCollider.bounds.center.y - roomCollider.bounds.size.x / 2);
             barrierD.localScale = new Vector3(roomCollider.bounds.size.x * 1.25f, barrierU.localScale.y, barrierU.localScale.z);
             if(showBarrierD) {
+                barrierImageD.gameObject.SetActive(true);
+                barrierImageD.parent.gameObject.SetActive(true);
                 Transform barrierImageDparent = barrierImageD.parent;
                 barrierImageDparent.gameObject.SetActive(true);
                 barrierImageDparent.transform.position = new Vector2(barrierImageDparent.transform.position.x, cam.ViewportToWorldPoint(new Vector3(0,0,0)).y);
@@ -139,13 +141,21 @@ public class BarrierContainer : MonoBehaviour {
         timerU = 0.15f;
         timerD = 0.15f;
         removingBarriers = true;
-        barrierImageL.GetComponent<Animator>().SetBool("exiting", true);
-        barrierImageL.GetComponent<Animator>().SetBool("entering", false);
-        barrierImageR.GetComponent<Animator>().SetBool("exiting", true);
-        barrierImageR.GetComponent<Animator>().SetBool("entering", false);
-        barrierImageU.GetComponent<Animator>().SetBool("exiting", true);
-        barrierImageU.GetComponent<Animator>().SetBool("entering", false);
-        barrierImageD.GetComponent<Animator>().SetBool("exiting", true);
-        barrierImageD.GetComponent<Animator>().SetBool("entering", false);
+        if(barrierImageL.gameObject.activeInHierarchy){
+            barrierImageL.GetComponent<Animator>().SetBool("exiting", true);
+            barrierImageL.GetComponent<Animator>().SetBool("entering", false);
+        }
+        if(barrierImageR.gameObject.activeInHierarchy){
+            barrierImageR.GetComponent<Animator>().SetBool("exiting", true);
+            barrierImageR.GetComponent<Animator>().SetBool("entering", false);
+        }
+        if(barrierImageU.gameObject.activeInHierarchy){
+            barrierImageU.GetComponent<Animator>().SetBool("exiting", true);
+            barrierImageU.GetComponent<Animator>().SetBool("entering", false);
+        }
+        if(barrierImageD.gameObject.activeInHierarchy){
+            barrierImageD.GetComponent<Animator>().SetBool("exiting", true);
+            barrierImageD.GetComponent<Animator>().SetBool("entering", false);
+        }
     }
 }

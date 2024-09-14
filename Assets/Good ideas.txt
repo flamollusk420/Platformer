@@ -2,6 +2,7 @@ design ideas:
 -ms paint secret level
 -theme in multiple levels, eyeballs and mystical dream stuff w/ black voids, put it in the tutorial, final boss level, etc.
 -volcano level doesn't have normal colored fire, it's in different colors and there's fireworks
+-match up animated backgrounds to bpm of songs
 
 mechanic ideas:
 -finding collectibles in levels gives you style points

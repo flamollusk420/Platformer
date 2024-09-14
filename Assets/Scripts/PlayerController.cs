@@ -687,7 +687,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void OnHeal() {
-        if(health < maxHealth && sp >= 7 && !timeScaleIsZero) {
+        if(health < maxHealth && sp >= 12 && !timeScaleIsZero) {
            sp -= 12;
            style -= 3;
            Heal(1, false);

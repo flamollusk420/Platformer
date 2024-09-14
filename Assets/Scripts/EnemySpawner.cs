@@ -23,6 +23,8 @@ public class EnemySpawner : MonoBehaviour {
     public bool timerHasRunOut;
     [HideInInspector]
     public bool checkIfEnemiesAreDead;
+    //[HideInInspector]
+    public bool allEnemiesAreDead;
     private bool hasSpawnedEnemies;
     private int deadEnemies;
 
@@ -31,6 +33,7 @@ public class EnemySpawner : MonoBehaviour {
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         barriers = GameObject.FindWithTag("BarrierContainer").GetComponent<BarrierContainer>();
         deadEnemies = 0;
+        allEnemiesAreDead = false;
         hasSpawnedEnemies = false;
         if(!canSpawnEnemiesAtStart) {
             canSpawnEnemies = false;
@@ -101,6 +104,8 @@ public class EnemySpawner : MonoBehaviour {
                 }
                 if(deadEnemies >= enemyList.Count) {
                     barriers.RemoveBarriers();
+                    allEnemiesAreDead = true;
+                    //this is in the for loop and happens for each enemy in the spawn list
                 }
             }
         }

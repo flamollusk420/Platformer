@@ -1,4 +1,5 @@
 eh:
+-fix top/bottom barriers in locked rooms
 -make it harder to get style by just hitting a static enemy with a melee attack until it dies
 -make junkyard theme get to the point faster
 -fix mixing on abandoned mine theme
