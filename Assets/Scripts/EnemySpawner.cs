@@ -70,7 +70,7 @@ public class EnemySpawner : MonoBehaviour {
         }
         if(canSpawnEnemies) {
             if((onlySpawnIfPlayerIsInRoom && playerIsInRoom) || !onlySpawnIfPlayerIsInRoom) {
-                if(spawnTimer <= 0) {
+                if(spawnTimer <= 0 && player.roomChanger.roomEntryTimer <= 0) {
                     SpawnEnemies();
                 }
             }

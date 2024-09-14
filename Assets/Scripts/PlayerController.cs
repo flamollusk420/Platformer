@@ -32,7 +32,8 @@ public class PlayerController : MonoBehaviour {
     [HideInInspector]
     public EnemySpawner currentRoomSpawner;
     private FlexibleAnimation explosion;
-    private ChangeRooms roomChanger;
+    [HideInInspector]
+    public ChangeRooms roomChanger;
     private BarrierContainer barriers;
 
     public float movementSpeed;

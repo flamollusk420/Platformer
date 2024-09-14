@@ -24,6 +24,11 @@ public class ChangeRooms : MonoBehaviour {
     private float cameraChangeTimer;
     public float cameraChangeTimerSet = 0.01f;
     private string oldRoomName;
+    [HideInInspector]
+    public float roomEntryTimer;
+    [HideInInspector]
+    public float roomEntryTimerSet = 0.2f;
+    private bool tryingToLockPlayerIntoRoom = false;
 
     void Start() {
         cam = GameObject.FindWithTag("CMcam").GetComponent<CinemachineVirtualCamera>();
@@ -43,6 +48,13 @@ public class ChangeRooms : MonoBehaviour {
 
     void Update() {
         cameraChangeTimer -= Time.deltaTime;
+        roomEntryTimer -= Time.deltaTime;
+        if(tryingToLockPlayerIntoRoom && roomEntryTimer <= 0) {
+            RoomVars varsForLockingRoom = collisionObject.GetComponent<RoomVars>();
+            collisionObject.GetComponent<EnemySpawner>().CheckDeaths();
+            barriers.LockPlayerInRoom(collisionObject, varsForLockingRoom.needsBarrierL, varsForLockingRoom.needsBarrierR, varsForLockingRoom.needsBarrierU, varsForLockingRoom.needsBarrierD, varsForLockingRoom.showBarrierL, varsForLockingRoom.showBarrierR, varsForLockingRoom.showBarrierU, varsForLockingRoom.showBarrierD);
+            tryingToLockPlayerIntoRoom = false;
+        }
     }
 
     //swap between cameras when moving between rooms for a smooth transition
@@ -95,9 +107,7 @@ public class ChangeRooms : MonoBehaviour {
                 }
                 if(collisionObject.GetComponent<RoomVars>() != null && collisionObject.GetComponent<EnemySpawner>() != null) {
                     if(collisionObject.GetComponent<RoomVars>().lockPlayerInRoom && !collisionObject.GetComponent<EnemySpawner>().allEnemiesAreDead) {
-                        RoomVars varsForLockingRoom = collisionObject.GetComponent<RoomVars>();
-                        collisionObject.GetComponent<EnemySpawner>().CheckDeaths();
-                        barriers.LockPlayerInRoom(collisionObject, varsForLockingRoom.needsBarrierL, varsForLockingRoom.needsBarrierR, varsForLockingRoom.needsBarrierU, varsForLockingRoom.needsBarrierD, varsForLockingRoom.showBarrierL, varsForLockingRoom.showBarrierR, varsForLockingRoom.showBarrierU, varsForLockingRoom.showBarrierD);
+                        tryingToLockPlayerIntoRoom = true;
                     }
                 }
             }
@@ -160,6 +170,9 @@ public class ChangeRooms : MonoBehaviour {
     void OnTriggerStay2D(Collider2D collision) {
         if(collision.gameObject.CompareTag("Room") && cameraChangeTimer <= 0) {
             if(player.currentRoomName != collision.gameObject.name || oneTimeCameraMove) {
+                if(collisionObject != collision.gameObject) {
+                    roomEntryTimer = roomEntryTimerSet;
+                }
                 collisionObject = collision.gameObject;
             }
         }
