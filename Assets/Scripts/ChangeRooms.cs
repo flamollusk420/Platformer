@@ -54,7 +54,6 @@ public class ChangeRooms : MonoBehaviour {
             RoomVars varsForLockingRoom = collisionObject.GetComponent<RoomVars>();
             collisionObject.GetComponent<EnemySpawner>().CheckDeaths();
             barriers.LockPlayerInRoom(collisionObject, varsForLockingRoom.needsBarrierL, varsForLockingRoom.needsBarrierR, varsForLockingRoom.needsBarrierU, varsForLockingRoom.needsBarrierD, varsForLockingRoom.showBarrierL, varsForLockingRoom.showBarrierR, varsForLockingRoom.showBarrierU, varsForLockingRoom.showBarrierD);
-            Debug.Log("ass");
         }
     }
 

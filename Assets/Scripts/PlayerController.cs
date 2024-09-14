@@ -457,7 +457,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void RespawnPlayer() {
-        Debug.Log("respawning");
         DespawnObjectsOnPlayerRespawn();
         Hit(0);
         transform.position = new Vector2(respawnX, respawnY);

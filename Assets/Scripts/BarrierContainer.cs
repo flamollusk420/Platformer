@@ -27,11 +27,7 @@ public class BarrierContainer : MonoBehaviour {
     }
 
     void Update() {
-        if(removingBarriers) {
-            Debug.Log("we did it.");
-        }
         if(barrierL.gameObject.activeInHierarchy || removingBarriers) {
-            //Debug.Log(removingBarriers);
             timerL -= Time.deltaTime;
             if(timerL <= 0 && (barrierImageL.gameObject.activeInHierarchy || barrierImageL.parent.gameObject.activeInHierarchy)) {
                 if(barrierImageL.gameObject.activeInHierarchy) {
@@ -39,7 +35,6 @@ public class BarrierContainer : MonoBehaviour {
                 }
                 if(removingBarriers) {
                     barrierImageL.gameObject.SetActive(false);
-                    Debug.Log("barrierimageL removed");
                     barrierImageL.parent.gameObject.SetActive(false);
                 }
             }
@@ -89,7 +84,6 @@ public class BarrierContainer : MonoBehaviour {
 
     public void LockPlayerInRoom(GameObject room, bool needsBarrierL, bool needsBarrierR, bool needsBarrierU, bool needsBarrierD, bool showBarrierL, bool showBarrierR, bool showBarrierU, bool showBarrierD) {
         if(removingBarriers) {
-            Debug.Log("set removingbarriers to false");
         }
         removingBarriers = false;
         roomIsLocked = true;
@@ -165,7 +159,6 @@ public class BarrierContainer : MonoBehaviour {
         timerU = 0.15f;
         timerD = 0.15f;
         removingBarriers = true;
-        Debug.Log("removingbarriers is true");
         if(barrierImageL.gameObject.activeInHierarchy) {
             barrierImageL.GetComponent<Animator>().SetBool("exiting", true);
             barrierImageL.GetComponent<Animator>().SetBool("entering", false);
