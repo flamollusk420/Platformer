@@ -50,10 +50,11 @@ public class ChangeRooms : MonoBehaviour {
         cameraChangeTimer -= Time.deltaTime;
         roomEntryTimer -= Time.deltaTime;
         if(tryingToLockPlayerIntoRoom && roomEntryTimer <= 0) {
+            tryingToLockPlayerIntoRoom = false;
             RoomVars varsForLockingRoom = collisionObject.GetComponent<RoomVars>();
             collisionObject.GetComponent<EnemySpawner>().CheckDeaths();
             barriers.LockPlayerInRoom(collisionObject, varsForLockingRoom.needsBarrierL, varsForLockingRoom.needsBarrierR, varsForLockingRoom.needsBarrierU, varsForLockingRoom.needsBarrierD, varsForLockingRoom.showBarrierL, varsForLockingRoom.showBarrierR, varsForLockingRoom.showBarrierU, varsForLockingRoom.showBarrierD);
-            tryingToLockPlayerIntoRoom = false;
+            Debug.Log("ass");
         }
     }
 
@@ -106,7 +107,7 @@ public class ChangeRooms : MonoBehaviour {
                     player.currentRoomSpawner = collisionObject.GetComponent<EnemySpawner>();
                 }
                 if(collisionObject.GetComponent<RoomVars>() != null && collisionObject.GetComponent<EnemySpawner>() != null) {
-                    if(collisionObject.GetComponent<RoomVars>().lockPlayerInRoom && !collisionObject.GetComponent<EnemySpawner>().allEnemiesAreDead) {
+                    if(collisionObject.GetComponent<RoomVars>().lockPlayerInRoom && !collisionObject.GetComponent<EnemySpawner>().allEnemiesAreDead && !barriers.removingBarriers && !barriers.roomIsLocked) {
                         tryingToLockPlayerIntoRoom = true;
                     }
                 }

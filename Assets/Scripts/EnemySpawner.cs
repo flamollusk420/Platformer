@@ -102,10 +102,9 @@ public class EnemySpawner : MonoBehaviour {
                 if(!enemyList[i].gameObject.activeInHierarchy) {
                     deadEnemies += 1;
                 }
-                if(deadEnemies >= enemyList.Count) {
+                if(deadEnemies >= enemyList.Count && !allEnemiesAreDead) {
                     barriers.RemoveBarriers();
                     allEnemiesAreDead = true;
-                    //this is in the for loop and happens for each enemy in the spawn list
                 }
             }
         }

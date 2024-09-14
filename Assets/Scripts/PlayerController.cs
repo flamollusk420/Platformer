@@ -457,10 +457,12 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void RespawnPlayer() {
+        Debug.Log("respawning");
         DespawnObjectsOnPlayerRespawn();
         Hit(0);
         transform.position = new Vector2(respawnX, respawnY);
         barriers.RemoveBarriers();
+        barriers.removingBarriers = true;
         roomChanger.oneTimeCameraMove = true;
         sr.enabled = true;
         deathEffectIsHappening = false;
@@ -920,6 +922,7 @@ public class PlayerController : MonoBehaviour {
 
     private void OnSPattack() {
         if(sp >= 7 && !isExploding && !timeScaleIsZero) {
+            health = 0;
             sp -= 25;
             explosionTimer = explosionTimerSet;
             isExploding = true;

@@ -1,6 +1,8 @@
+fix explosions killing you (and suspension of disbelief smh)
+fix melee/shooting animations when sliding down walls
+fix enemies not despawning after dying in a locked room
+
 eh:
--fix top/bottom barriers in locked rooms
 -make it harder to get style by just hitting a static enemy with a melee attack until it dies
 -make junkyard theme get to the point faster
 -fix mixing on abandoned mine theme
--fix enemy spawner in room 6 when done coding barriers
