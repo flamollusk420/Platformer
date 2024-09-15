@@ -75,18 +75,23 @@ public class BarrierContainer : MonoBehaviour {
                 }
             }
         }
-        if(removingBarriers) {
-            if(timerL <= 0 || timerR <= 0 || timerU <= 0 || timerD <= 0) {
-                removingBarriers = false;
+        if(timerL <= 0 || timerR <= 0 || timerU <= 0 || timerD <= 0) {
+            if(removingBarriers) {
+                if(barrierL.gameObject.activeInHierarchy || barrierR.gameObject.activeInHierarchy || barrierU.gameObject.activeInHierarchy || barrierD.gameObject.activeInHierarchy) {
+                    removingBarriers = false;
+                }
+            }
+            if(!roomIsLocked && !removingBarriers) {
+                if(barrierL.gameObject.activeInHierarchy || barrierR.gameObject.activeInHierarchy || barrierU.gameObject.activeInHierarchy || barrierD.gameObject.activeInHierarchy) {
+                    roomIsLocked = true;
+                }
             }
         }
     }
 
     public void LockPlayerInRoom(GameObject room, bool needsBarrierL, bool needsBarrierR, bool needsBarrierU, bool needsBarrierD, bool showBarrierL, bool showBarrierR, bool showBarrierU, bool showBarrierD) {
-        if(removingBarriers) {
-        }
+        Debug.Log("howdy 2!");
         removingBarriers = false;
-        roomIsLocked = true;
         PolygonCollider2D roomCollider = room.GetComponent<PolygonCollider2D>();
         if(needsBarrierL) {
             timerL = 0.15f;

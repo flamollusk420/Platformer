@@ -920,7 +920,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnSPattack() {
-        if(sp >= 7 && !isExploding && !timeScaleIsZero) {
+        if(sp >= 20 && !isExploding && !timeScaleIsZero) {
             sp -= 20;
             explosionTimer = explosionTimerSet;
             isExploding = true;

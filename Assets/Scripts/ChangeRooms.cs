@@ -26,7 +26,6 @@ public class ChangeRooms : MonoBehaviour {
     private string oldRoomName;
     [HideInInspector]
     public float roomEntryTimer;
-    [HideInInspector]
     public float roomEntryTimerSet = 0.2f;
     private bool tryingToLockPlayerIntoRoom = false;
 
@@ -50,10 +49,13 @@ public class ChangeRooms : MonoBehaviour {
         cameraChangeTimer -= Time.deltaTime;
         roomEntryTimer -= Time.deltaTime;
         if(tryingToLockPlayerIntoRoom && roomEntryTimer <= 0) {
-            tryingToLockPlayerIntoRoom = false;
-            RoomVars varsForLockingRoom = collisionObject.GetComponent<RoomVars>();
-            collisionObject.GetComponent<EnemySpawner>().CheckDeaths();
-            barriers.LockPlayerInRoom(collisionObject, varsForLockingRoom.needsBarrierL, varsForLockingRoom.needsBarrierR, varsForLockingRoom.needsBarrierU, varsForLockingRoom.needsBarrierD, varsForLockingRoom.showBarrierL, varsForLockingRoom.showBarrierR, varsForLockingRoom.showBarrierU, varsForLockingRoom.showBarrierD);
+            if(player.currentRoomName == collisionObject.name) {
+                Debug.Log("howdy");
+                tryingToLockPlayerIntoRoom = false;
+                RoomVars varsForLockingRoom = collisionObject.GetComponent<RoomVars>();
+                collisionObject.GetComponent<EnemySpawner>().CheckDeaths();
+                barriers.LockPlayerInRoom(collisionObject, varsForLockingRoom.needsBarrierL, varsForLockingRoom.needsBarrierR, varsForLockingRoom.needsBarrierU, varsForLockingRoom.needsBarrierD, varsForLockingRoom.showBarrierL, varsForLockingRoom.showBarrierR, varsForLockingRoom.showBarrierU, varsForLockingRoom.showBarrierD);
+            }
         }
     }
 
@@ -107,6 +109,7 @@ public class ChangeRooms : MonoBehaviour {
                 }
                 if(collisionObject.GetComponent<RoomVars>() != null && collisionObject.GetComponent<EnemySpawner>() != null) {
                     if(collisionObject.GetComponent<RoomVars>().lockPlayerInRoom && !collisionObject.GetComponent<EnemySpawner>().allEnemiesAreDead && !barriers.removingBarriers && !barriers.roomIsLocked) {
+                        roomEntryTimer = roomEntryTimerSet;
                         tryingToLockPlayerIntoRoom = true;
                     }
                 }
@@ -151,6 +154,7 @@ public class ChangeRooms : MonoBehaviour {
                         cam3.gameObject.SetActive(false);
                         confiner4.m_BoundingShape2D = collisionObject.GetComponent<PolygonCollider2D>();
                     }
+                    roomEntryTimer = roomEntryTimerSet;
                     cameraNumber += 1;
                     if(cameraNumber > 4) {
                         cameraNumber = 1;
@@ -170,9 +174,8 @@ public class ChangeRooms : MonoBehaviour {
     void OnTriggerStay2D(Collider2D collision) {
         if(collision.gameObject.CompareTag("Room") && cameraChangeTimer <= 0) {
             if(player.currentRoomName != collision.gameObject.name || oneTimeCameraMove) {
-                if(collisionObject != collision.gameObject) {
-                    roomEntryTimer = roomEntryTimerSet;
-                }
+                roomEntryTimer = roomEntryTimerSet;
+                Debug.Log("boing");
                 collisionObject = collision.gameObject;
             }
         }
