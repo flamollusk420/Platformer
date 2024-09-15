@@ -95,6 +95,7 @@ public class Enemy : MonoBehaviour {
     private bool hitByRightWave;
     private float fastKillTimer;
     private bool startCompleted;
+    private bool hasAddedDeathToSpawnerTotal;
     public bool freezeXonStun = true;
     public bool freezeYonStun;
     private bool initialLockX;
@@ -151,6 +152,7 @@ public class Enemy : MonoBehaviour {
     void OnEnable() {
         sr = GetComponent<SpriteRenderer>();
         hasEnemyOnEnemyCollider = false;
+        hasAddedDeathToSpawnerTotal = false;
         if(health <= 0) {
             health = maxHealth;
         }
@@ -279,8 +281,10 @@ public class Enemy : MonoBehaviour {
             }
             player.multikillCombo += 1;
             player.canGainMultikillStyle = true;
-            if(spawner != null) {
+            if(spawner != null && !hasAddedDeathToSpawnerTotal) {
+                spawner.deadEnemies += 1;
                 spawner.CheckDeaths();
+                hasAddedDeathToSpawnerTotal = true;
             }
         }
         sr.color = new Color(0, 0, 0, 0.6f);

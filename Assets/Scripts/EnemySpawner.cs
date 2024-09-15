@@ -25,8 +25,8 @@ public class EnemySpawner : MonoBehaviour {
     public bool checkIfEnemiesAreDead;
     //[HideInInspector]
     public bool allEnemiesAreDead;
+    public int deadEnemies;
     private bool hasSpawnedEnemies;
-    private int deadEnemies;
 
     void OnEnable() {
         sr = GetComponent<SpriteRenderer>();
@@ -99,9 +99,6 @@ public class EnemySpawner : MonoBehaviour {
     public void CheckDeaths() {
         if(checkIfEnemiesAreDead && hasSpawnedEnemies) {
             for(int i = 0; i < enemyList.Count; i++) {
-                if(!enemyList[i].gameObject.activeInHierarchy) {
-                    deadEnemies += 1;
-                }
                 if(deadEnemies >= enemyList.Count && !allEnemiesAreDead) {
                     barriers.RemoveBarriers();
                     allEnemiesAreDead = true;

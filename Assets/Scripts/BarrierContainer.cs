@@ -82,9 +82,7 @@ public class BarrierContainer : MonoBehaviour {
         }
         if(timerL <= 0 || timerR <= 0 || timerU <= 0 || timerD <= 0) {
             if(removingBarriers) {
-                if(barrierL.gameObject.activeInHierarchy || barrierR.gameObject.activeInHierarchy || barrierU.gameObject.activeInHierarchy || barrierD.gameObject.activeInHierarchy) {
-                    removingBarriers = false;
-                }
+                removingBarriers = false;
             }
             if(!roomIsLocked && !removingBarriers) {
                 if(barrierL.gameObject.activeInHierarchy || barrierR.gameObject.activeInHierarchy || barrierU.gameObject.activeInHierarchy || barrierD.gameObject.activeInHierarchy) {
