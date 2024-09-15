@@ -1,5 +1,4 @@
 fix enemies not despawning after dying in a locked room
-make check that player is in room that changerooms is trying to lock
 reset needstobevisibletomove when enemies respawn
 
 eh:

@@ -826,7 +826,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnUpDash() {
-        if(canUpDash && !isDashing && !isDownDashing && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
+        if(canUpDash && !isDashing && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
             upDashTimer = upDashLength;
             rb.velocity = new Vector2(rb.velocity.x, 0);
             isDamaging = true;
@@ -845,7 +845,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDownDash() {
-        if(canDownDash && !isDashing && !isUpDashing && !touchingGround && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
+        if(canDownDash && !isDashing && !isDownDashing && !touchingGround && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
             rb.velocity = new Vector2(0, 0);
             isDamaging = true;
             isDashJumping = false;
@@ -921,6 +921,7 @@ public class PlayerController : MonoBehaviour {
 
     private void OnSPattack() {
         if(sp >= 20 && !isExploding && !timeScaleIsZero) {
+            health = 0;
             sp -= 20;
             explosionTimer = explosionTimerSet;
             isExploding = true;

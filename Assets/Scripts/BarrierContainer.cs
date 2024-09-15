@@ -26,6 +26,11 @@ public class BarrierContainer : MonoBehaviour {
         barrierD.parent = null;
     }
 
+    void OnEnable() {
+        roomIsLocked = false;
+        removingBarriers = false;
+    }
+
     void Update() {
         if(barrierL.gameObject.activeInHierarchy || removingBarriers) {
             timerL -= Time.deltaTime;

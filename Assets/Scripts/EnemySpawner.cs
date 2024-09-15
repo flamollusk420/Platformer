@@ -33,8 +33,8 @@ public class EnemySpawner : MonoBehaviour {
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         barriers = GameObject.FindWithTag("BarrierContainer").GetComponent<BarrierContainer>();
         deadEnemies = 0;
-        allEnemiesAreDead = false;
         hasSpawnedEnemies = false;
+        allEnemiesAreDead = false;
         if(!canSpawnEnemiesAtStart) {
             canSpawnEnemies = false;
         }
@@ -97,6 +97,7 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     public void CheckDeaths() {
+        Debug.Log("eogheioqwt");
         if(checkIfEnemiesAreDead && hasSpawnedEnemies) {
             for(int i = 0; i < enemyList.Count; i++) {
                 if(!enemyList[i].gameObject.activeInHierarchy) {

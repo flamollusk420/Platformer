@@ -45,6 +45,10 @@ public class ChangeRooms : MonoBehaviour {
         cam4.gameObject.SetActive(false);
     }
 
+    void OnEnable() {
+        tryingToLockPlayerIntoRoom = false;
+    }
+
     void Update() {
         cameraChangeTimer -= Time.deltaTime;
         roomEntryTimer -= Time.deltaTime;
@@ -96,6 +100,7 @@ public class ChangeRooms : MonoBehaviour {
                     cam3.gameObject.SetActive(false);
                     confiner4.m_BoundingShape2D = collisionObject.GetComponent<PolygonCollider2D>();
                 }
+                roomEntryTimer = roomEntryTimerSet;
                 cameraNumber += 1;
                 if(cameraNumber > 4) {
                     cameraNumber = 1;
@@ -121,6 +126,7 @@ public class ChangeRooms : MonoBehaviour {
         if(player.startCompleted == true && collisionObject != null) {
             if(collisionObject.gameObject.CompareTag("Room") && cameraChangeTimer <= 0 && !player.sr.isVisible) {
                 if(player.currentRoomName != collisionObject.name || oneTimeCameraMove) {
+                    Debug.Log("0qehg0iqew");
                     oldRoomName = player.currentRoomName;
                     cameraChangeTimer = cameraChangeTimerSet;
                     if(oneTimeCameraMove) {
