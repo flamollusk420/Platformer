@@ -993,7 +993,7 @@ public class PlayerController : MonoBehaviour {
             meleeCancelTimer = meleeCancelTimerSet;
             isMeleeAttacking = true;
             playerMeleeCollider.canDoDamage = true;
-            playerMeleeCollider.Attack(meleeAttackDamage, facingDirX);
+            playerMeleeCollider.Attack(meleeAttackDamage, wallFacingDirX);
             anim.SetBool("isMeleeAttacking", true);
             isDamaging = false;
             dashTimer = 0;
@@ -1062,7 +1062,7 @@ public class PlayerController : MonoBehaviour {
             anim.SetFloat("MeleeBlend", 0.5f);
         }
         //wall sliding shooting/melee animation
-        if(touchingWall && !touchingGround && (!isJumping && startedJumpWhileTouchingWall)) {
+        if(touchingWall && !touchingGround && !(isJumping && startedJumpWhileTouchingWall)) {
             anim.SetFloat("MeleeBlend", 1);
             anim.SetFloat("ShootBlend", 1);
         }

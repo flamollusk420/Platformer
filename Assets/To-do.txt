@@ -1,6 +1,6 @@
-fix explosions killing you (and suspension of disbelief smh)
-fix melee/shooting animations when sliding down walls
 fix enemies not despawning after dying in a locked room
+make check that player is in room that changerooms is trying to lock
+reset needstobevisibletomove when enemies respawn
 
 eh:
 -make it harder to get style by just hitting a static enemy with a melee attack until it dies
