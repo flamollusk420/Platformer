@@ -463,7 +463,7 @@ public class PlayerController : MonoBehaviour {
         barriers.RemoveBarriers();
         barriers.removingBarriers = true;
         barriers.roomIsLocked = false;
-        roomChanger.tryingToLockPlayerIntoRoom = true;
+        roomChanger.tryingToLockPlayerIntoRoom = false;
         roomChanger.oneTimeCameraMove = true;
         sr.enabled = true;
         deathEffectIsHappening = false;
@@ -487,13 +487,13 @@ public class PlayerController : MonoBehaviour {
         }
         GameObject[] spawners = GameObject.FindGameObjectsWithTag("Room");
         foreach(GameObject spawner in spawners) {
-            spawner.SetActive(false);
             if(spawner.GetComponent<EnemySpawner>() != null) {
+                spawner.SetActive(false);
                 EnemySpawner spawnerScript = spawner.GetComponent<EnemySpawner>();
                 spawnerScript.spawnTimer = spawnerScript.spawnTimerSet;
                 spawnerScript.canSpawnEnemies = true;
+                spawner.SetActive(true);
             }
-            spawner.SetActive(true);
         }
     }
 

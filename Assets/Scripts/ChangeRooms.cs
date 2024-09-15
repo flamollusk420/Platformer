@@ -126,7 +126,6 @@ public class ChangeRooms : MonoBehaviour {
         if(player.startCompleted == true && collisionObject != null) {
             if(collisionObject.gameObject.CompareTag("Room") && cameraChangeTimer <= 0 && !player.sr.isVisible) {
                 if(player.currentRoomName != collisionObject.name || oneTimeCameraMove) {
-                    Debug.Log("0qehg0iqew");
                     oldRoomName = player.currentRoomName;
                     cameraChangeTimer = cameraChangeTimerSet;
                     if(oneTimeCameraMove) {
