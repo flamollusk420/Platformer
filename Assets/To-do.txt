@@ -1,6 +1,3 @@
-fix enemies not despawning after dying in a locked room
-reset needstobevisibletomove when enemies respawn
-
 eh:
 -make it harder to get style by just hitting a static enemy with a melee attack until it dies
 -make junkyard theme get to the point faster

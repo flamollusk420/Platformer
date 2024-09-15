@@ -27,7 +27,8 @@ public class ChangeRooms : MonoBehaviour {
     [HideInInspector]
     public float roomEntryTimer;
     public float roomEntryTimerSet = 0.2f;
-    private bool tryingToLockPlayerIntoRoom = false;
+    [HideInInspector]
+    public bool tryingToLockPlayerIntoRoom = false;
 
     void Start() {
         cam = GameObject.FindWithTag("CMcam").GetComponent<CinemachineVirtualCamera>();
@@ -54,7 +55,6 @@ public class ChangeRooms : MonoBehaviour {
         roomEntryTimer -= Time.deltaTime;
         if(tryingToLockPlayerIntoRoom && roomEntryTimer <= 0) {
             if(player.currentRoomName == collisionObject.name) {
-                Debug.Log("howdy");
                 tryingToLockPlayerIntoRoom = false;
                 RoomVars varsForLockingRoom = collisionObject.GetComponent<RoomVars>();
                 collisionObject.GetComponent<EnemySpawner>().CheckDeaths();
@@ -181,7 +181,6 @@ public class ChangeRooms : MonoBehaviour {
         if(collision.gameObject.CompareTag("Room") && cameraChangeTimer <= 0) {
             if(player.currentRoomName != collision.gameObject.name || oneTimeCameraMove) {
                 roomEntryTimer = roomEntryTimerSet;
-                Debug.Log("boing");
                 collisionObject = collision.gameObject;
             }
         }

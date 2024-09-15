@@ -462,6 +462,8 @@ public class PlayerController : MonoBehaviour {
         transform.position = new Vector2(respawnX, respawnY);
         barriers.RemoveBarriers();
         barriers.removingBarriers = true;
+        barriers.roomIsLocked = false;
+        roomChanger.tryingToLockPlayerIntoRoom = true;
         roomChanger.oneTimeCameraMove = true;
         sr.enabled = true;
         deathEffectIsHappening = false;
@@ -826,7 +828,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnUpDash() {
-        if(canUpDash && !isDashing && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
+        if(canUpDash && !isDashing && !isUpDashing && !isDownDashing && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
             upDashTimer = upDashLength;
             rb.velocity = new Vector2(rb.velocity.x, 0);
             isDamaging = true;
@@ -845,7 +847,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDownDash() {
-        if(canDownDash && !isDashing && !isDownDashing && !touchingGround && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
+        if(canDownDash && !isDashing && !isUpDashing && !isDownDashing && !touchingGround && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
             rb.velocity = new Vector2(0, 0);
             isDamaging = true;
             isDashJumping = false;
@@ -921,7 +923,6 @@ public class PlayerController : MonoBehaviour {
 
     private void OnSPattack() {
         if(sp >= 20 && !isExploding && !timeScaleIsZero) {
-            health = 0;
             sp -= 20;
             explosionTimer = explosionTimerSet;
             isExploding = true;

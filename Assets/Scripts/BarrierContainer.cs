@@ -95,7 +95,6 @@ public class BarrierContainer : MonoBehaviour {
     }
 
     public void LockPlayerInRoom(GameObject room, bool needsBarrierL, bool needsBarrierR, bool needsBarrierU, bool needsBarrierD, bool showBarrierL, bool showBarrierR, bool showBarrierU, bool showBarrierD) {
-        Debug.Log("howdy 2!");
         removingBarriers = false;
         PolygonCollider2D roomCollider = room.GetComponent<PolygonCollider2D>();
         if(needsBarrierL) {

@@ -97,7 +97,6 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     public void CheckDeaths() {
-        Debug.Log("eogheioqwt");
         if(checkIfEnemiesAreDead && hasSpawnedEnemies) {
             for(int i = 0; i < enemyList.Count; i++) {
                 if(!enemyList[i].gameObject.activeInHierarchy) {
