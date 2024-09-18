@@ -101,13 +101,16 @@ public class BarrierContainer : MonoBehaviour {
             barrierImageL.gameObject.SetActive(true);
             barrierImageL.parent.gameObject.SetActive(true);
             barrierL.position = new Vector2(roomCollider.bounds.center.x - roomCollider.bounds.size.x / 2, roomCollider.bounds.center.y);
+            if(barrierL.position.x > cam.ViewportToWorldPoint(new Vector3(0,0,0)).x) {
+                barrierL.position = new Vector2(cam.ViewportToWorldPoint(new Vector3(0,0,0)).x, barrierL.position.y);
+            }
             barrierL.localScale = new Vector3(barrierL.localScale.x, roomCollider.bounds.size.y * 1.25f, barrierL.localScale.z);
             if(showBarrierL) {
                 barrierImageL.gameObject.SetActive(true);
                 barrierImageL.parent.gameObject.SetActive(true);
                 Transform barrierImageLparent = barrierImageL.parent;
                 barrierImageLparent.gameObject.SetActive(true);
-                barrierImageLparent.transform.position = new Vector2(cam.ViewportToWorldPoint(new Vector3(0,1,0)).x, barrierImageLparent.transform.position.y);
+                barrierImageLparent.transform.position = new Vector2(cam.ViewportToWorldPoint(new Vector3(0,0,0)).x, barrierImageLparent.transform.position.y);
                 barrierImageL.GetComponent<Animator>().SetBool("entering", true);
             }
         }
@@ -115,13 +118,16 @@ public class BarrierContainer : MonoBehaviour {
             timerR = 0.15f;
             barrierR.gameObject.SetActive(true);
             barrierR.position = new Vector2(roomCollider.bounds.center.x + roomCollider.bounds.size.x / 2, roomCollider.bounds.center.y);
+            if(barrierR.position.x < cam.ViewportToWorldPoint(new Vector3(1,0,0)).x) {
+                barrierR.position = new Vector2(cam.ViewportToWorldPoint(new Vector3(1,0,0)).x, barrierL.position.y);
+            }
             barrierR.localScale = new Vector3(barrierR.localScale.x, roomCollider.bounds.size.y * 1.25f, barrierR.localScale.z);
             if(showBarrierR) {
                 barrierImageR.gameObject.SetActive(true);
                 barrierImageR.parent.gameObject.SetActive(true);
                 Transform barrierImageRparent = barrierImageR.parent;
                 barrierImageRparent.gameObject.SetActive(true);
-                barrierImageRparent.transform.position = new Vector2(cam.ViewportToWorldPoint(new Vector3(1,1,0)).x, barrierImageRparent.transform.position.y);
+                barrierImageRparent.transform.position = new Vector2(cam.ViewportToWorldPoint(new Vector3(1,0,0)).x, barrierImageRparent.transform.position.y);
                 barrierImageR.GetComponent<Animator>().SetBool("entering", true);
             }
         }
@@ -129,6 +135,9 @@ public class BarrierContainer : MonoBehaviour {
             timerU = 0.15f;
             barrierU.gameObject.SetActive(true);
             barrierU.position = new Vector2(roomCollider.bounds.center.x, roomCollider.bounds.center.y + roomCollider.bounds.size.y / 2);
+            if(barrierU.position.y < cam.ViewportToWorldPoint(new Vector3(0,1,0)).y) {
+                barrierU.position = new Vector2(barrierU.position.x, cam.ViewportToWorldPoint(new Vector3(0,1,0)).y);
+            }
             barrierU.localScale = new Vector3(roomCollider.bounds.size.x * 1.25f, barrierU.localScale.y, barrierU.localScale.z);
             if(showBarrierU) {
                 barrierImageU.gameObject.SetActive(true);
@@ -143,6 +152,9 @@ public class BarrierContainer : MonoBehaviour {
             timerD = 0.15f;
             barrierD.gameObject.SetActive(true);
             barrierD.position = new Vector2(roomCollider.bounds.center.x, roomCollider.bounds.center.y - roomCollider.bounds.size.y / 2);
+            if(barrierD.position.y > cam.ViewportToWorldPoint(new Vector3(0,0,0)).y) {
+                barrierD.position = new Vector2(barrierD.position.x, cam.ViewportToWorldPoint(new Vector3(0,0,0)).y);
+            }
             barrierD.localScale = new Vector3(roomCollider.bounds.size.x * 1.25f, barrierU.localScale.y, barrierU.localScale.z);
             if(showBarrierD) {
                 barrierImageD.gameObject.SetActive(true);

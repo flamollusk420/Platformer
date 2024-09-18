@@ -1,3 +1,5 @@
+stop player from becoming visible while respawning by dashing
+
 eh:
 -make it harder to get style by just hitting a static enemy with a melee attack until it dies
 -make junkyard theme get to the point faster

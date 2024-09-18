@@ -112,6 +112,7 @@ public class PlayerController : MonoBehaviour {
     private float velocityBeforeMove;
     public float dirX;
     public float dirY;
+    public float startingFacingDirX = 1;
     public float facingDirX = 1;
     public float dashJumpFacingDirX = 1;
     public float wallFacingDirX = 1;
@@ -208,6 +209,7 @@ public class PlayerController : MonoBehaviour {
         //this will be changed later
         respawnX = transform.position.x;
         respawnY = transform.position.y;
+        facingDirX = startingFacingDirX;
         startCompleted = true;
     }
 
@@ -217,6 +219,7 @@ public class PlayerController : MonoBehaviour {
         sp = maxSP;
         health = maxHealth;
         styleDeductionTimer = styleDeductionTimerSet;
+        facingDirX = startingFacingDirX;
     }
 
     void FixedUpdate() {
@@ -460,6 +463,7 @@ public class PlayerController : MonoBehaviour {
         DespawnObjectsOnPlayerRespawn();
         Hit(0);
         transform.position = new Vector2(respawnX, respawnY);
+        facingDirX = startingFacingDirX;
         barriers.RemoveBarriers();
         barriers.removingBarriers = true;
         barriers.roomIsLocked = false;

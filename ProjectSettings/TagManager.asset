@@ -89,6 +89,9 @@ TagManager:
   - name: Explosions
     uniqueID: 3892837537
     locked: 0
+  - name: Barriers
+    uniqueID: 3997379637
+    locked: 0
   - name: UI
     uniqueID: 1885476213
     locked: 0
