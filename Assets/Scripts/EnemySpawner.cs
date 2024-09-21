@@ -27,6 +27,7 @@ public class EnemySpawner : MonoBehaviour {
     public bool allEnemiesAreDead;
     public int deadEnemies;
     private bool hasSpawnedEnemies;
+    private bool startCompleted;
 
     void OnEnable() {
         sr = GetComponent<SpriteRenderer>();
@@ -38,7 +39,7 @@ public class EnemySpawner : MonoBehaviour {
         if(!canSpawnEnemiesAtStart) {
             canSpawnEnemies = false;
         }
-        if(automaticallyPopulateEnemyList) {
+        if(automaticallyPopulateEnemyList && !startCompleted) {
             for(int i = 0; i < transform.childCount; i++) {
                 enemyList.Add(transform.GetChild(i).gameObject);
             }
@@ -46,6 +47,7 @@ public class EnemySpawner : MonoBehaviour {
         if(changeColor) {
             sr.color = new Color(255, 255, 255, 0);
         }
+        startCompleted = true;
     }
     
     private void UpdateTimer() {
