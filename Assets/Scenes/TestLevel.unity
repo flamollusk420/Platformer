@@ -2662,7 +2662,7 @@ SpriteRenderer:
   m_SortingLayer: 6
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 5dbf93b86c144e74890398b7e63acb90, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.56078434}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3817,7 +3817,7 @@ SpriteRenderer:
   m_SortingLayer: 6
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 9e1e35f65991d70498ee4a1219cc9f1e, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.56078434}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -7391,7 +7391,7 @@ SpriteRenderer:
   m_SortingLayer: 6
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: badaa167da50e1e45a7b2b2746db5a4d, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.56078434}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -8693,6 +8693,8 @@ MonoBehaviour:
   barrierImageD: {fileID: 1872120911}
   removingBarriers: 0
   roomIsLocked: 0
+  localRoomTooSmallX: 0
+  localRoomTooSmallY: 0
 --- !u!1 &1031743338
 GameObject:
   m_ObjectHideFlags: 0
@@ -10369,7 +10371,7 @@ SpriteRenderer:
   m_SortingLayer: 6
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 7e11ff79f5ab86a47a53801eeb3e41be, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.56078434}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
