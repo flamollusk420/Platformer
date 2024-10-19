@@ -58,15 +58,18 @@ public class ChangeRooms : MonoBehaviour {
                 tryingToLockPlayerIntoRoom = false;
                 RoomVars varsForLockingRoom = collisionObject.GetComponent<RoomVars>();
                 collisionObject.GetComponent<EnemySpawner>().CheckDeaths();
-                barriers.LockPlayerInRoom(collisionObject, varsForLockingRoom.needsBarrierL, varsForLockingRoom.needsBarrierR, varsForLockingRoom.needsBarrierU, varsForLockingRoom.needsBarrierD, varsForLockingRoom.showBarrierL, varsForLockingRoom.showBarrierR, varsForLockingRoom.showBarrierU, varsForLockingRoom.showBarrierD);
+                barriers.LockPlayerInRoom(collisionObject, varsForLockingRoom.needsBarrierL, varsForLockingRoom.needsBarrierR, varsForLockingRoom.needsBarrierU, varsForLockingRoom.needsBarrierD, varsForLockingRoom.showBarrierL, varsForLockingRoom.showBarrierR, varsForLockingRoom.showBarrierU, varsForLockingRoom.showBarrierD, varsForLockingRoom.roomTooSmallX, varsForLockingRoom.roomTooSmallY);
             }
+        }
+        if(player.anim.GetBool("isExploding")) {
+            cameraChangeTimer = 0.025f;
         }
     }
 
     //swap between cameras when moving between rooms for a smooth transition
     void OnTriggerExit2D(Collider2D collision) {
         if(collisionObject != null && collisionObject.gameObject.CompareTag("Room") && cameraChangeTimer <= 0) {
-            if(player.currentRoomName != collisionObject.name || oneTimeCameraMove) {
+            if((player.currentRoomName != collisionObject.name || oneTimeCameraMove) && !player.anim.GetBool("isExploding") && !(barriers.roomIsLocked && !oneTimeCameraMove)) {
                 oldRoomName = player.currentRoomName;
                 cameraChangeTimer = cameraChangeTimerSet;
                 if(oneTimeCameraMove) {
@@ -125,7 +128,7 @@ public class ChangeRooms : MonoBehaviour {
     void FixedUpdate() {
         if(player.startCompleted == true && collisionObject != null) {
             if(collisionObject.gameObject.CompareTag("Room") && cameraChangeTimer <= 0 && !player.sr.isVisible) {
-                if(player.currentRoomName != collisionObject.name || oneTimeCameraMove) {
+                if((player.currentRoomName != collisionObject.name || oneTimeCameraMove) && !player.anim.GetBool("isExploding") && !(barriers.roomIsLocked && !oneTimeCameraMove)) {
                     oldRoomName = player.currentRoomName;
                     cameraChangeTimer = cameraChangeTimerSet;
                     if(oneTimeCameraMove) {

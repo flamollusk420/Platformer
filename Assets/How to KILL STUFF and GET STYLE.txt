@@ -88,8 +88,8 @@ ATTACK DAMAGE:
 -enemies launched into other enemies = damage depends on size of enemy being launched (small = 1, medium = 2, large = 3)
 
 SP COSTS:
--exploding = 25 SP (the whole bar)
--healing = 15 SP
+-exploding = 20 SP
+-healing = 12 SP
 
 GAINING SP:
 -hitting an enemy with a dash/up-dash/down-dash = +1 SP
@@ -100,3 +100,10 @@ GAINING SP:
 -destroying a bullet with your own bullet = +1 SP
 -hitting an enemy with a parried bullet = +1 SP
 -gaining a style rank = +2 SP
+
+STUNNING:
+-getting hit by an enemy stuns you for half a second
+-while stunned no dash or melee attacks will deal damage to enemies
+-your bullets and fire waves are not affected
+-you will not take damage from enemies while stunned
+-exploding, healing, and shooting fire waves all get you unstunned

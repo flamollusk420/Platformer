@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour {
     public Rigidbody2D rb;
     [HideInInspector]
     public SpriteRenderer sr;
-    private Animator anim;
+    [HideInInspector]
+    public Animator anim;
     private PlayerControls controls;
     public GameObject fireWave1;
     public GameObject fireWave2;
@@ -452,6 +453,7 @@ public class PlayerController : MonoBehaviour {
             deathEffectIsHappening = true;
         }
         currentRoomName = respawnRoomName;
+        effectTimer = effectCooldown;
         recoiling = true;
         rb.gravityScale = 0;
         if(explosion.GetComponent<SelfDestruct>().timer <= 0) {
@@ -581,6 +583,7 @@ public class PlayerController : MonoBehaviour {
             beingKnockedBack = false;
         }
         if(explosionTimer <= 0 && isExploding) {
+            anim.SetBool("isExploding", false);
             isExploding = false;
             sr.sortingLayerName = "Player";
             sr.sortingOrder = 1;
@@ -698,6 +701,8 @@ public class PlayerController : MonoBehaviour {
         if(health < maxHealth && sp >= 12 && !timeScaleIsZero) {
            sp -= 12;
            style -= 3;
+           recoilTimer = 0;
+           recoiling = false;
            Heal(1, false);
         }
     }
@@ -710,6 +715,7 @@ public class PlayerController : MonoBehaviour {
                 soundManager.PlayClip(soundManager.PlayerHit, transform, 1);
             }
             effectTimer = effectCooldown;
+            recoilTimer = 0.5f;
             sr.color = new Color(0, 0, 0, 1);
         }
     }
@@ -738,9 +744,12 @@ public class PlayerController : MonoBehaviour {
         recoilTimer -= Time.deltaTime;
         if(effectTimer <= 0 && sr.color == new Color(0, 0, 0, 1)) {
             sr.color = new Color(0.45f, 0.45f, 0.45f, 0.75f);
-            recoilTimer = 0.5f;
         }
-        if((recoilTimer <= 0 && !isMeleeAttacking && !isDamaging && !isShooting) && sr.color == new Color(0.45f, 0.45f, 0.45f, 0.75f)) {
+        if(recoilTimer > 0 && effectTimer <= 0) {
+            sr.color = new Color(0.45f, 0.45f, 0.45f, 0.75f);
+            recoiling = true;
+        }
+        if((recoilTimer <= 0) && recoiling) {
             sr.color = new Color(1, 1, 1, 1);
             recoiling = false;
             if(recoilTimer > 0) {
@@ -818,16 +827,12 @@ public class PlayerController : MonoBehaviour {
             rb.gravityScale = 0;
             isDamaging = true;
             isShooting = false;
+            isShootingFireWave = false;
             isDownDashing = false;
             isMeleeAttacking = false;
             playerDashCollider.canDoDamage = false;
             anim.SetBool("isMeleeAttacking", false);
             soundManager.PlayClip(soundManager.Dash, transform, 1f);
-            sr.color = new Color(1, 1, 1, 1);
-            recoiling = false;
-            if(recoilTimer > 0) {
-                recoilTimer = 0;
-            }
         }
     }
 
@@ -839,14 +844,12 @@ public class PlayerController : MonoBehaviour {
             isDashJumping = false;
             isUpDashing = true;
             canUpDash = false;
+            isShooting = false;
+            isShootingFireWave = false;
             isMeleeAttacking = false;
             playerDashCollider.canDoDamage = false;
             anim.SetBool("isMeleeAttacking", false);
             soundManager.PlayClip(soundManager.Dash, transform, 1f);
-            recoiling = false;
-            if(recoilTimer > 0) {
-                recoilTimer = 0;
-            }
         }
     }
 
@@ -858,14 +861,11 @@ public class PlayerController : MonoBehaviour {
             isDownDashing = true;
             canDownDash = false;
             isShooting = false;
+            isShootingFireWave = false;
             isMeleeAttacking = false;
             playerDashCollider.canDoDamage = false;
             anim.SetBool("isMeleeAttacking", false);
             soundManager.PlayClip(soundManager.Dash, transform, 1f);
-            recoiling = false;
-            if(recoilTimer > 0) {
-                recoilTimer = 0;
-            }
         }
         if(!isDashing && !isUpDashing & sp > 0 && touchingGround && !isDownDashing && !isMeleeAttacking && !isExploding && !beingKnockedBack && !timeScaleIsZero) {
             if(!fireWave1.activeInHierarchy && !fireWave2.activeInHierarchy) {
@@ -888,10 +888,8 @@ public class PlayerController : MonoBehaviour {
                 rightFireWaveHasHitEnemy = false;
                 rightFireWaveHasKilledEnemy = false;
                 rightFireWaveHasOneShottedEnemy = false;
+                recoilTimer = 0;
                 recoiling = false;
-                if(recoilTimer > 0) {
-                    recoilTimer = 0;
-                }
             }
         }
     }
@@ -930,7 +928,9 @@ public class PlayerController : MonoBehaviour {
             sp -= 20;
             explosionTimer = explosionTimerSet;
             isExploding = true;
+            recoilTimer = 0;
             recoiling = false;
+            sr.color = new Color(1, 1, 1, 1);
             isDamaging = false;
             isDashing = false;
             isWalking = false;
@@ -947,7 +947,6 @@ public class PlayerController : MonoBehaviour {
             playerDashCollider.canDoDamage = false;
             playerMeleeCollider.canDoDamage = false;
             isDashing2 = true;
-            sr.color = new Color(1, 1, 1, 1);
             effectTimer = 0;
             rb.gravityScale = 0;
             rb.velocity = new Vector2(0, 0);
@@ -984,10 +983,6 @@ public class PlayerController : MonoBehaviour {
                 isExitingUpDash = false;
                 isExitingDownDash = false;
                 soundManager.PlayClip(soundManager.PlayerShoot, transform, 1);
-                recoiling = false;
-                if(recoilTimer > 0) {
-                    recoilTimer = 0;
-                }
             }
         }
     }

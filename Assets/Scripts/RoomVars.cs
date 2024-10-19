@@ -17,6 +17,8 @@ public class RoomVars : MonoBehaviour {
     public bool showBarrierR = true;
     public bool showBarrierU = true;
     public bool showBarrierD = true;
+    public bool roomTooSmallX = false;
+    public bool roomTooSmallY = false;
 
     void OnEnable() {
         if(lockPlayerInRoom) {

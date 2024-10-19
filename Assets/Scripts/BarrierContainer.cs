@@ -18,6 +18,8 @@ public class BarrierContainer : MonoBehaviour {
     private float timerD;
     public bool removingBarriers;
     public bool roomIsLocked;
+    private bool localRoomTooSmallX;
+    private bool localRoomTooSmallY;
 
     void Start() {
         barrierL.parent = null;
@@ -34,13 +36,18 @@ public class BarrierContainer : MonoBehaviour {
     void Update() {
         if(barrierL.gameObject.activeInHierarchy || removingBarriers) {
             timerL -= Time.deltaTime;
-            if(timerL <= 0 && (barrierImageL.gameObject.activeInHierarchy || barrierImageL.parent.gameObject.activeInHierarchy)) {
-                if(barrierImageL.gameObject.activeInHierarchy) {
-                    barrierImageL.GetComponent<Animator>().SetBool("entering", false);
+            if(timerL <= 0) {
+                if(localRoomTooSmallX) {
+                    barrierL.position = new Vector2(barrierImageL.parent.transform.position.x, barrierL.position.y);
                 }
-                if(removingBarriers) {
-                    barrierImageL.gameObject.SetActive(false);
-                    barrierImageL.parent.gameObject.SetActive(false);
+                if(barrierImageL.gameObject.activeInHierarchy || barrierImageL.parent.gameObject.activeInHierarchy) {
+                    if(barrierImageL.gameObject.activeInHierarchy) {
+                        barrierImageL.GetComponent<Animator>().SetBool("entering", false);
+                    }
+                    if(removingBarriers) {
+                        barrierImageL.gameObject.SetActive(false);
+                        barrierImageL.parent.gameObject.SetActive(false);
+                    }
                 }
             }
         }
@@ -90,20 +97,30 @@ public class BarrierContainer : MonoBehaviour {
                 }
             }
         }
+        if(localRoomTooSmallX) {
+            if(barrierR.gameObject.activeInHierarchy && localRoomTooSmallX) {
+                barrierR.position = new Vector2(barrierImageR.parent.transform.position.x, barrierR.position.y);
+            }
+        }
+        if(localRoomTooSmallY) {
+            if(barrierU.gameObject.activeInHierarchy && localRoomTooSmallY) {
+                barrierU.position = new Vector2(barrierU.position.x, barrierImageU.parent.transform.position.y);
+            }
+            if(barrierD.gameObject.activeInHierarchy && localRoomTooSmallY) {
+                barrierU.position = new Vector2(barrierD.position.x, barrierImageD.parent.transform.position.y);
+            }
+        }
     }
 
-    public void LockPlayerInRoom(GameObject room, bool needsBarrierL, bool needsBarrierR, bool needsBarrierU, bool needsBarrierD, bool showBarrierL, bool showBarrierR, bool showBarrierU, bool showBarrierD) {
+    public void LockPlayerInRoom(GameObject room, bool needsBarrierL, bool needsBarrierR, bool needsBarrierU, bool needsBarrierD, bool showBarrierL, bool showBarrierR, bool showBarrierU, bool showBarrierD, bool roomTooSmallX, bool roomTooSmallY) {
         removingBarriers = false;
         PolygonCollider2D roomCollider = room.GetComponent<PolygonCollider2D>();
         if(needsBarrierL) {
             timerL = 0.15f;
             barrierL.gameObject.SetActive(true);
-            barrierImageL.gameObject.SetActive(true);
-            barrierImageL.parent.gameObject.SetActive(true);
+            //barrierL.position = new Vector2(roomCollider.bounds.center.x - roomCollider.bounds.size.x / 2 + barrierL.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2, roomCollider.bounds.center.y);
             barrierL.position = new Vector2(roomCollider.bounds.center.x - roomCollider.bounds.size.x / 2, roomCollider.bounds.center.y);
-            if(barrierL.position.x > cam.ViewportToWorldPoint(new Vector3(0,0,0)).x) {
-                barrierL.position = new Vector2(cam.ViewportToWorldPoint(new Vector3(0,0,0)).x, barrierL.position.y);
-            }
+            barrierImageL.parent.transform.position = new Vector2(cam.ViewportToWorldPoint(new Vector3(0,0,0)).x, barrierImageL.parent.transform.position.y);
             barrierL.localScale = new Vector3(barrierL.localScale.x, roomCollider.bounds.size.y * 1.25f, barrierL.localScale.z);
             if(showBarrierL) {
                 barrierImageL.gameObject.SetActive(true);
@@ -117,7 +134,7 @@ public class BarrierContainer : MonoBehaviour {
         if(needsBarrierR) {
             timerR = 0.15f;
             barrierR.gameObject.SetActive(true);
-            barrierR.position = new Vector2(roomCollider.bounds.center.x + roomCollider.bounds.size.x / 2, roomCollider.bounds.center.y);
+            barrierR.position = new Vector2(roomCollider.bounds.center.x + roomCollider.bounds.size.x / 2 - barrierR.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2, roomCollider.bounds.center.y);
             if(barrierR.position.x < cam.ViewportToWorldPoint(new Vector3(1,0,0)).x) {
                 barrierR.position = new Vector2(cam.ViewportToWorldPoint(new Vector3(1,0,0)).x, barrierL.position.y);
             }
