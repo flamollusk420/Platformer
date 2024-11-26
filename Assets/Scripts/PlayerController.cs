@@ -808,7 +808,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDash1() {
-        if(dashesLeft > 0 && dashCooldown <= 0 && !isDashing && !(touchingWall && !isFalling && touchingGround && wallFacingDirX == facingDirX) && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
+        if(dashesLeft > 0 && dashCooldown <= 0 && !isDashing && !(touchingWall && !isFalling && touchingGround && wallFacingDirX == facingDirX) && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero && !deathEffectIsHappening) {
             wallJumpDashTimer = wallJumpDashTimerSet;
             if(touchingWall) {
                 isDashing2 = true;
@@ -924,7 +924,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnSPattack() {
-        if(sp >= 20 && !isExploding && !timeScaleIsZero) {
+        if(sp >= 20 && !isExploding && !timeScaleIsZero && !deathEffectIsHappening) {
             sp -= 20;
             explosionTimer = explosionTimerSet;
             isExploding = true;

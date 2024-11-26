@@ -1,4 +1,3 @@
-stop player from becoming visible while respawning by dashing
 make dash jumps get stronger if you do them right after each other (like a mario triple jump)
 
 eh:
