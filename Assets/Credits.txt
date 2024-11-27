@@ -14,3 +14,4 @@ CODE:
 Camera lock script by Gregoryl: https://discussions.unity.com/t/follow-only-along-a-certain-axis/710963
 Sound manager tutorial by Sasquatch B Studios: https://www.youtube.com/watch?v=DU7cgVsU2rM
 Parallax background tutorial by CyberPotato: https://www.youtube.com/watch?v=zrr6xCBPT_Y
+Sprite trail script by Cloudy Water Games: http://www.cloudywatergames.com/2018/05/01/unity-2d-sprite-trail/

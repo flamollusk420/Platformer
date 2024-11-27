@@ -36,12 +36,14 @@ public class PlayerController : MonoBehaviour {
     [HideInInspector]
     public ChangeRooms roomChanger;
     private BarrierContainer barriers;
+    [HideInInspector]
+    public AudioSource windLoop;
 
     public float movementSpeed;
-    public float dashSpeed;
-    public float dashLength;
-    public float upDashSpeed;
-    public float upDashLength;
+    public float dashSpeed = 20;
+    public float dashLength = 0.35f;
+    public float upDashSpeed = 20;
+    public float upDashLength = 0.35f;
     public float downDashSpeed;
     public float jumpStrength;
     public float wallJumpKickback;
@@ -82,6 +84,8 @@ public class PlayerController : MonoBehaviour {
     public bool wallJumping;
     public bool isFalling;
     public bool isWalking;
+    public bool isSliding;
+    private float slideVelocity;
     public bool isDashing;
     //isDashing2 is used for disabling wall sliding while dashing off a wall and gets turned off a split second later
     //it's also used to prevent wall sliding while exploding and being knocked back
@@ -91,6 +95,10 @@ public class PlayerController : MonoBehaviour {
     public bool isDashing2Indicator;
     private float isDashing2IndicatorTimer;
     private float isDashing2IndicatorTimerSet = 0.1f;
+    //isDashing3 is true while the dash can't be canceled
+    public bool isDashing3;
+    private float isDashing3Timer;
+    private float isDashing3TimerSet = 0.25f;
     public bool isDashJumping;
     //isDashJumping2 is true when the player is using momentum from a dash jump after the dash jump animation
     public bool isDashJumping2;
@@ -107,6 +115,7 @@ public class PlayerController : MonoBehaviour {
     public bool isMeleeAttacking;
     public bool isExploding;
     public bool isShootingFireWave;
+    public bool isGoingAbove25;
     public bool hasFlipped;
     public bool primaryAttackIsMelee;
 
@@ -168,10 +177,13 @@ public class PlayerController : MonoBehaviour {
     private bool deathEffectComplete;
     public float deathEffectPlayerHidingTimerSet;
     private float deathEffectPlayerHidingTimer;
+    private float oneSecondTimer;
 
     public bool canShoot;
     public int equippedBulletType = 1;
+    private float temporaryBulletType = 1;
     public float bulletSpeed = 3.5f;
+    private float temporaryBulletSpeed = 3.5f;
     public float bulletCooldown = 0.2f;
     private float bulletTimer;
     public float bulletAnimationCooldown = 0.1f;
@@ -206,6 +218,7 @@ public class PlayerController : MonoBehaviour {
         fireWave2 = GameObject.FindWithTag("PlayerFireWave2");
         roomChanger = GameObject.FindWithTag("PlayerSecondaryCollider").GetComponent<ChangeRooms>();
         barriers = GameObject.FindWithTag("BarrierContainer").GetComponent<BarrierContainer>();
+        windLoop = GameObject.FindWithTag("WindLoop").GetComponent<AudioSource>();
         controls = new PlayerControls();
         //this will be changed later
         respawnX = transform.position.x;
@@ -237,13 +250,25 @@ public class PlayerController : MonoBehaviour {
     private void MovePlayer() {
         if(!deathEffectIsHappening) {
             if(isWalking && !wallJumping && !(touchingWall && dirX == wallFacingDirX * -1) && !(touchingWall && isDashing) && !(isDashJumping2 && dirX == dashJumpFacingDirX && Mathf.Abs(rb.velocity.x) > 0.2f) && !isExploding && !beingKnockedBack && !isShootingFireWave && !isExitingDownDash) {
-                rb.velocity = new Vector2(movementSpeed * dirX, rb.velocity.y);
+                if(touchingGround) {
+                    rb.velocity = new Vector2((movementSpeed + Mathf.Abs(slideVelocity)) * dirX, rb.velocity.y);
+                    isSliding = false;
+                }
+                else {
+                    rb.velocity = new Vector2((movementSpeed) * dirX, rb.velocity.y);
+                }
             }
             if(isWalking && wallJumping && !isExploding && !beingKnockedBack && !isShootingFireWave) {
                 rb.velocity = new Vector2(velocityBeforeMove + (0.5f * (movementSpeed * dirX)), rb.velocity.y);
             }
             if(isDashing && !isExploding && !beingKnockedBack && !isShootingFireWave) {
-                rb.velocity = new Vector2(dashSpeed * dashFacingDirX, 0);
+                if(!isSliding) {
+                    rb.velocity = new Vector2(dashSpeed * dashFacingDirX, 0);
+                }
+                if(isSliding) {
+                    rb.velocity = new Vector2((dashSpeed + Mathf.Abs(slideVelocity) * 0.85f) * dashFacingDirX, 0);
+                    slideVelocity *= 0.9f;
+                }
             }
             if(isUpDashing && !isExploding && !beingKnockedBack && !isShootingFireWave) {
                 rb.velocity = new Vector2(0, upDashSpeed);
@@ -326,6 +351,19 @@ public class PlayerController : MonoBehaviour {
             canDownDash = true;
             canUpDash = true;
         }
+        if(Mathf.Abs(rb.velocity.x) >= 22) {
+            if(Mathf.Abs(rb.velocity.x) < 25) {
+                isGoingAbove25 = false;
+                windLoop.volume = ((Mathf.Abs(rb.velocity.x) - 20) / 5);
+            }
+            if(Mathf.Abs(rb.velocity.x) >= 25) {
+                isGoingAbove25 = true;
+                windLoop.volume = 1;
+            }
+        }
+        if(Mathf.Abs(rb.velocity.x) < 22) {
+            windLoop.volume = 0;
+        }
         if(touchingWall && !touchingGround && !isDownDashing && !isUpDashing && !isExitingUpDash && !isExitingDownDash && !isExploding && !deathEffectIsHappening && !beingKnockedBack && !(isJumping && !isDashJumping && !isFalling && startedJumpWhileTouchingWall)) {
             wallFacingDirX = facingDirX * -1;
             if(!deathEffectIsHappening) {
@@ -351,9 +389,21 @@ public class PlayerController : MonoBehaviour {
             canStopOnTouchWall = true;
             wallFacingDirX = facingDirX;
         }
-        //this stops the player from sliding around like a hockey puck after landing from a dash jump
+        //lets the player slide around for a little bit before stopping
         if(dirX == 0 && touchingGround && !isJumping && !isDamaging && !isDashJumping) {
-            rb.velocity = new Vector2(0, rb.velocity.y);
+            rb.velocity = new Vector2(rb.velocity.x * 0.95f, rb.velocity.y);
+            slideVelocity = rb.velocity.x;
+            if(Mathf.Abs(rb.velocity.x) <= 3) {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+                isSliding = false;
+                slideVelocity = 0;
+            }
+            else {
+                isSliding = true;
+            }
+        }
+        if(isSliding == false) {
+            slideVelocity = 0;
         }
         if(!touchingWall && rb.gravityScale == 0.5f && !isExploding && !beingKnockedBack && !deathEffectIsHappening) {
             rb.gravityScale = 4;
@@ -527,6 +577,8 @@ public class PlayerController : MonoBehaviour {
         groundedJumpNextToWallTimer -= Time.deltaTime;
         isDashing2IndicatorTimer -= Time.deltaTime;
         deathEffectPlayerHidingTimer -= Time.deltaTime;
+        isDashing3Timer -= Time.deltaTime;
+        oneSecondTimer -= Time.deltaTime;
         if(bulletTimer <= 0) {
             canShoot = true;
         }
@@ -627,6 +679,13 @@ public class PlayerController : MonoBehaviour {
         if(deathEffectPlayerHidingTimer <= 0 && deathEffectIsHappening) {
             sr.enabled = false;
         }
+        if(isDashing3Timer <= 0) {
+            isDashing3 = false;
+        }
+        if(oneSecondTimer <= 0) {
+            OneSecondPassed();
+            oneSecondTimer = 1;
+        }
     }
 
     private void UpdateUI() {
@@ -638,7 +697,7 @@ public class PlayerController : MonoBehaviour {
         normalDash.position = dashesLeft;
         upDash.toggle = canUpDash;
         equippedPrimaryUI.toggle = primaryAttackIsMelee;
-        //because of the weird way the jumpsLeft variable works in this game, the jump indicator's position has to be set manually instead of just being set to jumpsLeft
+        //because of the weird way jumpsLeft works, the jump indicator's position has to be set manually instead of just being set to jumpsLeft
         if(!(touchingGround || touchingWall)) {
             jumps.position = jumpsLeft;
         }
@@ -742,19 +801,16 @@ public class PlayerController : MonoBehaviour {
     public void UpdateEffect() {
         effectTimer -= Time.deltaTime;
         recoilTimer -= Time.deltaTime;
-        if(effectTimer <= 0 && sr.color == new Color(0, 0, 0, 1)) {
+        if(effectTimer <= 0 && sr.color == new Color(0, 0, 0, 1) && !recoiling) {
             sr.color = new Color(0.45f, 0.45f, 0.45f, 0.75f);
         }
         if(recoilTimer > 0 && effectTimer <= 0) {
             sr.color = new Color(0.45f, 0.45f, 0.45f, 0.75f);
             recoiling = true;
         }
-        if((recoilTimer <= 0) && recoiling) {
+        if((recoilTimer <= 0) && sr.color == new Color(0.45f, 0.45f, 0.45f, 0.75f)) {
             sr.color = new Color(1, 1, 1, 1);
             recoiling = false;
-            if(recoilTimer > 0) {
-                recoilTimer = 0;
-            }
         }
     }
 
@@ -769,6 +825,9 @@ public class PlayerController : MonoBehaviour {
             if(!isDashing) {
                 groundedJumpNextToWallTimer = 0.2f;
                 rb.velocity = new Vector2(rb.velocity.x, jumpStrength);
+                if(isSliding && touchingGround) {
+                    rb.velocity = new Vector2(slideVelocity * 1.15f, jumpStrength);
+                }
                 isJumping = true;
                 soundManager.PlayClip(soundManager.PlayerJump, transform, 2);
             }
@@ -797,11 +856,18 @@ public class PlayerController : MonoBehaviour {
                 if(!deathEffectIsHappening) {
                     rb.gravityScale = 4;
                     rb.velocity = new Vector2(wallJumpKickback * wallFacingDirX, jumpStrength);
+                    if(isSliding) {
+                        rb.velocity = new Vector2((wallJumpKickback + Mathf.Abs(slideVelocity) * 0.9f) * wallFacingDirX, jumpStrength);
+                    }
+                    if(dirX == 0) {
+                        facingDirX *= -1;
+                    }
                 }
                 velocityBeforeMove = rb.velocity.x - (movementSpeed * dirX);
                 wallJumping = true;
                 isShooting = false;
                 soundManager.PlayClip(soundManager.PlayerJump, transform, 2);
+                jumpsLeft = 2;
             }
             jumpsLeft -= 1;
         }
@@ -824,6 +890,8 @@ public class PlayerController : MonoBehaviour {
             rb.velocity = new Vector2(rb.velocity.x, 0);
             dashesLeft -= 1;
             isDashing = true;
+            isDashing3 = true;
+            isDashing3Timer = isDashing3TimerSet;
             rb.gravityScale = 0;
             isDamaging = true;
             isShooting = false;
@@ -837,13 +905,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnUpDash() {
-        if(canUpDash && !isDashing && !isUpDashing && !isDownDashing && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
+        if(canUpDash && !isDashing3 && !isUpDashing && !isDownDashing && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
             upDashTimer = upDashLength;
             rb.velocity = new Vector2(rb.velocity.x, 0);
             isDamaging = true;
             isDashJumping = false;
             isUpDashing = true;
             canUpDash = false;
+            isSliding = false;
             isShooting = false;
             isShootingFireWave = false;
             isMeleeAttacking = false;
@@ -854,7 +923,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDownDash() {
-        if(canDownDash && !isDashing && !isUpDashing && !isDownDashing && !touchingGround && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
+        if(canDownDash && !isDashing3 && !isUpDashing && !isDownDashing && !touchingGround && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
             rb.velocity = new Vector2(0, 0);
             isDamaging = true;
             isDashJumping = false;
@@ -867,8 +936,9 @@ public class PlayerController : MonoBehaviour {
             anim.SetBool("isMeleeAttacking", false);
             soundManager.PlayClip(soundManager.Dash, transform, 1f);
         }
-        if(!isDashing && !isUpDashing & sp > 0 && touchingGround && !isDownDashing && !isMeleeAttacking && !isExploding && !beingKnockedBack && !timeScaleIsZero) {
+        if(!isDashing3 && !isUpDashing & sp > 0 && touchingGround && !isDownDashing && !isMeleeAttacking && !isExploding && !beingKnockedBack && !timeScaleIsZero) {
             if(!fireWave1.activeInHierarchy && !fireWave2.activeInHierarchy) {
+                isSliding = false;
                 fireWaveShootTimer = fireWaveShootTimerSet;
                 isShootingFireWave = true;
                 rb.velocity = new Vector2(0, 0);
@@ -909,7 +979,14 @@ public class PlayerController : MonoBehaviour {
                     isDashJumping = true;
                     isDashJumping2 = true;
                     dashJumpFacingDirX = facingDirX;
-                    rb.velocity = new Vector2((dashSpeed * 0.85f) * dashJumpFacingDirX, jumpStrength * 1.25f);
+                    float extraSpeed = 0;
+                    if(isExitingDash) {
+                        extraSpeed += 2.5f;
+                    }
+                    if(isExitingDownDash) {
+                        extraSpeed += 2.5f;
+                    }
+                    rb.velocity = new Vector2((dashSpeed * 0.85f + Mathf.Abs(slideVelocity) * 0.45f + extraSpeed) * dashJumpFacingDirX, jumpStrength * 1.25f);
                     dashJumpTimer = 0.35f;
                     if(!deathEffectIsHappening) {
                         rb.gravityScale = 4;
@@ -933,6 +1010,7 @@ public class PlayerController : MonoBehaviour {
             sr.color = new Color(1, 1, 1, 1);
             isDamaging = false;
             isDashing = false;
+            isSliding = false;
             isWalking = false;
             touchingWall = false;
             isMeleeAttacking = false;
@@ -966,7 +1044,10 @@ public class PlayerController : MonoBehaviour {
     private void OnShoot() {
         if(!timeScaleIsZero) {
             GameObject bullet = BulletObjectPool.instance.GetPooledObject();
-            if(bullet != null && canShoot && health > 0 && Time.timeScale == 1 && !isDamaging && !isDashing && !isExitingDash && !isMeleeAttacking && !isExploding) {
+            if(bullet != null && canShoot && health > 0 && Time.timeScale == 1 && !isDamaging && !isDashing3 && !isMeleeAttacking && !isExploding) {
+                isDashing = false;
+                temporaryBulletSpeed = bulletSpeed;
+                temporaryBulletType = equippedBulletType;
                 bullet.transform.position = transform.position;
                 bullet.transform.localScale = new Vector2(transform.localScale.x, 1);
                 bullet.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 1);
@@ -974,7 +1055,30 @@ public class PlayerController : MonoBehaviour {
                 bullet.GetComponent<PlayerBullet>().animationTimer = bullet.GetComponent<PlayerBullet>().animationTimerSet;
                 bullet.GetComponent<PlayerBullet>().transitionCompleteTimerCheck = false;
                 bullet.GetComponent<PlayerBullet>().transitionComplete = false;
-                bullet.GetComponent<PlayerBullet>().Shoot(gameObject.GetComponent<PlayerController>(), equippedBulletType, bulletSpeed);
+                if(isExitingDash || (!isDashing3 && isDashing)) {
+                    temporaryBulletSpeed = bulletSpeed * 1.75f;
+                    if(!isDashing3 && isDashing) {
+                        temporaryBulletSpeed = bulletSpeed * 2;
+                    }
+                }
+                if(isSliding) {
+                    if(Mathf.Abs(rb.velocity.x) * 0.75f > bulletSpeed) {
+                        temporaryBulletSpeed = Mathf.Abs(rb.velocity.x) * 0.75f;
+                    }
+                    if((Mathf.Abs(rb.velocity.x) * 0.75f + bulletSpeed) > bulletSpeed && Mathf.Abs(rb.velocity.x) > 19) {
+                        temporaryBulletSpeed = Mathf.Abs(rb.velocity.x) * 0.75f + bulletSpeed;
+                        temporaryBulletType = 0.5f;
+                    }
+                    if((Mathf.Abs(rb.velocity.x) * 0.75f + bulletSpeed) > bulletSpeed && Mathf.Abs(rb.velocity.x) > 21) {
+                        temporaryBulletSpeed = Mathf.Abs(rb.velocity.x) * 0.75f + bulletSpeed;
+                        temporaryBulletType = 0.5f;
+                    }
+                    if((Mathf.Abs(rb.velocity.x) * 0.85f + bulletSpeed) > bulletSpeed && Mathf.Abs(rb.velocity.x) > 24.5f) {
+                        temporaryBulletSpeed = Mathf.Abs(rb.velocity.x) * 0.85f + bulletSpeed;
+                        temporaryBulletType = 0;
+                    }
+                }
+                bullet.GetComponent<PlayerBullet>().Shoot(gameObject.GetComponent<PlayerController>(), temporaryBulletType, temporaryBulletSpeed);
                 bulletTimer = bulletCooldown;
                 bulletAnimationTimer = bulletAnimationCooldown;
                 canShoot = false;
@@ -1038,6 +1142,7 @@ public class PlayerController : MonoBehaviour {
         anim.SetBool("isWalking", isWalking);
         anim.SetBool("isJumping", isJumping);
         anim.SetBool("isFalling", isFalling);
+        anim.SetBool("isSliding", isSliding);
         anim.SetBool("isDashing", isDashing);
         anim.SetBool("isDownDashing", isDownDashing);
         anim.SetBool("isExitingUpDash", isExitingUpDash);
@@ -1067,10 +1172,28 @@ public class PlayerController : MonoBehaviour {
             anim.SetFloat("MeleeBlend", 1);
             anim.SetFloat("ShootBlend", 1);
         }
+        //sliding animation
+        if(Mathf.Abs(rb.velocity.x) < 20) {
+            anim.SetFloat("SlideBlend", 0);
+        }
+        if(Mathf.Abs(rb.velocity.x) >= 20) {
+            anim.SetFloat("SlideBlend", 0.5f);
+        }
+        if(Mathf.Abs(rb.velocity.x) >= 24.5) {
+            anim.SetFloat("SlideBlend", 1);
+        }
+    }
+
+    public void OneSecondPassed() {
+        if(Mathf.Abs(rb.velocity.x) > 22) {
+            style += 1;
+        }
+        if(Mathf.Abs(rb.velocity.x) > 24.5) {
+            style += 2;
+        }
     }
 
     private void OnDrawGizmos() {
-        //draws visual indicators in the editor for the raycast that checks if a wall is being touched and the box that checks if the ground is being touched
         //Gizmos.DrawWireCube(GameObject.FindWithTag("PlayerGroundCheck").GetComponent<Transform>().position, new Vector3(1.04f, 0.25f, 0.25f));
         //Gizmos.DrawLine(new Vector2(transform.position.x, transform.position.y + 0.6f), new Vector2(transform.position.x + 1.1f, transform.position.y + 0.6f));
     }

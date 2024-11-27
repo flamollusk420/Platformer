@@ -7,7 +7,7 @@ public class PlayerBullet : MonoBehaviour {
     private Animator anim;
     public float movementSpeed;
     private float originalMovementSpeed;
-    public int bulletType = 1;
+    public float bulletType = 1;
     public float damageDealt;
     private float flatDirX = 0;
     public float offsetX = 0.45f;
@@ -109,6 +109,7 @@ public class PlayerBullet : MonoBehaviour {
             }
         }
         anim.SetBool("transitionComplete", transitionComplete);
+        anim.SetFloat("bulletTypeBlend", bulletType);
     }
 
     void LateUpdate() {
@@ -117,14 +118,20 @@ public class PlayerBullet : MonoBehaviour {
         }
     }
 
-    public void Shoot(PlayerController playerScript, int equippedBulletType, float movementSpeedSet) {
+    public void Shoot(PlayerController playerScript, float equippedBulletType, float movementSpeedSet) {
         GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 1);
         anim = GetComponent<Animator>();
         player = playerScript;
-        bulletType = equippedBulletType;
         movementSpeed = movementSpeedSet;
         originalMovementSpeed = movementSpeed;
+        bulletType = equippedBulletType;
         damageDealt = 2;
+        if(equippedBulletType == 0.5f) {
+            damageDealt = 3;
+        }
+        if(equippedBulletType == 0) {
+            damageDealt = 4;
+        }
         transitionCompleteMovementSpeedMultiplier = 1.75f;
         speedMultiplierCheck = true;
         if(playerScript.respawned) {
