@@ -77,6 +77,8 @@ public class PlayerController : MonoBehaviour {
     public bool facingRight = true;
     public bool touchingGround;
     public bool touchingWall;
+    public bool touchingWallBackwards;
+    private bool touchingWallBackwardsCheck;
     public bool isJumping;
     public bool startedJumpWhileTouchingWall;
     //wallJumping is only true for the amount of time specified in wallJumpTimerSet
@@ -310,15 +312,15 @@ public class PlayerController : MonoBehaviour {
         if(dirX != 0 && !isDashing && !isExploding) {
             isWalking = true;
         }
-        if(facingRight && !isDashing && !isExploding) {
+        if(facingRight && !isDashing && !isExploding && !(touchingWallBackwards && !touchingGround)) {
             transform.localScale = new Vector2(1, 1);
             facingDirX = 1;
         }
-        if(!facingRight && !isDashing && !isExploding) {
+        if(!facingRight && !isDashing && !isExploding && !(touchingWallBackwards && !touchingGround)) {
             transform.localScale = new Vector2(-1, 1);
             facingDirX = -1;
         }
-        if(isDashing && facingDirX != dashFacingDirX) {
+        if(isDashing && facingDirX != dashFacingDirX && !(touchingWallBackwards && !touchingGround)) {
             facingDirX = dashFacingDirX;
             transform.localScale = new Vector2(facingDirX, 1);
         }
@@ -379,6 +381,33 @@ public class PlayerController : MonoBehaviour {
         }
         if(Mathf.Abs(rb.velocity.x) < 22) {
             windLoop.volume = 0;
+        }
+        if(touchingWallBackwards && !touchingWallBackwardsCheck && !touchingWall && !touchingGround && !isDownDashing && !isUpDashing && !isExitingUpDash && !isExitingDownDash && !isExploding && !deathEffectIsHappening && !beingKnockedBack && !(isJumping && !isDashJumping && !isFalling)) {
+            touchingWallBackwardsCheck = true;
+            facingRight = !facingRight;
+            facingDirX = facingDirX * -1;
+            wallFacingDirX = facingDirX * -1;
+            if(!deathEffectIsHappening) {
+                rb.gravityScale = 0.65f;
+            }
+            dashCooldown = 0;
+            isExitingDash = false;
+            if(isDashJumping) {
+                isDashJumping = false;
+            }
+            if(isDashing && !isDashing2) {
+                isDashing = false;
+                jumpsLeft = 1;
+                dashesLeft = 2;
+                isDamaging = false;
+            }
+            if(canStopOnTouchWall && !(isDashing)) {
+                rb.velocity = new Vector2(facingDirX * 100, 0);
+                canStopOnTouchWall = false;
+            }
+        }
+        if(!touchingWallBackwards) {
+            touchingWallBackwardsCheck = false;
         }
         if(touchingWall && !touchingGround && !isDownDashing && !isUpDashing && !isExitingUpDash && !isExitingDownDash && !isExploding && !deathEffectIsHappening && !beingKnockedBack && !(isJumping && !isDashJumping && !isFalling && startedJumpWhileTouchingWall)) {
             wallFacingDirX = facingDirX * -1;
@@ -499,12 +528,15 @@ public class PlayerController : MonoBehaviour {
         }
         if(!isDashing) {
             touchingWall = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.65f), transform.right * facingDirX, 0.6f, ground);
+            touchingWallBackwards = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.65f), transform.right * facingDirX * -1, 0.6f, ground);
         }
         if(isDashing && isDamaging) {
             touchingWall = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.65f), transform.right * facingDirX, 1.1f, ground);
+            touchingWallBackwards = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.65f), transform.right * facingDirX * -1, 0, ground);
         }
         if(isDashing2 && isDamaging) {
             touchingWall = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.65f), transform.right * facingDirX, 0, ground);
+            touchingWallBackwards = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.65f), transform.right * facingDirX * -1, 0, ground);
             if(isDashing && jumpsLeft < 2) {
                 if(!beingKnockedBack) {
                     jumpsLeft = 1;

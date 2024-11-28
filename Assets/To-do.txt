@@ -1,5 +1,3 @@
-stop wall jumps from being ended by holding down/up
-
 eh:
 -make it harder to get style by just hitting a static enemy with a melee attack until it dies
 -make junkyard theme get to the point faster
