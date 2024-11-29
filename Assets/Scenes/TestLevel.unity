@@ -2768,7 +2768,7 @@ Transform:
   - {fileID: 1687663549}
   - {fileID: 1432509278}
   m_Father: {fileID: 1000375290}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &310822371
 CircleCollider2D:
@@ -3944,8 +3944,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
   knockbackTimerSet: 1.25
-  health: 2.5
-  maxHealth: 2.5
+  health: 2
+  maxHealth: 2
   damageDealt: 1
   enemySize: 1
   SFXimportance: 1
@@ -4129,7 +4129,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1000375290}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &431605806
 CircleCollider2D:
@@ -5931,8 +5931,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
   knockbackTimerSet: 1.25
-  health: 2.5
-  maxHealth: 2.5
+  health: 2
+  maxHealth: 2
   damageDealt: 1
   enemySize: 1
   SFXimportance: 1
@@ -7503,8 +7503,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
   knockbackTimerSet: 1.25
-  health: 2.5
-  maxHealth: 2.5
+  health: 2
+  maxHealth: 2
   damageDealt: 10
   enemySize: 1
   SFXimportance: 1
@@ -7660,11 +7660,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846304856}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8, y: -3, z: 9.892037}
+  m_LocalPosition: {x: -8.259167, y: -9.455896, z: -0.09528566}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1000375290}
+  m_Father: {fileID: 1114793646}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &862178677
@@ -8516,7 +8516,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 846304863}
   - {fileID: 431605805}
   - {fileID: 310822370}
   - {fileID: 1503093763}
@@ -9353,7 +9352,7 @@ MonoBehaviour:
   dashesLeft: 2
   fireWaveOffsetX: 0.3
   fireWaveOffsetY: 0.06
-  soulClawOffsetX: 4.5
+  soulClawOffsetX: 2
   soulClawOffsetY: 0.06
   currentHighestEnemyLayerOrder: 25
   startCompleted: 0
@@ -9862,7 +9861,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 846304863}
   m_Father: {fileID: 1889733875}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10697,8 +10697,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
   knockbackTimerSet: 1.25
-  health: 2.5
-  maxHealth: 2.5
+  health: 2
+  maxHealth: 2
   damageDealt: 1
   enemySize: 1
   SFXimportance: 1
@@ -12541,8 +12541,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
   knockbackTimerSet: 1.25
-  health: 2.5
-  maxHealth: 2.5
+  health: 2
+  maxHealth: 2
   damageDealt: 1
   enemySize: 1
   SFXimportance: 1
@@ -14001,7 +14001,7 @@ Transform:
   m_Children:
   - {fileID: 1734723094}
   m_Father: {fileID: 1000375290}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1503093764
 MonoBehaviour:
@@ -14915,8 +14915,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
   knockbackTimerSet: 1.25
-  health: 2.5
-  maxHealth: 2.5
+  health: 2
+  maxHealth: 2
   damageDealt: 1
   enemySize: 1
   SFXimportance: 1
@@ -51875,8 +51875,8 @@ MonoBehaviour:
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
   knockbackTimerSet: 1.25
-  health: 2.5
-  maxHealth: 2.5
+  health: 2
+  maxHealth: 2
   damageDealt: 1
   enemySize: 1
   SFXimportance: 1

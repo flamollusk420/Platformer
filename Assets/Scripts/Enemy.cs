@@ -348,6 +348,20 @@ public class Enemy : MonoBehaviour {
                 }
             }
         }
+        if(enemyCollider.CompareTag("PlayerSoulClawGroundCheck") && canTakeDamage) {
+            Hit(2.5f);
+            player.style += 2;
+            player.sp += 1;
+            player.ResetStyleDeductionTimer();
+            soundManager.PlayClip(soundManager.PlayerSoulClawHit, transform, 1f);
+            if(health <= 0) {
+                soundManager.PlayClip(soundManager.PlayerSoulClawKill, transform, 1f);
+                player.style += 1;
+                if(maxHealth - 1 <= 0) {
+                    player.style += 2;
+                }
+            }
+        }
         if(enemyCollider.CompareTag("PlayerFireWaveGroundCheck") && gameObject.GetComponent<Enemy>().enabled == true) {
             if(canTakeDamage) {
                 if((enemyCollider.gameObject.transform.parent.name == "PlayerFireWave1" && !hitByRightWave) || (enemyCollider.gameObject.transform.parent.name == "PlayerFireWave2" && !hitByLeftWave)) {
@@ -378,20 +392,6 @@ public class Enemy : MonoBehaviour {
                     if(health <= 0) {
                         player.leftFireWaveHasKilledEnemy = true;
                         player.leftFireWaveHasOneShottedEnemy = true;
-                    }
-                }
-                if(enemyCollider.gameObject.transform.parent.name == "PlayerSoulClaw") {
-                    Hit(2.5f);
-                    player.style += 2;
-                    player.sp += 1;
-                    player.ResetStyleDeductionTimer();
-                    soundManager.PlayClip(soundManager.PlayerSoulClawHit, transform, 1f);
-                    if(health <= 0) {
-                        soundManager.PlayClip(soundManager.PlayerSoulClawKill, transform, 1f);
-                        player.style += 1;
-                        if(maxHealth - 1 <= 0) {
-                            player.style += 2;
-                        }
                     }
                 }
             }

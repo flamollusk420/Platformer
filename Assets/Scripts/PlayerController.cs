@@ -924,7 +924,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnJump() {
-        if(jumpsLeft > 0 && !isDownDashing && !isUpDashing && !isExploding && !beingKnockedBack && !isShootingSoulClaw && !timeScaleIsZero) {
+        if(jumpsLeft > 0 && !isDownDashing && !isUpDashing && !isExploding && !beingKnockedBack && !timeScaleIsZero) {
             if(!touchingWall) {
                 startedJumpWhileTouchingWall = false;
             }
@@ -932,6 +932,7 @@ public class PlayerController : MonoBehaviour {
                 startedJumpWhileTouchingWall = true;
             }
             if(!isDashing && !isCrouching) {
+                isShootingSoulClaw = false;
                 groundedJumpNextToWallTimer = 0.2f;
                 rb.velocity = new Vector2(rb.velocity.x, jumpStrength);
                 if(isSliding && touchingGround) {
@@ -940,9 +941,10 @@ public class PlayerController : MonoBehaviour {
                 isJumping = true;
                 soundManager.PlayClip(soundManager.PlayerJump, transform, 2);
             }
-            if(isDashing && touchingGround && !touchingWall && !isExploding && !beingKnockedBack && !isDashJumping && !isShootingSoulClaw) {
+            if(isDashing && touchingGround && !touchingWall && !isExploding && !beingKnockedBack && !isDashJumping) {
                 startedJumpWhileTouchingWall = false;
                 isWalking = false;
+                isShootingSoulClaw = false;
                 isMeleeAttacking = false;
                 anim.SetBool("isMeleeAttacking", false);
                 dashJumpFacingDirX = facingDirX;
@@ -990,7 +992,8 @@ public class PlayerController : MonoBehaviour {
                 soundManager.PlayClip(soundManager.PlayerJump, transform, 2);
                 jumpsLeft = 2;
             }
-            if(isCrouching && !isDashing && !isDashJumping && touchingGround && !isShootingSoulClaw) {
+            if(isCrouching && !isDashing && !isDashJumping && touchingGround) {
+                isShootingSoulClaw = false;
                 highJumpTimer = highJumpTimerSet;
                 highJumpTimer2 = highJumpTimer2Set;
                 isAboutToHighJump = true;
@@ -1001,7 +1004,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDash1() {
-        if(dashesLeft > 0 && dashCooldown <= 0 && !isDashing && !(touchingWall && !isFalling && touchingGround && wallFacingDirX == facingDirX) && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !isShootingSoulClaw && !timeScaleIsZero && !deathEffectIsHappening) {
+        if(dashesLeft > 0 && dashCooldown <= 0 && !isDashing && !(touchingWall && !isFalling && touchingGround && wallFacingDirX == facingDirX) && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero && !deathEffectIsHappening) {
+            isShootingSoulClaw = false;
             if(isCrouching) {
                 isCrouching = false;
                 storedSlideVelocity = 0;
@@ -1038,12 +1042,13 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnUpDash() {
-        if(canUpDash && !isDashing3 && !isUpDashing && !isDownDashing && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !isShootingSoulClaw && !beingKnockedBack && !timeScaleIsZero) {
+        if(canUpDash && !isDashing3 && !isUpDashing && !isDownDashing && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
             upDashTimer = upDashLength;
             rb.velocity = new Vector2(rb.velocity.x, 0);
             isDamaging = true;
             isDashJumping = false;
             isUpDashing = true;
+            isShootingSoulClaw = false;
             canUpDash = false;
             isSliding = false;
             isShooting = false;
@@ -1056,10 +1061,11 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDownDash() {
-        if(canDownDash && !isDashing3 && !isUpDashing && !isDownDashing && !touchingGround && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !isShootingSoulClaw && !beingKnockedBack && !timeScaleIsZero) {
+        if(canDownDash && !isDashing3 && !isUpDashing && !isDownDashing && !touchingGround && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
             storedSlideVelocity = slideVelocity;
             rb.velocity = new Vector2(0, 0);
             isDamaging = true;
+            isShootingSoulClaw = false;
             isDashJumping = false;
             isDownDashing = true;
             canDownDash = false;
@@ -1101,11 +1107,12 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDashJump1() {
-        if(!timeScaleIsZero && !isShootingSoulClaw) {
+        if(!timeScaleIsZero) {
             if(dashesLeft > 0 && touchingGround) {
                 if(!touchingWall && !isExploding && !beingKnockedBack) {
                     startedJumpWhileTouchingWall = false;
                     isWalking = false;
+                    isShootingSoulClaw = false;
                     isMeleeAttacking = false;
                     anim.SetBool("isMeleeAttacking", false);
                     dashJumpFacingDirX = facingDirX;
@@ -1186,9 +1193,10 @@ public class PlayerController : MonoBehaviour {
     private void OnShoot() {
         if(!timeScaleIsZero) {
             GameObject bullet = BulletObjectPool.instance.GetPooledObject();
-            if(bullet != null && canShoot && health > 0 && Time.timeScale == 1 && !isDamaging && !isDashing3 && !isMeleeAttacking && !isExploding && !isHighJumping && !isShootingSoulClaw) {
+            if(bullet != null && canShoot && health > 0 && Time.timeScale == 1 && !isDamaging && !isDashing3 && !isMeleeAttacking && !isExploding && !isHighJumping) {
                 isDashing = false;
                 isCrouching = false;
+                isShootingSoulClaw = false;
                 temporaryBulletSpeed = bulletSpeed;
                 temporaryBulletType = equippedBulletType;
                 bullet.transform.position = transform.position;

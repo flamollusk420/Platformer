@@ -43,9 +43,9 @@ public class PlayerSoulClaw : MonoBehaviour {
         touchingBorder = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + wallCheckHeightOffset), transform.right * facingDirX, wallCheckLength, borders);
         if(touchingGround && !touchingWall) {
             sr.enabled = true;
-            player.isShootingSoulClaw = true;
-            player.anim.SetBool("isShootingSoulClaw", true);
             if(!hasPlayedSound) {
+                player.isShootingSoulClaw = true;
+                player.anim.SetBool("isShootingSoulClaw", true);
                 soundManager.PlayClip(soundManager.PlayerSoulClaw, transform, 1);
                 hasPlayedSound = true;
             }
