@@ -35,6 +35,8 @@ TagManager:
   - CMcam4
   - BarrierContainer
   - WindLoop
+  - PlayerSoulClaw
+  - PlayerSoulClawGroundCheck
   layers:
   - Default
   - TransparentFX

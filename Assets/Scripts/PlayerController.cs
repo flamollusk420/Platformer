@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
     private PlayerControls controls;
     public GameObject fireWave1;
     public GameObject fireWave2;
+    public GameObject soulClaw;
     public Transform groundCheck;
     public LayerMask ground;
     private AdjustableUIBar healthBar;
@@ -66,6 +67,8 @@ public class PlayerController : MonoBehaviour {
     public int dashesLeft = 2;
     public float fireWaveOffsetX = 4.5f;
     public float fireWaveOffsetY = 0.06f;
+    public float soulClawOffsetX = 4.5f;
+    public float soulClawOffsetY = 0.06f;
     [HideInInspector]
     //used to keep enemies that are being knocked back above other enemies in the sorting layer order
     public int currentHighestEnemyLayerOrder = 25;
@@ -119,6 +122,9 @@ public class PlayerController : MonoBehaviour {
     public bool isMeleeAttacking;
     public bool isExploding;
     public bool isShootingFireWave;
+    public bool isShootingSoulClaw;
+    [HideInInspector]
+    public bool isShootingGroundAttack;
     public bool isGoingAbove25;
     public bool isCrouching;
     public bool isHighJumping;
@@ -164,11 +170,19 @@ public class PlayerController : MonoBehaviour {
     public float downDashAttackCooldown;
     private float fireWaveShootTimer;
     private float fireWaveShootTimerSet = 0.15f;
+    private float soulClawShootTimer;
+    public float soulClawShootTimerSet = 0.15f;
+    [HideInInspector]
     public bool rightFireWaveHasHitEnemy = false;
+    [HideInInspector]
     public bool rightFireWaveHasKilledEnemy = false;
+    [HideInInspector]
     public bool rightFireWaveHasOneShottedEnemy = false;
+    [HideInInspector]
     public bool leftFireWaveHasHitEnemy = false;
+    [HideInInspector]
     public bool leftFireWaveHasKilledEnemy = false;
+    [HideInInspector]
     public bool leftFireWaveHasOneShottedEnemy = false;
     private bool hasPlayedFireWaveDestroyedSound = true;
     private bool canStopOnTouchWall = true;
@@ -228,6 +242,7 @@ public class PlayerController : MonoBehaviour {
         pauseUI = GameObject.FindWithTag("PauseUI").GetComponent<Pause>();
         fireWave1 = GameObject.FindWithTag("PlayerFireWave");
         fireWave2 = GameObject.FindWithTag("PlayerFireWave2");
+        //soulClaw = GameObject.FindWithTag("PlayerSoulClaw");
         roomChanger = GameObject.FindWithTag("PlayerSecondaryCollider").GetComponent<ChangeRooms>();
         barriers = GameObject.FindWithTag("BarrierContainer").GetComponent<BarrierContainer>();
         windLoop = GameObject.FindWithTag("WindLoop").GetComponent<AudioSource>();
@@ -261,7 +276,7 @@ public class PlayerController : MonoBehaviour {
 
     private void MovePlayer() {
         if(!deathEffectIsHappening) {
-            if(isWalking && !wallJumping && !isCrouching && !(touchingWall && dirX == wallFacingDirX * -1) && !(touchingWall && isDashing) && !(isDashJumping2 && dirX == dashJumpFacingDirX && Mathf.Abs(rb.velocity.x) > 0.2f) && !isExploding && !beingKnockedBack && !isShootingFireWave && !isExitingDownDash) {
+            if(isWalking && !wallJumping && !isCrouching && !(touchingWall && dirX == wallFacingDirX * -1) && !(touchingWall && isDashing) && !(isDashJumping2 && dirX == dashJumpFacingDirX && Mathf.Abs(rb.velocity.x) > 0.2f) && !isExploding && !beingKnockedBack && !isShootingGroundAttack && !isExitingDownDash) {
                 if(touchingGround) {
                     rb.velocity = new Vector2((movementSpeed + Mathf.Abs(slideVelocity)) * dirX, rb.velocity.y);
                     isSliding = false;
@@ -270,10 +285,10 @@ public class PlayerController : MonoBehaviour {
                     rb.velocity = new Vector2((movementSpeed) * dirX, rb.velocity.y);
                 }
             }
-            if(isWalking && wallJumping && !isExploding && !beingKnockedBack && !isShootingFireWave && !isCrouching) {
+            if(isWalking && wallJumping && !isExploding && !beingKnockedBack && !isShootingGroundAttack && !isCrouching) {
                 rb.velocity = new Vector2(velocityBeforeMove + (0.5f * (movementSpeed * dirX)), rb.velocity.y);
             }
-            if(isDashing && !isExploding && !beingKnockedBack && !isCrouching && !isShootingFireWave) {
+            if(isDashing && !isExploding && !beingKnockedBack && !isCrouching && !isShootingGroundAttack) {
                 if(!isSliding) {
                     rb.velocity = new Vector2(dashSpeed * dashFacingDirX, 0);
                 }
@@ -282,10 +297,10 @@ public class PlayerController : MonoBehaviour {
                     slideVelocity *= 0.9f;
                 }
             }
-            if(isUpDashing && !isExploding && !beingKnockedBack && !isCrouching && !isShootingFireWave) {
+            if(isUpDashing && !isExploding && !beingKnockedBack && !isCrouching && !isShootingGroundAttack) {
                 rb.velocity = new Vector2(0, upDashSpeed);
             }
-            if(isDownDashing && !isExploding && !beingKnockedBack && !isCrouching && !isShootingFireWave) {
+            if(isDownDashing && !isExploding && !beingKnockedBack && !isCrouching && !isShootingGroundAttack) {
                 rb.velocity = new Vector2(0, downDashSpeed);
             }
             if(isHighJumping && !isExploding && !beingKnockedBack) {
@@ -312,15 +327,15 @@ public class PlayerController : MonoBehaviour {
         if(dirX != 0 && !isDashing && !isExploding) {
             isWalking = true;
         }
-        if(facingRight && !isDashing && !isExploding && !(touchingWallBackwards && !touchingGround)) {
+        if(facingRight && !isDashing && !isShootingSoulClaw && !isExploding && !(touchingWallBackwards && !touchingGround)) {
             transform.localScale = new Vector2(1, 1);
             facingDirX = 1;
         }
-        if(!facingRight && !isDashing && !isExploding && !(touchingWallBackwards && !touchingGround)) {
+        if(!facingRight && !isDashing && !isShootingSoulClaw && !isExploding && !(touchingWallBackwards && !touchingGround)) {
             transform.localScale = new Vector2(-1, 1);
             facingDirX = -1;
         }
-        if(isDashing && facingDirX != dashFacingDirX && !(touchingWallBackwards && !touchingGround)) {
+        if(isDashing && facingDirX != dashFacingDirX && !isShootingSoulClaw && !(touchingWallBackwards && !touchingGround)) {
             facingDirX = dashFacingDirX;
             transform.localScale = new Vector2(facingDirX, 1);
         }
@@ -381,6 +396,7 @@ public class PlayerController : MonoBehaviour {
         }
         if(Mathf.Abs(rb.velocity.x) < 22) {
             windLoop.volume = 0;
+            isGoingAbove25 = false;
         }
         if(touchingWallBackwards && !touchingWallBackwardsCheck && !touchingWall && !touchingGround && !isDownDashing && !isUpDashing && !isExitingUpDash && !isExitingDownDash && !isExploding && !deathEffectIsHappening && !beingKnockedBack && !(isJumping && !isDashJumping && !isFalling)) {
             touchingWallBackwardsCheck = true;
@@ -504,7 +520,7 @@ public class PlayerController : MonoBehaviour {
         if(sp > maxSP) {
             sp = maxSP;
         }
-        if(dirY < 0 && !isDashing && !isDashJumping && !isDownDashing && !isShootingFireWave && !isJumping && touchingGround) {
+        if(dirY < 0 && !isDashing && !isDashJumping && !isDownDashing && !isShootingGroundAttack && !isJumping && touchingGround) {
             if(!isCrouching) {
                 rb.velocity = new Vector2(0, 0);
             }
@@ -512,14 +528,11 @@ public class PlayerController : MonoBehaviour {
             isWalking = false;
             storedSlideVelocity = slideVelocity;
         }
-        if((dirY >= 0 || !touchingGround || isDashing || isDashJumping || isJumping || isShootingFireWave) && isCrouching) {
+        if((dirY >= 0 || !touchingGround || isDashing || isDashJumping || isJumping || isShootingGroundAttack) && isCrouching) {
             storedSlideVelocity = 0;
             slideVelocity = storedSlideVelocity;
             isCrouching = false;
         }
-        //if(rb.velocity.y < 10 && isHighJumping) {
-        //    isHighJumping = false;
-        //}
     }
 
     private void CheckCollisions() {
@@ -641,6 +654,7 @@ public class PlayerController : MonoBehaviour {
         styleDeductionCancelTimer -= Time.deltaTime;
         knockbackTimer -= Time.deltaTime;
         fireWaveShootTimer -= Time.deltaTime;
+        soulClawShootTimer -= Time.deltaTime;
         groundedJumpNextToWallTimer -= Time.deltaTime;
         isDashing2IndicatorTimer -= Time.deltaTime;
         deathEffectPlayerHidingTimer -= Time.deltaTime;
@@ -715,6 +729,15 @@ public class PlayerController : MonoBehaviour {
         }
         if(fireWaveShootTimer <= 0) {
             isShootingFireWave = false;
+            if(!isShootingSoulClaw) {
+                isShootingGroundAttack = false;
+            }
+        }
+        if(soulClawShootTimer <= 0) {
+            isShootingSoulClaw = false;
+            if(!isShootingFireWave) {
+                isShootingGroundAttack = false;
+            }
         }
         if(styleDeductionTimer <= 0) {
             styleDeductionTimer = styleDeductionTimerSet;
@@ -871,15 +894,17 @@ public class PlayerController : MonoBehaviour {
         isDashing = false;
         isUpDashing = false;
         isDownDashing = false;
+        isShootingFireWave = false;
+        isShootingSoulClaw = false;
         knockbackTimer = knockbackTimerSet;
-        if(!deathEffectIsHappening) {
-            rb.velocity = new Vector2(knockbackStrengthX, knockbackStrengthY);
-            rb.gravityScale = 4;
-        }
         isDamaging = false;
         isExitingDownDash = false;
         isExitingUpDash = false;
         isExitingDash = false;
+        if(!deathEffectIsHappening) {
+            rb.velocity = new Vector2(knockbackStrengthX, knockbackStrengthY);
+            rb.gravityScale = 4;
+        }
     }
 
     public void UpdateEffect() {
@@ -899,7 +924,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnJump() {
-        if(jumpsLeft > 0 && !isDownDashing && !isUpDashing && !isExploding && !beingKnockedBack && !timeScaleIsZero) {
+        if(jumpsLeft > 0 && !isDownDashing && !isUpDashing && !isExploding && !beingKnockedBack && !isShootingSoulClaw && !timeScaleIsZero) {
             if(!touchingWall) {
                 startedJumpWhileTouchingWall = false;
             }
@@ -915,7 +940,7 @@ public class PlayerController : MonoBehaviour {
                 isJumping = true;
                 soundManager.PlayClip(soundManager.PlayerJump, transform, 2);
             }
-            if(isDashing && touchingGround && !touchingWall && !isExploding && !beingKnockedBack && !isDashJumping) {
+            if(isDashing && touchingGround && !touchingWall && !isExploding && !beingKnockedBack && !isDashJumping && !isShootingSoulClaw) {
                 startedJumpWhileTouchingWall = false;
                 isWalking = false;
                 isMeleeAttacking = false;
@@ -965,7 +990,7 @@ public class PlayerController : MonoBehaviour {
                 soundManager.PlayClip(soundManager.PlayerJump, transform, 2);
                 jumpsLeft = 2;
             }
-            if(isCrouching && !isDashing && !isDashJumping && touchingGround) {
+            if(isCrouching && !isDashing && !isDashJumping && touchingGround && !isShootingSoulClaw) {
                 highJumpTimer = highJumpTimerSet;
                 highJumpTimer2 = highJumpTimer2Set;
                 isAboutToHighJump = true;
@@ -976,7 +1001,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDash1() {
-        if(dashesLeft > 0 && dashCooldown <= 0 && !isDashing && !(touchingWall && !isFalling && touchingGround && wallFacingDirX == facingDirX) && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero && !deathEffectIsHappening) {
+        if(dashesLeft > 0 && dashCooldown <= 0 && !isDashing && !(touchingWall && !isFalling && touchingGround && wallFacingDirX == facingDirX) && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !isShootingSoulClaw && !timeScaleIsZero && !deathEffectIsHappening) {
             if(isCrouching) {
                 isCrouching = false;
                 storedSlideVelocity = 0;
@@ -1013,7 +1038,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnUpDash() {
-        if(canUpDash && !isDashing3 && !isUpDashing && !isDownDashing && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
+        if(canUpDash && !isDashing3 && !isUpDashing && !isDownDashing && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !isShootingSoulClaw && !beingKnockedBack && !timeScaleIsZero) {
             upDashTimer = upDashLength;
             rb.velocity = new Vector2(rb.velocity.x, 0);
             isDamaging = true;
@@ -1031,7 +1056,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDownDash() {
-        if(canDownDash && !isDashing3 && !isUpDashing && !isDownDashing && !touchingGround && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !beingKnockedBack && !timeScaleIsZero) {
+        if(canDownDash && !isDashing3 && !isUpDashing && !isDownDashing && !touchingGround && (!isMeleeAttacking || (isMeleeAttacking && meleeCancelTimer > 0)) && !isExploding && !isShooting && !isShootingSoulClaw && !beingKnockedBack && !timeScaleIsZero) {
             storedSlideVelocity = slideVelocity;
             rb.velocity = new Vector2(0, 0);
             isDamaging = true;
@@ -1045,13 +1070,15 @@ public class PlayerController : MonoBehaviour {
             anim.SetBool("isMeleeAttacking", false);
             soundManager.PlayClip(soundManager.Dash, transform, 1f);
         }
-        if(!isDashing3 && !isUpDashing & sp > 0 && touchingGround && !isDownDashing && !isMeleeAttacking && !isExploding && !beingKnockedBack && !timeScaleIsZero) {
+        if(!isDashing3 && !isUpDashing && touchingGround && !isDownDashing && !isMeleeAttacking && !isExploding && !isShootingSoulClaw && !beingKnockedBack && !timeScaleIsZero) {
             if(!fireWave1.activeInHierarchy && !fireWave2.activeInHierarchy) {
                 isSliding = false;
                 fireWaveShootTimer = fireWaveShootTimerSet;
                 isShootingFireWave = true;
+                isShootingGroundAttack = true;
                 rb.velocity = new Vector2(0, 0);
                 isExitingDownDash = false;
+                isExitingDash = false;
                 playerDashCollider.canDoDamage = false;
                 isMeleeAttacking = false;
                 anim.SetBool("isMeleeAttacking", false);
@@ -1074,7 +1101,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDashJump1() {
-        if(!timeScaleIsZero) {
+        if(!timeScaleIsZero && !isShootingSoulClaw) {
             if(dashesLeft > 0 && touchingGround) {
                 if(!touchingWall && !isExploding && !beingKnockedBack) {
                     startedJumpWhileTouchingWall = false;
@@ -1159,7 +1186,7 @@ public class PlayerController : MonoBehaviour {
     private void OnShoot() {
         if(!timeScaleIsZero) {
             GameObject bullet = BulletObjectPool.instance.GetPooledObject();
-            if(bullet != null && canShoot && health > 0 && Time.timeScale == 1 && !isDamaging && !isDashing3 && !isMeleeAttacking && !isExploding && !isHighJumping) {
+            if(bullet != null && canShoot && health > 0 && Time.timeScale == 1 && !isDamaging && !isDashing3 && !isMeleeAttacking && !isExploding && !isHighJumping && !isShootingSoulClaw) {
                 isDashing = false;
                 isCrouching = false;
                 temporaryBulletSpeed = bulletSpeed;
@@ -1208,7 +1235,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnMelee() {
-        if(!isDamaging && !isMeleeAttacking && !anim.GetBool("isMeleeAttacking") && !timeScaleIsZero && !isHighJumping) {
+        if(!isCrouching && !isDamaging && !isMeleeAttacking && !anim.GetBool("isMeleeAttacking") && !timeScaleIsZero && !isHighJumping && !isShootingGroundAttack) {
             meleeTimer = meleeCooldown;
             meleeAnimationTimer = meleeAnimationCooldown;
             meleeCancelTimer = meleeCancelTimerSet;
@@ -1221,6 +1248,23 @@ public class PlayerController : MonoBehaviour {
             isDashJumping = false;
             isCrouching = false;
             soundManager.PlayClip(soundManager.PlayerMelee, transform, 1);
+        }
+        if(isCrouching && touchingGround && !isDownDashing && !isMeleeAttacking && !isExploding && !beingKnockedBack && !timeScaleIsZero && !isShootingGroundAttack) {
+            if(!soulClaw.activeInHierarchy) {
+                isSliding = false;
+                soulClawShootTimer = soulClawShootTimerSet;
+                isShootingSoulClaw = true;
+                isShootingGroundAttack = true;
+                rb.velocity = new Vector2(0, 0);
+                isExitingDownDash = false;
+                isExitingDash = false;
+                playerDashCollider.canDoDamage = false;
+                isMeleeAttacking = false;
+                anim.SetBool("isMeleeAttacking", false);
+                soulClaw.transform.position = new Vector2(transform.position.x + soulClawOffsetX * facingDirX, transform.position.y + soulClawOffsetY);
+                soulClaw.transform.localScale = new Vector2(facingDirX, 1);
+                soulClaw.SetActive(true);
+            }
         }
     }
 
@@ -1273,6 +1317,7 @@ public class PlayerController : MonoBehaviour {
         anim.SetBool("isExploding", isExploding);
         anim.SetBool("isCrouching", isCrouching);
         anim.SetBool("isShootingFireWave", isShootingFireWave);
+        //anim.SetBool("isShootingSoulClaw", isShootingSoulClaw);
         anim.SetBool("touchingWall", touchingWall);
         anim.SetBool("touchingGround", touchingGround);
         anim.SetBool("isHighJumping", isHighJumping);
