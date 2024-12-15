@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject soulClaw;
     public Transform groundCheck;
     public LayerMask ground;
+    public LayerMask enemies;
     private AdjustableUIBar healthBar;
     private AdjustableUIBar spBar;
     private AdjustableUIBar styleBar;
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour {
     private BarrierContainer barriers;
     [HideInInspector]
     public AudioSource windLoop;
+    private RaycastHit2D[] touchingEnemyRay;
 
     public float movementSpeed;
     public float dashSpeed = 20;
@@ -69,6 +71,8 @@ public class PlayerController : MonoBehaviour {
     public float fireWaveOffsetY = 0.06f;
     public float soulClawOffsetX = 4.5f;
     public float soulClawOffsetY = 0.06f;
+    public float soulClawEnemyCheckLength;
+    private bool touchingEnemyRayCheck;
     [HideInInspector]
     //used to keep enemies that are being knocked back above other enemies in the sorting layer order
     public int currentHighestEnemyLayerOrder = 25;
@@ -555,6 +559,12 @@ public class PlayerController : MonoBehaviour {
                     jumpsLeft = 1;
                 }
             }
+        }
+        touchingEnemyRay = Physics2D.RaycastAll(new Vector2(transform.position.x, transform.position.y + 0.35f), transform.right * facingDirX, soulClawEnemyCheckLength, enemies);
+        touchingEnemyRayCheck = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.35f), transform.right * facingDirX, soulClawEnemyCheckLength, enemies);
+        if(!touchingEnemyRayCheck) {
+            touchingEnemyRay = Physics2D.RaycastAll(new Vector2(transform.position.x, transform.position.y + 1), transform.right * facingDirX, soulClawEnemyCheckLength, enemies);
+            touchingEnemyRayCheck = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 1), transform.right * facingDirX, soulClawEnemyCheckLength, enemies);
         }
     }
 
@@ -1229,6 +1239,9 @@ public class PlayerController : MonoBehaviour {
                         temporaryBulletType = 0;
                     }
                 }
+                if(!isDashing2 && !isSliding && !isWalking && !isExitingDash && dirX == 0) {
+                    temporaryBulletSpeed -= 1.5f;
+                }
                 bullet.GetComponent<PlayerBullet>().Shoot(gameObject.GetComponent<PlayerController>(), temporaryBulletType, temporaryBulletSpeed);
                 bulletTimer = bulletCooldown;
                 bulletAnimationTimer = bulletAnimationCooldown;
@@ -1259,19 +1272,21 @@ public class PlayerController : MonoBehaviour {
         }
         if(isCrouching && touchingGround && !isDownDashing && !isMeleeAttacking && !isExploding && !beingKnockedBack && !timeScaleIsZero && !isShootingGroundAttack) {
             if(!soulClaw.activeInHierarchy) {
-                isSliding = false;
-                soulClawShootTimer = soulClawShootTimerSet;
-                isShootingSoulClaw = true;
-                isShootingGroundAttack = true;
-                rb.velocity = new Vector2(0, 0);
-                isExitingDownDash = false;
-                isExitingDash = false;
-                playerDashCollider.canDoDamage = false;
-                isMeleeAttacking = false;
-                anim.SetBool("isMeleeAttacking", false);
-                soulClaw.transform.position = new Vector2(transform.position.x + soulClawOffsetX * facingDirX, transform.position.y + soulClawOffsetY);
-                soulClaw.transform.localScale = new Vector2(facingDirX, 1);
-                soulClaw.SetActive(true);
+                if(touchingEnemyRayCheck) {
+                    isSliding = false;
+                    soulClawShootTimer = soulClawShootTimerSet;
+                    isShootingSoulClaw = true;
+                    isShootingGroundAttack = true;
+                    rb.velocity = new Vector2(0, 0);
+                    isExitingDownDash = false;
+                    isExitingDash = false;
+                    playerDashCollider.canDoDamage = false;
+                    isMeleeAttacking = false;
+                    anim.SetBool("isMeleeAttacking", false);
+                    soulClaw.transform.position = new Vector2(touchingEnemyRay[0].point.x, transform.position.y + soulClawOffsetY);
+                    soulClaw.transform.localScale = new Vector2(facingDirX, 1);
+                    soulClaw.SetActive(true);
+                }
             }
         }
     }
@@ -1369,5 +1384,6 @@ public class PlayerController : MonoBehaviour {
     private void OnDrawGizmos() {
         //Gizmos.DrawWireCube(GameObject.FindWithTag("PlayerGroundCheck").GetComponent<Transform>().position, new Vector3(1.04f, 0.25f, 0.25f));
         //Gizmos.DrawLine(new Vector2(transform.position.x, transform.position.y + 0.6f), new Vector2(transform.position.x + 1.1f, transform.position.y + 0.6f));
+        //Gizmos.DrawLine(new Vector2(transform.position.x, transform.position.y + 0.6f), new Vector2(transform.position.x + soulClawEnemyCheckLength, transform.position.y + 0.6f));
     }
 }
