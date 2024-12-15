@@ -10416,7 +10416,7 @@ GameObject:
   - component: {fileID: 1169688528}
   - component: {fileID: 1169688527}
   - component: {fileID: 1169688531}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: PlayerSoulClaw
   m_TagString: PlayerSoulClaw
   m_Icon: {fileID: 0}
@@ -52977,9 +52977,9 @@ BoxCollider2D:
   m_Offset: {x: 0.004663229, y: -0.0069948435}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 11.25, y: 7}
-    newSize: {x: 11.25, y: 7}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 1.5, y: 2}
+    newSize: {x: 1.5, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0

@@ -1,9 +1,10 @@
 add parrying your own bullets
-make the soul claw spawn at the nearest enemy within a range
 wall-slide dash jumps
 make parries/attacks feel more impactful
 move camera when hitting ground from a downdash
 make downdashes gain speed when going far down
+jumping up while facing a wall and not sliding down it makes you go oqbwegioewpgjewpodsklm
+fix rooms getting locked while you leave them
 
 eh:
 -make it harder to get style by just hitting a static enemy with a melee attack until it dies

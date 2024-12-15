@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour {
     [HideInInspector]
     public AudioSource windLoop;
     private RaycastHit2D[] touchingEnemyRay;
+    private RaycastHit2D[] touchingEnemyRay2;
 
     public float movementSpeed;
     public float dashSpeed = 20;
@@ -73,6 +74,7 @@ public class PlayerController : MonoBehaviour {
     public float soulClawOffsetY = 0.06f;
     public float soulClawEnemyCheckLength;
     private bool touchingEnemyRayCheck;
+    private bool touchingEnemyRayCheck2;
     [HideInInspector]
     //used to keep enemies that are being knocked back above other enemies in the sorting layer order
     public int currentHighestEnemyLayerOrder = 25;
@@ -560,12 +562,10 @@ public class PlayerController : MonoBehaviour {
                 }
             }
         }
-        touchingEnemyRay = Physics2D.RaycastAll(new Vector2(transform.position.x, transform.position.y + 0.35f), transform.right * facingDirX, soulClawEnemyCheckLength, enemies);
-        touchingEnemyRayCheck = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.35f), transform.right * facingDirX, soulClawEnemyCheckLength, enemies);
-        if(!touchingEnemyRayCheck) {
-            touchingEnemyRay = Physics2D.RaycastAll(new Vector2(transform.position.x, transform.position.y + 1), transform.right * facingDirX, soulClawEnemyCheckLength, enemies);
-            touchingEnemyRayCheck = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 1), transform.right * facingDirX, soulClawEnemyCheckLength, enemies);
-        }
+        touchingEnemyRay = Physics2D.RaycastAll(new Vector2(transform.position.x, transform.position.y + 0.15f), transform.right * facingDirX, soulClawEnemyCheckLength, enemies);
+        touchingEnemyRayCheck = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.15f), transform.right * facingDirX, soulClawEnemyCheckLength, enemies);
+        touchingEnemyRay2 = Physics2D.RaycastAll(new Vector2(transform.position.x, transform.position.y + 1.9f), transform.right * facingDirX, soulClawEnemyCheckLength, enemies);
+        touchingEnemyRayCheck2 = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 1.9f), transform.right * facingDirX, soulClawEnemyCheckLength, enemies);
     }
 
     private void CheckHealth() {
@@ -1272,7 +1272,7 @@ public class PlayerController : MonoBehaviour {
         }
         if(isCrouching && touchingGround && !isDownDashing && !isMeleeAttacking && !isExploding && !beingKnockedBack && !timeScaleIsZero && !isShootingGroundAttack) {
             if(!soulClaw.activeInHierarchy) {
-                if(touchingEnemyRayCheck) {
+                if(touchingEnemyRayCheck || touchingEnemyRayCheck2) {
                     isSliding = false;
                     soulClawShootTimer = soulClawShootTimerSet;
                     isShootingSoulClaw = true;
@@ -1283,7 +1283,12 @@ public class PlayerController : MonoBehaviour {
                     playerDashCollider.canDoDamage = false;
                     isMeleeAttacking = false;
                     anim.SetBool("isMeleeAttacking", false);
-                    soulClaw.transform.position = new Vector2(touchingEnemyRay[0].point.x, transform.position.y + soulClawOffsetY);
+                    if(touchingEnemyRayCheck) {
+                        soulClaw.transform.position = new Vector2(touchingEnemyRay[0].point.x, transform.position.y + soulClawOffsetY);
+                    }
+                    if(touchingEnemyRayCheck2 && !touchingEnemyRayCheck) {
+                        soulClaw.transform.position = new Vector2(touchingEnemyRay2[0].point.x, transform.position.y + soulClawOffsetY);
+                    }
                     soulClaw.transform.localScale = new Vector2(facingDirX, 1);
                     soulClaw.SetActive(true);
                 }
