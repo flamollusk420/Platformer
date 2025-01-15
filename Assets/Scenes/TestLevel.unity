@@ -7498,7 +7498,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0.15
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
