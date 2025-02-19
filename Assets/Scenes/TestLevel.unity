@@ -144,7 +144,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3021729
 Transform:
   m_ObjectHideFlags: 0
@@ -157,7 +157,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1889733875}
+  m_Father: {fileID: 1114793646}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3021730
@@ -247,7 +247,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0.15
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
@@ -884,7 +884,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
@@ -1615,7 +1615,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1889733875}
-  m_RootOrder: 10
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &191893314
 MonoBehaviour:
@@ -1704,7 +1704,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0.15
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
@@ -1862,7 +1862,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.617
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2832,7 +2832,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
@@ -3939,7 +3939,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0.15
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
@@ -4194,7 +4194,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
@@ -5202,7 +5202,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1889733875}
-  m_RootOrder: 9
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &586303276
 MonoBehaviour:
@@ -5561,7 +5561,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1889733875}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &635328259
 GameObject:
@@ -5633,7 +5633,7 @@ Transform:
   m_Children:
   - {fileID: 2029087049}
   m_Father: {fileID: 1889733875}
-  m_RootOrder: 13
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &662577933
 MonoBehaviour:
@@ -5926,7 +5926,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0.15
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
@@ -6121,7 +6121,7 @@ Transform:
   - {fileID: 1702167253}
   - {fileID: 734315763}
   m_Father: {fileID: 1889733875}
-  m_RootOrder: 14
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &734735841
 MonoBehaviour:
@@ -6571,7 +6571,7 @@ Transform:
   - {fileID: 1244620073}
   - {fileID: 45858371}
   m_Father: {fileID: 1889733875}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &794846771
 MonoBehaviour:
@@ -6741,7 +6741,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1889733875}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &799625326
 MonoBehaviour:
@@ -6959,7 +6959,7 @@ Transform:
   m_Children:
   - {fileID: 1850725041}
   m_Father: {fileID: 1889733875}
-  m_RootOrder: 11
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &821600341
 Animator:
@@ -7041,7 +7041,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
@@ -8520,6 +8520,9 @@ Transform:
   - {fileID: 310822370}
   - {fileID: 1503093763}
   - {fileID: 846304863}
+  - {fileID: 1035167380}
+  - {fileID: 1430262472}
+  - {fileID: 1171331585}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8835,14 +8838,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035167379}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 31, y: -5.45, z: -0.09528566}
+  m_LocalPosition: {x: 128.50917, y: 1.0058966, z: 9.892037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1133146477}
   - {fileID: 600871702}
-  m_Father: {fileID: 1648256362}
-  m_RootOrder: 0
+  m_Father: {fileID: 1000375290}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1035167381
 MonoBehaviour:
@@ -8904,7 +8907,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
@@ -9866,9 +9869,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1854919844}
+  - {fileID: 3021729}
   m_Father: {fileID: 1889733875}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1114793647
 MonoBehaviour:
@@ -10614,12 +10619,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1171331584}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 34.5, y: -5.45, z: -0.09528566}
+  m_LocalPosition: {x: 132.00917, y: 1.0058966, z: 9.892037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1648256362}
-  m_RootOrder: 2
+  m_Father: {fileID: 1000375290}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1171331586
 BoxCollider2D:
@@ -10696,7 +10701,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0.15
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
@@ -11346,7 +11351,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0.15
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
@@ -11840,7 +11845,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
@@ -12458,12 +12463,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1430262471}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33.399994, y: -5.45, z: -0.09528566}
+  m_LocalPosition: {x: 130.90916, y: 1.0058966, z: 9.892037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1648256362}
-  m_RootOrder: 1
+  m_Father: {fileID: 1000375290}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1430262473
 BoxCollider2D:
@@ -12540,7 +12545,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0.15
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
@@ -13457,7 +13462,7 @@ Transform:
   m_Children:
   - {fileID: 1044899294}
   m_Father: {fileID: 1889733875}
-  m_RootOrder: 12
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1469272466
 Animator:
@@ -13539,7 +13544,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
@@ -14051,7 +14056,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
@@ -14914,7 +14919,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0.15
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
@@ -15168,7 +15173,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
@@ -15391,12 +15396,9 @@ Transform:
   m_LocalPosition: {x: 97.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1035167380}
-  - {fileID: 1430262472}
-  - {fileID: 1171331585}
+  m_Children: []
   m_Father: {fileID: 1889733875}
-  m_RootOrder: 8
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1648256363
 MonoBehaviour:
@@ -15562,9 +15564,10 @@ Transform:
   m_LocalPosition: {x: 97.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1877345947}
   m_Father: {fileID: 1889733875}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1659193132
 MonoBehaviour:
@@ -51874,7 +51877,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0.15
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
@@ -52593,7 +52596,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0.15
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
@@ -53521,7 +53524,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1854919844
 Transform:
   m_ObjectHideFlags: 0
@@ -53535,7 +53538,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1597566026}
-  m_Father: {fileID: 1889733875}
+  m_Father: {fileID: 1114793646}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1854919845
@@ -53582,7 +53585,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
@@ -53978,13 +53981,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1877345946}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 117.25, y: -5.45, z: -0.09528566}
+  m_LocalPosition: {x: 20, y: -5.45, z: -0.09528566}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1359345735}
-  m_Father: {fileID: 1889733875}
-  m_RootOrder: 7
+  m_Father: {fileID: 1659193131}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1877345948
 MonoBehaviour:
@@ -54030,7 +54033,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
@@ -54333,14 +54336,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1854919844}
-  - {fileID: 3021729}
   - {fileID: 1114793646}
   - {fileID: 630760548}
   - {fileID: 794846770}
   - {fileID: 799625325}
   - {fileID: 1659193131}
-  - {fileID: 1877345947}
   - {fileID: 1648256362}
   - {fileID: 586303275}
   - {fileID: 191893313}
@@ -55125,7 +55125,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0.15
   initialNonDamageTimerSet: 0
   knockbackTimer: 0
@@ -61559,7 +61559,7 @@ MonoBehaviour:
   deathJumpStrength: 65
   invincible: 0
   hitEffectWhileInvincible: 0
-  invincibilityTimerSet: 1.25
+  invincibilityTimerSet: 0
   initialNonDamageTimer: 0
   initialNonDamageTimerSet: 0.2
   knockbackTimer: 0
